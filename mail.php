@@ -11,18 +11,17 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-    $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
-    $mail->SMTPAuth = true;                                   //Enable SMTP authentication
-    $mail->Username = 'doradztwotest123@gmail.com';                     //SMTP username
-    $mail->Password = 'DoRaDzTwOpH';                               //SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-    $mail->Port = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
+    $mail->SMTPDebug = 0;                      //Enable verbose debug output
+    $mail->isSMTP();
+    $mail->Host = 'sandbox.smtp.mailtrap.io';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'b4e5f1e0ff6c61';
+    $mail->Password = 'fbd4c3c75e3d30';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 2525;
     //Recipients
-    $mail->setFrom('doradztwotest123@gmail.com', 'Doradztwo Zawodowe');
-    $mail->addAddress('maciek.maslanka@o2.pl', 'Maciej');     //Add a recipient
+    $mail->setFrom('doradztwozawodowe@example.com', 'Doradztwo Zawodowe');
+    $mail->addAddress('klient@example.com', 'Maciej');     //Add a recipient
     //$mail->addAddress('ellen@example.com');               //Name is optional
     //$mail->addReplyTo('info@example.com', 'Information');
     //$mail->addCC('cc@example.com');
