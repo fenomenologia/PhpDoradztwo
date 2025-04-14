@@ -37,13 +37,18 @@ session_start();
                     {
                         echo "<tr>";
                         echo "<form action='szczegoly.php' method='post'>";
-                           echo "<button type='submit'>";
-                                echo "<td>"  . $row['imie'] . "</td>";
-                                echo "<td>" . $row['nazwisko'] . "</td>";
-                                echo "<td>" . $row['email'] . "</td>";
-                                echo "<td>" . $row['nazwa'] . "</td>";
-                            echo "</button>";
-                            echo "<input type='hidden' name='id_klienta' value=" . $row['id'] . ">";
+                        echo "<td>"  . $row['imie'] . "</td>";
+                        echo "<td>" . $row['nazwisko'] . "</td>";
+                        echo "<td>" . $row['email'] . "</td>";
+                        echo "<td>" . $row['nazwa'] . "</td>";
+                        if ($row['nazwa'] == "Zakończony")
+                        {
+                            echo "<td><button class='btn btn-primary'>Wynik</button></td>";
+                        }
+                        else
+                        {
+                            echo "<td><button class='btn btn-secondary disabled'>Doradztwo nie zostało zakończone</button></td>";
+                        }
                         echo "</form>";
                         echo "</tr>";
                     }
