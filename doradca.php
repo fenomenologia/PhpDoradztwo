@@ -21,7 +21,7 @@ session_start();
                     <th>Nazwisko</th>
                     <th>E-mail</th>
                     <th>Status doradztwa</th>
-                    <th class="table-borderless"></th>
+                    <th>Zobacz wyniki</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,7 +48,7 @@ session_start();
                         }
                         else
                         {
-                            echo "<td style='border: 0;'><button class='btn btn-secondary disabled'>Doradztwo nie zostało zakończone</button></td>";
+                            echo "<td><button class='btn btn-secondary disabled'>Doradztwo nie zostało zakończone</button></td>";
                         }
                         echo "</form>";
                         echo "</tr>";
