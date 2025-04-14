@@ -48,7 +48,7 @@ session_start();
                         }
                         else
                         {
-                            echo "<td class='border-0'><button class='btn btn-secondary disabled'>Doradztwo nie zostało zakończone</button></td>";
+                            echo "<td style='border: 0;'><button class='btn btn-secondary disabled'>Doradztwo nie zostało zakończone</button></td>";
                         }
                         echo "</form>";
                         echo "</tr>";
