@@ -26,7 +26,7 @@ session_start();
             <tbody>
                 <?php
                 $id_doradcy = $_SESSION['id_doradcy'];
-                $sql = "SELECT klient.imie, klient.nazwisko, klient.email, status.nazwa FROM klient 
+                $sql = "SELECT klient.id, klient.imie, klient.nazwisko, klient.email, status.nazwa FROM klient 
                     JOIN doradztwo ON doradztwo.id_klienta = klient.id
                     JOIN status ON doradztwo.id_status = status.id
                     WHERE doradztwo.id_doradcy = '$id_doradcy'";
@@ -36,10 +36,15 @@ session_start();
                     while ($row = mysqli_fetch_assoc($result))
                     {
                         echo "<tr>";
+                        echo "<form action='szczegoly.php' method='post'>";
+                        echo "<button type='submit'>";
                         echo "<td>" . $row['imie'] . "</td>";
                         echo "<td>" . $row['nazwisko'] . "</td>";
                         echo "<td>" . $row['email'] . "</td>";
                         echo "<td>" . $row['nazwa'] . "</td>";
+                        echo "</button>";
+                        echo "<input type='hidden' name='id_klienta' value=" . $row['id'] . ">";
+                        echo "</form>";
                         echo "</tr>";
                     }
                 }
