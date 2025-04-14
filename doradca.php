@@ -37,13 +37,13 @@ session_start();
                     {
                         echo "<tr>";
                         echo "<form action='szczegoly.php' method='post'>";
-                        echo "<button type='submit'>";
-                        echo "<td>" . $row['imie'] . "</td>";
-                        echo "<td>" . $row['nazwisko'] . "</td>";
-                        echo "<td>" . $row['email'] . "</td>";
-                        echo "<td>" . $row['nazwa'] . "</td>";
-                        echo "</button>";
-                        echo "<input type='hidden' name='id_klienta' value=" . $row['id'] . ">";
+                           echo "<button type='submit'>";
+                                echo "<td>"  . $row['imie'] . "</td>";
+                                echo "<td>" . $row['nazwisko'] . "</td>";
+                                echo "<td>" . $row['email'] . "</td>";
+                                echo "<td>" . $row['nazwa'] . "</td>";
+                            echo "</button>";
+                            echo "<input type='hidden' name='id_klienta' value=" . $row['id'] . ">";
                         echo "</form>";
                         echo "</tr>";
                     }
