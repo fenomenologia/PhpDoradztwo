@@ -31,9 +31,11 @@ session_start();
         WHERE klient.id = " . $id_klienta;
         if ($result = mysqli_query($conn, $sql))
         {
-            echo "<p class='h2'>Doradztwa klienta</p>";
-            $ilosc_doradztw = mysqli_num_rows($result) / 5;
-            echo "<table class='table table-bordered'>
+            if (mysqli_num_rows($result) > 0)
+            {
+                echo "<p class='h2'>Doradztwa klienta</p>";
+                $ilosc_doradztw = mysqli_num_rows($result) / 5;
+                echo "<table class='table table-bordered'>
                     <thead class='table-primary'>
                         <tr>
                             <th>Data doradztwa</th>
@@ -43,24 +45,29 @@ session_start();
                         </tr>
                     </thead>
                     <tbody>";
-            for ($j = 0; $j < $ilosc_doradztw*5; $j++)
-            {
-                $row = mysqli_fetch_assoc($result);
-                if ($j % 5 ==0)
+                for ($j = 0; $j < $ilosc_doradztw * 5; $j++)
                 {
-                    echo "<tr>
+                    $row = mysqli_fetch_assoc($result);
+                    if ($j % 5 == 0)
+                    {
+                        echo "<tr>
                             <td rowspan=5 class='align-middle'>" . $row['data'] . "</td>
                             <td>" . $row['nazwa'] . "</td>
                             <td>" . $row['punkty'] . "</td>
-                            <td rowspan=5 class='align-middle'><button type='submit' onclick='naPewno(".$row['id'].")' class='btn btn-primary'>Usuń to doradztwo</button></td>
+                            <td rowspan=5 class='align-middle'><button type='submit' onclick='naPewno(" . $row['id'] . ")' class='btn btn-primary'>Usuń to doradztwo</button></td>
                            </tr>";
+                    }
+                    else
+                    {
+                        echo "<tr><td>" . $row['nazwa'] . "</td><td>" . $row['punkty'] . "</td></tr>";
+                    }
                 }
-                else
-                {
-                    echo "<tr><td>" . $row['nazwa'] . "</td><td>" . $row['punkty'] . "</td></tr>";
-                }
+                echo "</tbody></table>";
             }
-            echo "</tbody></table>";
+            else
+            {
+                echo "<p class='h2'>Ten klient nie ma żadnych doradztw</p>";
+            }
         }
         else
         {
@@ -78,7 +85,7 @@ session_start();
 
             if (mysqli_query($conn, $sql))
             {
-                echo "<div class='alert alert-success'>Doradztwo zostało usunięte.<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+                header("Location: szczegoly.php");
             }
             else
             {
