@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 require_once "conn.php";
-session_start();
 ?>
 <html lang="pl">
 <head>
@@ -14,7 +13,17 @@ session_start();
 <body>
     <div class="container-fluid">
         <?php
-        echo $_POST['id'];
+        $id_klienta = $_POST['id'];
+        $sql = "SELECT doradztwo.data, cecha.nazwa, wynik.punkty
+        FROM klient JOIN doradztwo ON doradztwo.id_klienta = klient.id 
+        JOIN wynik ON wynik.id_doradztwa = doradztwo.id 
+        JOIN cecha ON cecha.id = wynik.id_cechy 
+        WHERE klient.id = " . $id_klienta;
+        if ($result = mysqli_query($conn, $sql))
+        {
+            $ilosc_doradztw = mysqli_num_rows($result) / 5;
+            echo $ilosc_doradztw;
+        }
         ?>
     </div>
 </body>
