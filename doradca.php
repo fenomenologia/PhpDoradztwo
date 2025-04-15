@@ -44,7 +44,7 @@ session_start();
                         echo "<td>" . $row['nazwa'] . "</td>";
                         if ($row['nazwa'] == "Zakończony")
                         {
-                            echo "<td><button type='submit' value='".$row["id"]."' class='btn btn-primary'>Wynik</button></td>";
+                            echo "<td><button type='submit' name='id' value='".$row["id"]."' class='btn btn-primary'>Wynik</button></td>";
                         }
                         else
                         {
