@@ -21,7 +21,7 @@
   <div class="row">
         <?php
             $id_klienta = $_SESSION['id_klienta'];
-            $sql = "SELECT id_status FROM doradztwo WHERE id_klienta = '$id_klienta'";
+            $sql = "SELECT id_status FROM doradztwo WHERE id_klienta = '$id_klienta' AND id_status IS NOT NULL";
             $result = mysqli_fetch_array(mysqli_query($conn, $sql));
             $id_statusu = $result['id_status'];
             $_SESSION['id_statusu'] = $id_statusu;
@@ -41,12 +41,15 @@
                     echo "<p class='h2'>Zakończyłeś już doradztwo</p>";
                     $czy_zakonczono = true;
                     break;
+                default:
+                    echo "<p class='h2'>Nie masz żadnych aktywnych doradztw</p>";
+                    break;
             }
         ?>
         <div class="mt-3 mb-3">
             <form action="kwestionariusz.php" method="post">
                 <?php
-                    if ($czy_zakonczono == false)
+                    if ($czy_zakonczono == false && $id_statusu != null)
                     {
                         echo "<button type='submit' name='rozpocznij_doradztwo' class='btn btn-primary'>".$button_text."</button>";
                     }
