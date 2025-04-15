@@ -22,7 +22,24 @@ require_once "conn.php";
         if ($result = mysqli_query($conn, $sql))
         {
             $ilosc_doradztw = mysqli_num_rows($result) / 5;
-            echo $ilosc_doradztw;
+            for ($i=0; $i<$ilosc_doradztw; $i++)
+            {
+                $row = mysqli_fetch_assoc($result);
+                echo "<table class='table table-bordered table-hover'>
+                        <thead>
+                            <tr>
+                              <th>Data doradztwa</th>
+                              <th>Cecha</th>
+                              <th>Iloœæ zdobytych punktów</th>
+                            </tr>
+                        </thead>
+                        <tbody>";
+                echo "</tbody></table>";
+            }
+        }
+        else
+        {
+            //b³¹d z baz¹ danych
         }
         ?>
     </div>
