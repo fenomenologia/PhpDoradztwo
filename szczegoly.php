@@ -6,7 +6,7 @@ require_once "conn.php";
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szczego³y</title>
+    <title>SzczegÃ³Å‚y</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -24,22 +24,33 @@ require_once "conn.php";
             $ilosc_doradztw = mysqli_num_rows($result) / 5;
             for ($i=0; $i<$ilosc_doradztw; $i++)
             {
-                $row = mysqli_fetch_assoc($result);
-                echo "<table class='table table-bordered table-hover'>
+                echo "<table class='table table-bordered'>
                         <thead>
                             <tr>
                               <th>Data doradztwa</th>
                               <th>Cecha</th>
-                              <th>Iloœæ zdobytych punktów</th>
+                              <th>IloÅ›Ä‡ zdobytych punktÃ³w</th>
                             </tr>
                         </thead>
                         <tbody>";
+                for ($j = 0; $j < 5; $j++)
+                {
+                    $row = mysqli_fetch_assoc($result);
+                    if ($j == 0)
+                    {
+                        echo "<tr><td rowspan=5>" . $row['data'] . "</td><td>" . $row['nazwa'] . "</td><td>" . $row['punkty'] . "</td></tr>";
+                    }
+                    else
+                    {
+                        echo "<tr><td>" . $row['nazwa'] . "</td><td>" . $row['punkty'] . "</td></tr>";
+                    }
+                }
                 echo "</tbody></table>";
             }
         }
         else
         {
-            //b³¹d z baz¹ danych
+            //bÅ‚Ä…d bazy
         }
         ?>
     </div>
