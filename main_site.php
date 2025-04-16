@@ -52,6 +52,26 @@
                     }
                 ?>
             </form>
+            <br>
+            <form method="POST"> 
+                <button type='submit' name='zmiana' class='btn btn-primary'>Zmień Hasło</button>
+            </form>
+            <br>
+            <?php
+                if (isset($_POST['zmien'])) {
+                    $nowehaslo = $_POST['nowe_haslo'];
+                    $hasz = password_hash($nowehaslo, PASSWORD_DEFAULT);
+                    $ssql = "UPDATE klient SET haslo = '$hasz' WHERE id='$id_klienta'";
+                    mysqli_query($conn, $ssql);
+                }
+                if(isset($_POST['zmiana']))
+                {
+                    echo "<form method='POST'>
+                            <input type='text' name='nowe_haslo' placeholder='wpisz nowe hasło' required>
+                            <input type='submit' name='zmien' value='Potwierdź'>
+                        </form>";
+                }
+            ?>
         </div>
         <a href="logout.php"><button type="button" class="btn btn-secondary">Wyloguj się</button></a>
   </div>
