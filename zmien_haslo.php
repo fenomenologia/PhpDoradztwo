@@ -26,7 +26,8 @@ session_start();
                 <div class="invalid-feedback">Należy wypełnić to pole</div>
                 <div id="ValidationError" class="text-danger" style="display:none"></div>
             </div>
-            <button class="btn btn-primary" type="submit" onclick="Walidacja(event)">Zmień hasło</button>
+            <button class="btn btn-primary mt-3 mb-3" type="submit" onclick="Walidacja(event)">Zmień hasło</button>
+            <a href="doradca.php" class="btn btn-secondary mt-3 mb-3">Wróć do strony głównej</a> 
         </form>
         <script>
             function Walidacja(event)
@@ -43,19 +44,19 @@ session_start();
                 {
                     document.getElementById('ValidationError').innerText = 'Hasło musi zawierać co najmniej ' + minLength + ' znaków!';
                     document.getElementById('ValidationError').style.display = 'block';
-                    var isValid = false;
+                    isValid = false;
                 }
                 else if (NewPass.length > maxLength)
                 {
                     document.getElementById('ValidationError').innerText = 'Hasło musi zawierać mniej niż ' + maxLength + ' znaków!';
                     document.getElementById('ValidationError').style.display = 'block';
-                    var isValid = false;
+                    isValid = false;
                 }
                 else if (NewPass != NewPassRepeat)
                 {
                     document.getElementById('ValidationError').innerText = 'Hasła się nie zgadzają';
                     document.getElementById('ValidationError').style.display = 'block';
-                    var isValid = false;
+                    isValid = false;
                 }
 
                 if (isValid == true)
@@ -65,6 +66,22 @@ session_start();
                 }
             }
         </script>
+        <?php
+        if  (isset($_POST['newPass']))
+        {
+            $id_doradcy = $_SESSION['id_doradcy'];
+            $newPass = password_hash($_POST['newPass'], PASSWORD_BCRYPT);
+            $sql = "UPDATE doradca SET haslo = '$newPass' WHERE id = '$id_doradcy'";
+            if (mysqli_query($conn, $sql))
+            {
+                echo "<div class='alert alert-success'>Pomyślnie zmieniono hasło<div>";
+            }
+            else
+            {
+                echo "<div class='alert alert-danger'>Wystąpił błąd<div>";
+            }
+        }
+        ?>
     </div>
 </body>
 </html>
