@@ -58,7 +58,8 @@ session_start();
             </tbody>
         </table>
         <a href="dodaj_klienta.php" class="btn btn-primary">Dodaj nowego klienta</a>
-        <a href="logout.php" class="btn btn-secondary">Wyloguj się</a>
+        <a href="zmien_haslo.php" class="btn btn-secondary">Zmień hasło</a><br />
+        <a href="logout.php" class="btn btn-secondary mt-3">Wyloguj się</a>
     </div>
 </body>
 </html>

@@ -56,7 +56,7 @@
                 ?>
             </form>
         </div>
-        <a href="logout.php"><button type="button" class="btn btn-secondary">Wyloguj się</button></a>
+        <a href="logout.php" class="btn btn-primary">Wyloguj się</a>
   </div>
 </div>
 
