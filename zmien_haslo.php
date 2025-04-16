@@ -24,25 +24,44 @@ session_start();
                 <input type="password" name="newPassRepeat" id="newPassRepeat" class="form-control" required placeholder="Powtórz hasło" />
                 <label for="newPassRepeat" class="form-label">Powtórz hasło</label>
                 <div class="invalid-feedback">Należy wypełnić to pole</div>
-                <div id="PasswordsNotSame" style="display:none">Hasła się nie zgadzają</div>
+                <div id="ValidationError" class="text-danger" style="display:none"></div>
             </div>
-            <button class="btn btn-primary" type="submit" onclick="CzyTakieSame(event)">Zmień hasło</button>
+            <button class="btn btn-primary" type="submit" onclick="Walidacja(event)">Zmień hasło</button>
         </form>
         <script>
-            function CzyTakieSame(event)
+            function Walidacja(event)
             {
                 event.preventDefault();
+
+                var isValid = true;
+                var minLength = 5;
+                var maxLength = 20;
                 var NewPass = document.getElementById('newPass').value;
                 var NewPassRepeat = document.getElementById('newPassRepeat').value;
 
-                if (NewPass == NewPassRepeat)
+                if (NewPass.length < minLength)
                 {
-                    document.getElementById('PasswordsNotSame').style.display = 'none';
-                    document.getElementById('ZmianaHasla').submit();
+                    document.getElementById('ValidationError').innerText = 'Hasło musi zawierać co najmniej ' + minLength + ' znaków!';
+                    document.getElementById('ValidationError').style.display = 'block';
+                    var isValid = false;
                 }
-                else
+                else if (NewPass.length > maxLength)
                 {
-                    document.getElementById('PasswordsNotSame').style.display = 'block';
+                    document.getElementById('ValidationError').innerText = 'Hasło musi zawierać mniej niż ' + maxLength + ' znaków!';
+                    document.getElementById('ValidationError').style.display = 'block';
+                    var isValid = false;
+                }
+                else if (NewPass != NewPassRepeat)
+                {
+                    document.getElementById('ValidationError').innerText = 'Hasła się nie zgadzają';
+                    document.getElementById('ValidationError').style.display = 'block';
+                    var isValid = false;
+                }
+
+                if (isValid == true)
+                {
+                    document.getElementById('ValidationError').style.display = 'none';
+                    document.getElementById('ZmianaHasla').submit();
                 }
             }
         </script>
