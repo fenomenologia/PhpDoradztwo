@@ -64,6 +64,11 @@
             </div>
             <button type="submit" name="nastepne_pytanie" class="btn btn-primary mt-3">Następne pytanie</button>
         </form>
+        <?php if ($_SESSION['nr_pytania'] > 1): ?>
+            <form method="post">
+                <button type="submit" name="cofnij" class="btn btn-secondary mt-3">Cofnij</button>
+            </form>
+        <?php endif; ?>
     </div>
     <?php
         if (isset($_POST['nastepne_pytanie']) && isset($_POST['odpowiedz'])) //jeżeli udzielono odpowiedzi
@@ -71,6 +76,19 @@
             $odp = $_POST['odpowiedz'] == "1" ? 1 : 0; //jeżeli odpowiedz to tak to ustawia 1, jeżeli nie to ustawia 0
             $_SESSION['odpowiedzi'][] = [$nr_pytania, $odp];; //zapisuje do tablicy nr pytania i odp na tak/nie
             $_SESSION['nr_pytania'] = $nr_pytania + 1; //zapisuje do sesji nr pytania
+            unset($nr_pytania, $odp);
+            header('Location: kwestionariusz.php');
+            exit();
+        }
+        if (isset($_POST['cofnij'])) {
+            
+            if ($_SESSION['nr_pytania'] > 1) 
+            {
+                $_SESSION['nr_pytania'] = $nr_pytania - 1;
+            }//Zmniejsza numer pytania tylko jak jest większy niż 1
+
+            array_pop($_SESSION['odpowiedzi']); //Usuwa ostatnią odpowiedź
+
             unset($nr_pytania, $odp);
             header('Location: kwestionariusz.php');
             exit();
