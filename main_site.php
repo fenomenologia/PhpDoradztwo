@@ -55,8 +55,8 @@
                     }
                 ?>
             </form>
+            <a href="logout.php" class="btn btn-primary">Wyloguj się</a>
         </div>
-        <a href="logout.php" class="btn btn-primary">Wyloguj się</a>
   </div>
 </div>
 
