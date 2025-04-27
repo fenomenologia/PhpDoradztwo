@@ -41,7 +41,6 @@ session_start();
                             <th>Data doradztwa</th>
                             <th>Cecha</th>
                             <th>Ilość zdobytych punktów</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>";
@@ -54,7 +53,6 @@ session_start();
                             <td rowspan=5 class='align-middle'>" . $row['data'] . "</td>
                             <td>" . $row['nazwa'] . "</td>
                             <td>" . $row['punkty'] . "</td>
-                            <td rowspan=5 class='align-middle'><button type='submit' onclick='naPewno(" . $row['id'] . ")' class='btn btn-primary'>Usuń to doradztwo</button></td>
                            </tr>";
                     }
                     else
@@ -78,34 +76,40 @@ session_start();
         }
         if (isset($_POST['usun']))
         {
-            $idDoUsuniecia = $_POST['usun'];
-            $sql = "DELETE FROM wynik WHERE wynik.id_doradztwa =" . $idDoUsuniecia;
-            mysqli_query($conn, $sql);
-            $sql = "DELETE FROM doradztwo WHERE doradztwo.id =" . $idDoUsuniecia;
-
+            $sql = 'SELECT doradztwo.id FROM doradztwo WHERE id_klienta =' . $id_klienta;
+            $result = mysqli_query($conn, $sql);
+            while($row = mysqli_fetch_array($result))
+            {
+                $sql = "DELETE FROM wynik WHERE wynik.id_doradztwa =" . $row[0];
+                mysqli_query($conn, $sql);
+                $sql = "DELETE FROM doradztwo WHERE doradztwo.id =" . $row[0];
+                mysqli_query($conn, $sql);
+            }
+            $sql = "DELETE FROM klient WHERE id =" . $id_klienta;
             if (mysqli_query($conn, $sql))
             {
-                header("Location: szczegoly.php");
+                header("Location: doradca.php");
             }
             else
             {
-                echo "<div class='alert alert-danger'>Błąd podczas usuwania doradztwa.<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+                echo "<div class="alert alert-danger alert-dismissible"><button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>Success!</strong> Wystąpił nieoczekiwany błąd!</div>";
             }
         }
         ?>
+        <button class="btn btn-danger" onclick="naPewno()">Usuń tego klienta</button>
         <a class="btn btn-primary" href="doradca.php">Powrót do strony głównej</a>
     </div>
     <form id="usunForm" method="post" style="display: none">
-        <input type="hidden" name="usun" id="usunInput"/>
+        <input type="hidden" name="usun" value="1" />
     </form>
     <script>
-        function naPewno(id)
+        function naPewno()
         {
-            let odp = confirm("Czy na pewno chcesz usunąć to doradztwo?");
+            let odp = confirm("Czy na pewno chcesz usunąć tego klienta?");
             if (odp == true)
             {
-                document.getElementById('usunInput').value = id;
-                document.getElementById('usunForm').submit();
+                document.getElementById("usunForm").submit();
             }
         }
     </script>
