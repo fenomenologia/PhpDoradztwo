@@ -92,8 +92,8 @@ session_start();
             }
             else
             {
-                echo "<div class="alert alert-danger alert-dismissible"><button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    <strong>Success!</strong> Wystąpił nieoczekiwany błąd!</div>";
+                echo '<div class="alert alert-danger alert-dismissible"><button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>Wystąpił nieoczekiwany błąd!</strong></div>';
             }
         }
         ?>
