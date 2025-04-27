@@ -64,6 +64,7 @@
                 mysqli_query($conn, $sql);
                 $_SESSION['wyniki_wstawione'] = true;
             }
+            arsort($cechy);
             foreach($cechy as $nazwa => $punkty)
             {
                 $sql = "SELECT opis FROM cecha WHERE nazwa = '$nazwa'";
@@ -82,7 +83,7 @@
             }
         ?>
         <br>
-        <a href="main_site.php"><button class="btn btn-primary">Powrót do strony głównej</button></a>
+        <a href="main_site.php" class="btn btn-primary">Powrót do strony głównej</a>
     </div>
 </body>
 </html>
