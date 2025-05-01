@@ -1,77 +1,81 @@
 <!DOCTYPE html>
 <?php
     require_once 'conn.php';
+    session_start();
 ?>
-<html lang="pl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kwestionariusz</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Bootstrap 5 Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid p-5 text-center bg-primary text-white">
-        <p class="h1">Kwestionariusz osobowości</p>
-    </div>
-    <div class="container-fluid p5 mt-5 text-center w-25">
-    <p class="h2">Zaloguj się</p>
-        <form method="post">
-            <div class="form-floating mt-5 mb-3">
-                <input type="text" name="login" id="login" required class="form-control" placeholder="Podaj login lub email">
-                <label for="login" class="form-label">Login lub email</label>
-            </div>
-            <div class="form-floating mt-3 mb-3">
-                <input type="password" name="pass" id="pass" class="form-control" required placeholder="Podaj hasło">
-                <label for="pass" class="form-label">Hasło:</label>
-            </div>
-            <input type="submit" value="Zaloguj się" name="zaloguj" class="btn btn-primary">
-        </form>
-        <?php
-            if (isset($_POST['zaloguj']))
-            {
-                $login = $_POST['login'];
-                $pass = $_POST['pass'];
-                $sql1 = "SELECT id, email, haslo FROM klient WHERE email = '$login' AND status = 1";
-                $sql2 = "SELECT id, email, haslo FROM doradca WHERE email = '$login' AND czy_aktywny = 1";
-                $resultKlient = mysqli_query($conn, $sql1);
-                $resultDoradca = mysqli_query($conn, $sql2);
 
-                if (mysqli_num_rows($resultKlient) != 0) //jeżeli email klienta jest w bazie
-                {
-                    $row = mysqli_fetch_array($resultKlient);
-                    if (password_verify($pass, $row['haslo'])) //jeżeli hasło jest poprawne
-                    {
-                        //przejdź do strony z kwestionariuszem i zapisz id klienta
-                        session_start();
-                        $_SESSION['id_klienta'] = $row['id'];
-                        header("Location: main_site_os.php");
-                    }
-                    else //jeżeli hasło jest złe
-                    {
-                        //złe hasło
-                    }
-                }
-                else if (mysqli_num_rows($resultDoradca) != 0) // jeżeli email doradcy jest w bazie
-                {
-                    $row = mysqli_fetch_array($resultDoradca);
-                    if (password_verify($pass, $row['haslo'])) //jeżeli hasło jest poprawne
-                    {
-                        //przejdź do strony doradcy i zapisz id doradcy
-                        session_start();
-                        $_SESSION['id_doradcy'] = $row['id'];
-                        header("Location: doradca.php");
-                    } else //jeżeli hasło jest złe
-                    {
-                        //złe hasło
-                    }
-                }
-                else //jeżeli emaila nie ma w bazie
-                {
-                    //zły login
-                }
+<div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>Witaj w kwestionariuszu zainteresowań zawodowych</h1>
+</div>
+  
+<div class="container mt-5 text-center">
+  <div class="row">
+        <?php
+            $id_klienta = $_SESSION['id_klienta'];
+            $sql = "SELECT id_status FROM doradztwo WHERE id_klienta = '$id_klienta'";
+            $result = mysqli_fetch_array(mysqli_query($conn, $sql));
+            $id_statusu = $result['id_status'];
+            $_SESSION['id_statusu'] = $id_statusu;
+            $czy_zakonczono = false;
+            $button_text;
+            switch ($id_statusu)
+            {
+                case 1:
+                    echo "<p class='h2'>Nie rozpocząłeś jeszcze doradztwa</p>";
+                    $button_text = "Rozpocznij doradztwo";
+                    break;
+                case 2:
+                    echo "<p class='h2'>Jesteś w trakcie doradztwa</p>";
+                    $button_text = "Kontynuuj doradztwo";
+                    break;
+                case 3:
+                    echo "<p class='h2'>Zakończyłeś już doradztwo</p>";
+                    $czy_zakonczono = true;
+                    break;
             }
         ?>
-    </div>
+        <div class="mt-3 mb-3">
+            <form action="kwestionariusz.php" method="post">
+                <?php
+                    if ($czy_zakonczono == false)
+                    {
+                        echo "<button type='submit' name='rozpocznij_doradztwo' class='btn btn-primary'>".$button_text."</button>";
+                    }
+                ?>
+            </form>
+            <br>
+            <form method="POST"> 
+                <button type='submit' name='zmiana' class='btn btn-primary'>Zmień Hasło</button>
+            </form>
+            <br>
+            <?php
+                if (isset($_POST['zmien'])) {
+                    $nowehaslo = $_POST['nowe_haslo'];
+                    $hasz = password_hash($nowehaslo, PASSWORD_DEFAULT);
+                    $ssql = "UPDATE klient SET haslo = '$hasz' WHERE id='$id_klienta'";
+                    mysqli_query($conn, $ssql);
+                }
+                if(isset($_POST['zmiana']))
+                {
+                    echo "<form method='POST'>
+                            <input type='text' name='nowe_haslo' placeholder='wpisz nowe hasło' required>
+                            <input type='submit' name='zmien' value='Potwierdź'>
+                        </form>";
+                }
+            ?>
+        </div>
+        <a href="logout.php"><button type="button" class="btn btn-secondary">Wyloguj się</button></a>
+  </div>
+</div>
+
 </body>
 </html>
