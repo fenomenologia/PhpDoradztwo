@@ -55,7 +55,7 @@
                     }
                 ?>
             </form>
-            <a href="logout.php" class="btn btn-primary">Wyloguj się</a>
+            <a href="logout.php" class="btn btn-secondary mt-3">Wyloguj się</a>
         </div>
   </div>
 </div>
