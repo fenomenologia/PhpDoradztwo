@@ -18,22 +18,22 @@ session_start();
     <div class="container-fluid text-center">
         <?php
         $odpowiedzi = $_SESSION['odpowiedzi_style'];
-        $wzrokowiecPkt = 0;
-        $sluchowiecPkt = 0;
-        $ruchowiecPkt = 0;
+        $style = ['Wzrokowiec' => 0, 'Słuchowiec' => 0, 'Ruchowiec/Czuciowiec' => 0];
         foreach($odpowiedzi as $odp)
         {
-            $wzrokowiecPkt += $odp[1];
-            $sluchowiecPkt += $odp[2];
-            $ruchowiecPkt += $odp[3];
+            $style['Wzrokowiec'] += $odp[1];
+            $style['Słuchowiec'] += $odp[2];
+            $style['Ruchowiec/Czuciowiec'] += $odp[3];
         }
         if (!isset($_SESSION['styl_wstawiony']))
         {
             $id_klienta = $_SESSION['id_klienta'];
             $data = date('Y-m-d');
-            $sql = 'SELECT id_doradzcy FROM doradztwo WHERE id_klienta = ' . $id_klienta;
+
+            $sql = 'SELECT id_doradcy FROM doradztwo WHERE id_klienta = ' . $id_klienta;
             $result = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-            $id_doradcy = $result['id_doradzcy'];
+            $id_doradcy = $result['id_doradcy'];
+
             $sql = "INSERT INTO doradztwo (id_klienta, id_doradcy, id_status, data, rodzaj_doradztwa) VALUES ('$id_klienta', '$id_doradcy', 3, '$data', 'uczenia')";
             mysqli_query($conn, $sql);
             $id_doradztwa = mysqli_insert_id($conn);
@@ -50,9 +50,21 @@ session_start();
             {
                 $_SESSION['styl_wstawiony'] = true;
             }
-            
         }
-        ?>
+        //WYŚWIETLANIE WYNIKU
+        arsort($style);
+        foreach($style as $nazwa => $punkty)
+        {
+            $sql = "SELECT nazwa, tresc FROM style_uczenia WHERE nazwa = '$nazwa'";
+            $result = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+            echo "<div class='container-fluid mt-3 mb-3 text-center'>";
+            echo "<p class='h3'>$nazwa</p>";
+            echo $result['tresc'].".<br>";
+            echo "<b>$punkty punktów</b>";
+            echo "</div>";
+        }
+    ?>
+        <a href="main_site.php" class="btn btn-primary">Powrót do strony głównej</a>
     </div>
 </body>
 </html>
