@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <?php
 require_once 'conn.php';
 session_start();
@@ -14,7 +14,7 @@ session_start();
 <body>
 
 <div class="container-fluid p-5 bg-primary text-white text-center">
-  <h1>Witaj w kwestionariuszu osobowoœci</h1>
+  <h1>Witaj w kwestionariuszu osobowoï¿½ci</h1>
 </div>
   
 <div class="container mt-5 text-center">
@@ -29,15 +29,15 @@ session_start();
         $button_text;
         switch ($id_statusu) {
             case 1:
-                echo "<p class='h2'>Nie rozpocz¹³eœ jeszcze doradztwa</p>";
+                echo "<p class='h2'>Nie rozpoczï¿½ï¿½eï¿½ jeszcze doradztwa</p>";
                 $button_text = "Rozpocznij doradztwo";
                 break;
             case 2:
-                echo "<p class='h2'>Jesteœ w trakcie doradztwa</p>";
+                echo "<p class='h2'>Jesteï¿½ w trakcie doradztwa</p>";
                 $button_text = "Kontynuuj doradztwo";
                 break;
             case 3:
-                echo "<p class='h2'>Zakoñczy³eœ ju¿ doradztwo</p>";
+                echo "<p class='h2'>Zakoï¿½czyï¿½eï¿½ juï¿½ doradztwo</p>";
                 $czy_zakonczono = true;
                 break;
         }
@@ -52,7 +52,7 @@ session_start();
             </form>
             <br>
             <form method="POST"> 
-                <button type='submit' name='zmiana' class='btn btn-primary'>Zmieñ Has³o</button>
+                <button type='submit' name='zmiana' class='btn btn-primary'>Zmieï¿½ Hasï¿½o</button>
             </form>
             <br>
             <?php
@@ -64,13 +64,13 @@ session_start();
             }
             if (isset($_POST['zmiana'])) {
                 echo "<form method='POST'>
-                            <input type='text' name='nowe_haslo' placeholder='wpisz nowe has³o' required>
-                            <input type='submit' name='zmien' value='PotwierdŸ'>
+                            <input type='text' name='nowe_haslo' placeholder='wpisz nowe hasï¿½o' required>
+                            <input type='submit' name='zmien' value='Potwierdï¿½'>
                         </form>";
             }
             ?>
         </div>
-        <a href="logout.php"><button type="button" class="btn btn-secondary">Wyloguj siê</button></a>
+        <a href="logout.php"><button type="button" class="btn btn-secondary">Wyloguj siï¿½</button></a>
   </div>
 </div>
 
