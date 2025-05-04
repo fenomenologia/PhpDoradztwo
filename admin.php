@@ -15,13 +15,13 @@ session_start();
     <div class="container-fluid text-center">
         <form method="POST">
             <br><br><br><br><br>
-                <input type="submit" value="Wyœwietl liste doradców" name="wys_doradce" class="btn btn-primary">
+                <input type="submit" value="WyÅ“wietl liste doradcÃ³w" name="wys_doradce" class="btn btn-primary">
             <br><br>
-                <input type="submit" value="Wyœwietl liste przeprowadzonych doradztw" name="wys_doradztrwo" class="btn btn-primary">
+                <input type="submit" value="WyÅ“wietl liste przeprowadzonych doradztw" name="wys_doradztwo" class="btn btn-primary">
             <br><br>
-                <input type="submit" value="Wyœwietl pytania" name="wys_pytania" class="btn btn-primary">
+                <input type="submit" value="WyÅ“wietl pytania" name="wys_pytania" class="btn btn-primary">
             <br><br>
-                <input type="submit" value="Wyœwietl cechy" name="wys_cechy" class="btn btn-primary">
+                <input type="submit" value="WyÅ“wietl cechy" name="wys_cechy" class="btn btn-primary">
             <br><br>
         </form>
     </div>
