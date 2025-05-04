@@ -1,4 +1,4 @@
-<Project Sdk="Devsense.Php.Sdk">
+﻿<Project Sdk="Devsense.Php.Sdk">
   <PropertyGroup Label="Globals">
     <ProjectGuid>e80ffed5-32ce-4ccb-901c-0e56035ec499</ProjectGuid>
   </PropertyGroup>
@@ -8,4 +8,7 @@
     <SpecificPageValue>index.php</SpecificPageValue>
     <StartAction>SpecificPage</StartAction>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="SQl\" />
+  </ItemGroup>
 </Project>

@@ -17,9 +17,9 @@
     </div>
     <div class="container-fluid text-center p-5">
         <?php
-            $cechy = ["Kierownicze" => 0, "Spo艂eczne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
+            $cechy = ["Kierownicze" => 0, "Spo砮czne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
 
-            //przetworzenie wynik贸w
+            //przetworzenie wynik體
             $odpowiedzi = $_SESSION['odpowiedzi'];
             foreach($odpowiedzi as $odp)
             {
@@ -31,7 +31,7 @@
                             $cechy['Kierownicze']++;
                             break;
                         case 2:
-                            $cechy['Spo艂eczne']++;
+                            $cechy['Spo砮czne']++;
                             break;
                         case 3:
                             $cechy['Metodyczne']++;
@@ -54,13 +54,13 @@
                 $id_doradztwa = mysqli_fetch_assoc(mysqli_query($conn, $sql));
                 $sql = "INSERT INTO wynik (id_doradztwa, id_cechy, punkty) VALUES 
                 (".$id_doradztwa['id'].", 1, ".$cechy['Kierownicze']."),
-                (".$id_doradztwa['id'].", 2, ".$cechy['Spo艂eczne']."),
+                (".$id_doradztwa['id'].", 2, ".$cechy['Spo砮czne']."),
                 (".$id_doradztwa['id'].", 3, ".$cechy['Metodyczne']."),
                 (".$id_doradztwa['id'].", 4, ".$cechy['Innowacyjne']."),
                 (".$id_doradztwa['id'].", 5, ".$cechy['Przedmiotowe'].")";
                 mysqli_query($conn, $sql);
                 $current_date = date("Y-m-d");
-                $sql = "UPDATE doradztwo SET id_status = 3, data = '$current_date' WHERE id =".$id_doradztwa['id'];
+                $sql = "UPDATE doradztwo SET id_status = 2, data = '$current_date' WHERE id =".$id_doradztwa['id'];
                 mysqli_query($conn, $sql);
                 $_SESSION['wyniki_wstawione'] = true;
             }
@@ -78,12 +78,12 @@
                 echo $result['opis'];
                 echo "<div class='col-xl-2'></div></div></div>";
                 echo "<div class='row mt-3 mb-3'><div class='col'>";
-                echo "<p class='h5'>".$punkty." punkt贸w</p>";
+                echo "<p class='h5'>".$punkty." punkt體</p>";
                 echo "</div></div>";
             }
         ?>
         <br>
-        <a href="main_site.php" class="btn btn-primary">Powr贸t do strony g艂贸wnej</a>
+        <a href="main_site.php" class="btn btn-primary">Powr髏 do strony g丑wnej</a>
     </div>
 </body>
 </html>
