@@ -5,7 +5,7 @@
 ?>
 <html lang="en">
 <head>
-  <title>Strona g≈Ç√≥wna</title>
+  <title>Strona g≥Ûwna</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body>
 
 <div class="container-fluid p-5 bg-primary text-white text-center">
-  <h1>Witaj w kwestionariuszu zainteresowa≈Ñ zawodowych</h1>
+  <h1>Witaj w kwestionariuszu zainteresowaÒ zawodowych</h1>
 </div>
   
 <div class="container mt-5 text-center">
@@ -30,19 +30,19 @@
             switch ($id_statusu)
             {
                 case 1:
-                    echo "<p class='h2'>Nie rozpoczƒÖ≈Çe≈õ jeszcze doradztwa</p>";
+                    echo "<p class='h2'>Nie rozpoczπ≥eú jeszcze doradztwa</p>";
                     $button_text = "Rozpocznij doradztwo";
                     break;
                 case 2:
-                    echo "<p class='h2'>Jeste≈õ w trakcie doradztwa</p>";
+                    echo "<p class='h2'>Jesteú w trakcie doradztwa</p>";
                     $button_text = "Kontynuuj doradztwo";
                     break;
                 case 3:
-                    echo "<p class='h2'>Zako≈Ñczy≈Çe≈õ ju≈º doradztwo</p>";
+                    echo "<p class='h2'>ZakoÒczy≥eú juø doradztwo</p>";
                     $czy_zakonczono = true;
                     break;
                 default:
-                    echo "<p class='h2'>Nie masz ≈ºadnych aktywnych doradztw</p>";
+                    echo "<p class='h2'>Nie masz øadnych aktywnych doradztw</p>";
                     break;
             }
         ?>
@@ -58,25 +58,25 @@
 
             <br>
             <form method="POST"> 
-                <button type='submit' name='zmiana' class='btn btn-primary'>Zmie≈Ñ Has≈Ço</button>
+                <button type='submit' name='zmiana' class='btn btn-primary'>ZmieÒ Has≥o</button>
             </form>
             <br>
             <?php
                 if (isset($_POST['zmien'])) {
                     $nowehaslo = $_POST['nowe_haslo'];
-                    $hasz = password_hash($nowehaslo, PASSWORD_DEFAULT);
+                    $hasz = password_hash($nowehaslo, PASSWORD_BCRYPT);
                     $ssql = "UPDATE klient SET haslo = '$hasz' WHERE id='$id_klienta'";
                     mysqli_query($conn, $ssql);
                 }
                 if(isset($_POST['zmiana']))
                 {
                     echo "<form method='POST'>
-                            <input type='text' name='nowe_haslo' placeholder='wpisz nowe has≈Ço' required>
-                            <input type='submit' name='zmien' value='Potwierd≈∫'>
+                            <input type='text' name='nowe_haslo' placeholder='wpisz nowe has≥o' required>
+                            <input type='submit' name='zmien' value='Potwierdü'>
                         </form>";
                 }
             ?>
-            <a href="logout.php" class="btn btn-secondary mt-3">Wyloguj siƒô</a>
+            <a href="logout.php" class="btn btn-secondary mt-3">Wyloguj siÍ</a>
         </div>
   </div>
 </div>
