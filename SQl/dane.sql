@@ -49,12 +49,12 @@ INSERT INTO `doradztwo` (`id`, `id_klienta`, `id_doradcy`, `data`, `id_status`, 
 --
 
 INSERT INTO `klient` (`id`, `email`, `haslo`, `status`, `data_utworzenia`, `imie`, `nazwisko`) VALUES
-(36, 'jankowalski@o2.pl', '$2y$12$oifKmy6tu6Y95v8HWZPOgeSC2Xm24g76ChCNDNJjMnWFaCFgYVrYO', 1, '2025-05-04', 'Jan', 'Kowalski'),
-(37, 'michalowski@gmail.com', '$2y$12$RAxtskCt6kkPPdq3zPk.Ge9jmIPbUFMwv24vaLvIKCT50xJYdlmau', 1, '2025-05-04', 'Micha≈Ç', 'Micha≈Çowski'),
-(38, 'maciekkowalski@o2.pl', '$2y$12$B65UA9VtkieWuOotT0.Bwu87cEnVMmGtBENWUZg8woRg0KiWAFq9.', 1, '2025-05-04', 'Maciej', 'Kowalski'),
-(39, 'marekkowalski@o2.pl', '$2y$12$vBvUc/P4mfgyM/i6gUwX.eJXNXbie/J9qxPkAnPhyb.rHxi/LMNvW', 1, '2025-05-04', 'Marek', 'Kowalski'),
-(40, 'nowakjan@gmail.com', '$2y$12$kgiKwqCEOzysyDjHYEe/R.dBr8FZU1utVADTIFu.xVfB576L3tnSy', 1, '2025-05-04', 'Jan', 'Nowak'),
-(41, 'mateuszwisniewski@gmail.con', '$2y$12$ySoXx3O6l0YLPCV3AFzxfeKmOMcSdbVZGrrGX3TwuCRIgdaMzaYhG', 1, '2025-05-04', 'Mateusz', 'Wi≈õniewski');
+(36, 'jankowalski@o2.pl', '$2a$12$cWUtHGWDLXLWoo2ZWDZOo.MZg3Tv5oTcI2WDUX1RYEAYx6QMTHk1G', 1, '2025-05-04', 'Jan', 'Kowalski'),
+(37, 'michalowski@gmail.com', '$2a$12$cWUtHGWDLXLWoo2ZWDZOo.MZg3Tv5oTcI2WDUX1RYEAYx6QMTHk1G', 1, '2025-05-04', 'Micha≥', 'Micha≥owski'),
+(38, 'maciekkowalski@o2.pl', '$2a$12$cWUtHGWDLXLWoo2ZWDZOo.MZg3Tv5oTcI2WDUX1RYEAYx6QMTHk1G', 1, '2025-05-04', 'Maciej', 'Kowalski'),
+(39, 'marekkowalski@o2.pl', '$2a$12$cWUtHGWDLXLWoo2ZWDZOo.MZg3Tv5oTcI2WDUX1RYEAYx6QMTHk1G', 1, '2025-05-04', 'Marek', 'Kowalski'),
+(40, 'nowakjan@gmail.com', '$2a$12$cWUtHGWDLXLWoo2ZWDZOo.MZg3Tv5oTcI2WDUX1RYEAYx6QMTHk1G', 1, '2025-05-04', 'Jan', 'Nowak'),
+(41, 'mateuszwisniewski@gmail.con', '$2a$12$cWUtHGWDLXLWoo2ZWDZOo.MZg3Tv5oTcI2WDUX1RYEAYx6QMTHk1G', 1, '2025-05-04', 'Mateusz', 'Wiúniewski');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
