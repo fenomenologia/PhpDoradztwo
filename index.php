@@ -37,7 +37,7 @@
                 $resultKlient = mysqli_query($conn, $sql1);
                 $resultDoradca = mysqli_query($conn, $sql2);
 
-                if (mysqli_num_rows($resultKlient) > 0) //jeżeli email klienta jest w bazie
+                if (mysqli_num_rows($resultKlient) != 0) //jeżeli email klienta jest w bazie
                 {
                     $row = mysqli_fetch_array($resultKlient);
                     if (password_verify($pass, $row['haslo'])) //jeżeli hasło jest poprawne
@@ -52,7 +52,7 @@
                         //złe hasło
                     }
                 }
-                else if (mysqli_num_rows($resultDoradca) > 0) // jeżeli email doradcy jest w bazie
+                else if (mysqli_num_rows($resultDoradca) != 0) // jeżeli email doradcy jest w bazie
                 {
                     $row = mysqli_fetch_array($resultDoradca);
                     if (password_verify($pass, $row['haslo'])) //jeżeli hasło jest poprawne
