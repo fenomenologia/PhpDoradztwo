@@ -21,12 +21,13 @@ session_start();
                     <th>Nazwisko</th>
                     <th>E-mail</th>
                     <th>Status doradztwa</th>
+                    <th>Zobacz wyniki</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $id_doradcy = $_SESSION['id_doradcy'];
-                $sql = "SELECT klient.imie, klient.nazwisko, klient.email, status.nazwa FROM klient 
+                $sql = "SELECT klient.id, klient.imie, klient.nazwisko, klient.email, status.nazwa FROM klient 
                     JOIN doradztwo ON doradztwo.id_klienta = klient.id
                     JOIN status ON doradztwo.id_status = status.id
                     WHERE doradztwo.id_doradcy = '$id_doradcy'";
@@ -36,10 +37,20 @@ session_start();
                     while ($row = mysqli_fetch_assoc($result))
                     {
                         echo "<tr>";
-                        echo "<td>" . $row['imie'] . "</td>";
+                        echo "<form action='szczegoly.php' method='post'>";
+                        echo "<td>"  . $row['imie'] . "</td>";
                         echo "<td>" . $row['nazwisko'] . "</td>";
                         echo "<td>" . $row['email'] . "</td>";
                         echo "<td>" . $row['nazwa'] . "</td>";
+                        if ($row['nazwa'] == "Zakończony")
+                        {
+                            echo "<td><button type='submit' name='id' value='".$row["id"]."' class='btn btn-primary'>Wynik</button></td>";
+                        }
+                        else
+                        {
+                            echo "<td><button class='btn btn-secondary disabled'>Doradztwo nie zostało zakończone</button></td>";
+                        }
+                        echo "</form>";
                         echo "</tr>";
                     }
                 }
@@ -47,7 +58,8 @@ session_start();
             </tbody>
         </table>
         <a href="dodaj_klienta.php" class="btn btn-primary">Dodaj nowego klienta</a>
-        <a href="logout.php" class="btn btn-secondary">Wyloguj się</a>
+        <a href="zmien_haslo.php" class="btn btn-secondary">Zmień hasło</a><br />
+        <a href="logout.php" class="btn btn-secondary mt-3">Wyloguj się</a>
     </div>
 </body>
 </html>
