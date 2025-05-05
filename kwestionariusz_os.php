@@ -90,7 +90,7 @@ session_start();
                 </div>
                 <div class="col-sm-4"></div>
             </div>
-            <button type="submit" name="nastepne_pytanie" class="btn btn-primary mt-3">Nast�pne pytanie</button>
+            <button type="submit" name="nastepne_pytanie" class="btn btn-primary mt-3">Następne pytanie</button>
         </form>
         <?php if ($_SESSION['nr_pyt_os'] > 1): ?>
             <form method="post">
@@ -99,9 +99,9 @@ session_start();
         <?php endif; ?>
     </div>
     <?php
-    if (isset($_POST['nastepne_pytanie']) && isset($_POST['odp_os'])) //je�eli udzielono odpowiedzi
+    if (isset($_POST['nastepne_pytanie']) && isset($_POST['odp_os'])) //jeżeli udzielono odpowiedzi
     {
-        $odp = $_POST['odp_os'] == "1" ? 1 : 0; //je�eli odpowiedz to tak to ustawia 1, je�eli nie to ustawia 0
+        $odp = $_POST['odp_os'] == "1" ? 1 : 0; //jeżeli odpowiedz to tak to ustawia 1, jeżeli nie to ustawia 0
         $_SESSION['odp_os'][] = [$nr_pytania, $odp];
         ; //zapisuje do tablicy nr pytania i odp na tak/nie
         $_SESSION['nr_pyt_os'] = $nr_pytania + 1; //zapisuje do sesji nr pytania
@@ -113,9 +113,9 @@ session_start();
 
         if ($_SESSION['nr_pytania'] > 1) {
             $_SESSION['nr_pytania'] = $nr_pytania - 1;
-        }//Zmniejsza numer pytania tylko jak jest wi�kszy ni� 1
+        }//Zmniejsza numer pytania tylko jak jest większy niż 1
     
-        array_pop($_SESSION['odpowiedzi']); //Usuwa ostatni� odpowied�
+        array_pop($_SESSION['odpowiedzi']); //Usuwa ostatnią odpowiedź
     
         unset($nr_pytania, $odp);
         header('Location: kwestionariusz_os.php');
