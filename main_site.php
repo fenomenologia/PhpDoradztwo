@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <?php
     require_once 'conn.php';
     session_start();
 ?>
 <html lang="en">
 <head>
-  <title>Strona g³ówna</title>
+  <title>Strona gÅ‚Ã³wna</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body>
 
 <div class="container-fluid p-5 bg-primary text-white text-center">
-  <h1>Witaj w kwestionariuszu zainteresowañ zawodowych</h1>
+  <h1>Witaj w kwestionariuszu zainteresowaÅ„ zawodowych</h1>
 </div>
   
 <div class="container mt-5 text-center">
@@ -26,39 +26,19 @@
             $id_statusu = $result['id_status'];
             $_SESSION['id_statusu'] = $id_statusu;
             $czy_zakonczono = false;
-            $button_text;
+
             switch ($id_statusu)
             {
                 case 1:
-                    echo "<p class='h2'>Nie rozpocz¹³eœ jeszcze doradztwa</p>";
-                    $button_text = "Rozpocznij doradztwo";
-                    break;
-                case 2:
-                    echo "<p class='h2'>Jesteœ w trakcie doradztwa</p>";
-                    $button_text = "Kontynuuj doradztwo";
-                    break;
-                case 3:
-                    echo "<p class='h2'>Zakoñczy³eœ ju¿ doradztwo</p>";
-                    $czy_zakonczono = true;
-                    break;
-                default:
-                    echo "<p class='h2'>Nie masz ¿adnych aktywnych doradztw</p>";
+                    echo "<p class='h2'>Nie rozpoczÄ™to doradztwa</p>";
+                    echo "<a href='' class='btn btn-primary'>Rozpocznij kwestionariusz <b>zainteresowaÅ„ zawodowych</b></a>";
                     break;
             }
         ?>
         <div class="mt-3 mb-3">
-            <form action="kwestionariusz.php" method="post">
-                <?php
-                    if ($czy_zakonczono == false && $id_statusu != null)
-                    {
-                        echo "<button type='submit' name='rozpocznij_doradztwo' class='btn btn-primary'>".$button_text."</button>";
-                    }
-                ?>
-            </form>
-
             <br>
             <form method="POST"> 
-                <button type='submit' name='zmiana' class='btn btn-primary'>Zmieñ Has³o</button>
+                <button type='submit' name='zmiana' class='btn btn-primary'>ZmieÅ„ HasÅ‚o</button>
             </form>
             <br>
             <?php
@@ -71,15 +51,14 @@
                 if(isset($_POST['zmiana']))
                 {
                     echo "<form method='POST'>
-                            <input type='text' name='nowe_haslo' placeholder='wpisz nowe has³o' required>
-                            <input type='submit' name='zmien' value='PotwierdŸ'>
+                            <input type='text' name='nowe_haslo' placeholder='wpisz nowe hasÅ‚o' required>
+                            <input type='submit' name='zmien' value='PotwierdÅº'>
                         </form>";
                 }
             ?>
-            <a href="logout.php" class="btn btn-secondary mt-3">Wyloguj siê</a>
+            <a href="logout.php" class="btn btn-secondary mt-3">Wyloguj siÄ™</a>
         </div>
   </div>
 </div>
-
 </body>
 </html>

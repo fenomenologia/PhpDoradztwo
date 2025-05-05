@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <?php
     require_once "conn.php";
     session_start();
@@ -17,9 +17,9 @@
     </div>
     <div class="container-fluid text-center p-5">
         <?php
-            $cechy = ["Kierownicze" => 0, "Spo³eczne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
+            $cechy = ["Kierownicze" => 0, "SpoÅ‚eczne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
 
-            //przetworzenie wyników
+            //przetworzenie wynikï¿½w
             $odpowiedzi = $_SESSION['odpowiedzi'];
             foreach($odpowiedzi as $odp)
             {
@@ -31,7 +31,7 @@
                             $cechy['Kierownicze']++;
                             break;
                         case 2:
-                            $cechy['Spo³eczne']++;
+                            $cechy['SpoÅ‚eczne']++;
                             break;
                         case 3:
                             $cechy['Metodyczne']++;
@@ -50,11 +50,11 @@
             {
                 //wstawienie do bazy
                 $id_klienta = $_SESSION['id_klienta'];
-                $sql = "SELECT id FROM doradztwo WHERE id_klienta = '$id_klienta' AND id_status != 3";
+                $sql = "SELECT id FROM doradztwo WHERE id_klienta = '$id_klienta'";
                 $id_doradztwa = mysqli_fetch_assoc(mysqli_query($conn, $sql));
                 $sql = "INSERT INTO wynik (id_doradztwa, id_cechy, punkty) VALUES 
                 (".$id_doradztwa['id'].", 1, ".$cechy['Kierownicze']."),
-                (".$id_doradztwa['id'].", 2, ".$cechy['Spo³eczne']."),
+                (".$id_doradztwa['id'].", 2, ".$cechy['SpoÅ‚eczne']."),
                 (".$id_doradztwa['id'].", 3, ".$cechy['Metodyczne']."),
                 (".$id_doradztwa['id'].", 4, ".$cechy['Innowacyjne']."),
                 (".$id_doradztwa['id'].", 5, ".$cechy['Przedmiotowe'].")";
@@ -78,12 +78,12 @@
                 echo $result['opis'];
                 echo "<div class='col-xl-2'></div></div></div>";
                 echo "<div class='row mt-3 mb-3'><div class='col'>";
-                echo "<p class='h5'>".$punkty." punktów</p>";
+                echo "<p class='h5'>".$punkty." punktÃ³w</p>";
                 echo "</div></div>";
             }
         ?>
         <br>
-        <a href="main_site.php" class="btn btn-primary">Powrót do strony g³ównej</a>
+        <a href="main_site.php" class="btn btn-primary">PowrÃ³t do strony gÅ‚Ã³wnej</a>
     </div>
 </body>
 </html>

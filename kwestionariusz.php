@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <?php
     require_once 'conn.php';
     session_start();
@@ -13,7 +13,7 @@
 </head>
 <body>
     <?php
-        if (isset($_POST['rozpocznij_doradztwo']) && $_SESSION['id_statusu'] == 1) //zmienienie statusu na 'w trakcie'
+        if (isset($_POST['rozpocznij_doradztwo']) && $_SESSION['id_statusu'] == 1) //zmienienie statusu na 2
         {
             mysqli_query($conn, "UPDATE doradztwo SET id_status = 2 WHERE id_klienta = ".$_SESSION['id_klienta']);
         }
