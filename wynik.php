@@ -19,7 +19,7 @@
         <?php
             $cechy = ["Kierownicze" => 0, "Społeczne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
 
-            //przetworzenie wynik�w
+            //przetworzenie wyników
             $odpowiedzi = $_SESSION['odpowiedzi'];
             foreach($odpowiedzi as $odp)
             {
