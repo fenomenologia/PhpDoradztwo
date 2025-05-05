@@ -25,12 +25,9 @@ session_start();
 
 		switch($id_statusu)
 		{
-			case 2:
+			case 1:
 				echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</h2><br>";
 				echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
-				// Update statusu w bazie danych
-				$sql = "UPDATE doradztwo SET id_status = 2 WHERE doradztwo.id = '$id_doradztwa'";
-				mysqli_query($conn, $sql);
 
 				$cechy = ["Kierownicze" => 0, "Społeczne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
 				//przetworzenie wyników
@@ -59,34 +56,32 @@ session_start();
 						}
 					}
 				}
-
-				if (!isset($_SESSION['wyniki_wstawione_1']))
+				$sql = "SELECT COUNT(*) AS count FROM wynik WHERE id_doradztwa = '$id_doradztwa'";
+				$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['count'];
+				if ($result == 0)
 				{
 					//wstawienie do bazy
 					$id_klienta = $_SESSION['id_klienta'];
-					$sql = "SELECT id FROM doradztwo WHERE id_klienta = '$id_klienta'";
-					$id_doradztwa = mysqli_fetch_assoc(mysqli_query($conn, $sql));
 					$sql = "INSERT INTO wynik (id_doradztwa, id_cechy, punkty) VALUES 
-                (" . $id_doradztwa['id'] . ", 1, " . $cechy['Kierownicze'] . "),
-                (" . $id_doradztwa['id'] . ", 2, " . $cechy['Społeczne'] . "),
-                (" . $id_doradztwa['id'] . ", 3, " . $cechy['Metodyczne'] . "),
-                (" . $id_doradztwa['id'] . ", 4, " . $cechy['Innowacyjne'] . "),
-                (" . $id_doradztwa['id'] . ", 5, " . $cechy['Przedmiotowe'] . ")";
+				(" . $id_doradztwa . ", 1, " . $cechy['Kierownicze'] . "),
+				(" . $id_doradztwa . ", 2, " . $cechy['Społeczne'] . "),
+				(" . $id_doradztwa . ", 3, " . $cechy['Metodyczne'] . "),
+				(" . $id_doradztwa . ", 4, " . $cechy['Innowacyjne'] . "),
+				(" . $id_doradztwa . ", 5, " . $cechy['Przedmiotowe'] . ")";
 					mysqli_query($conn, $sql);
 					$current_date = date("Y-m-d");
 					$sql = "UPDATE doradztwo SET id_status = 2, data = '$current_date' WHERE id =" . $id_doradztwa['id'];
 					mysqli_query($conn, $sql);
-					$_SESSION['wyniki_wstawione_1'] = true;
 				}
+				break;
+			case 2:
 				break;
 			case 3:
 				break;
 			case 4:
 				break;
-			case 5:
-				break;
 			default:
-				echo "Wystąpił błąd ze statusami!";
+				echo "Wystąpił błąd ze statusami!<br>";
 				break;
 		}
 		?>
