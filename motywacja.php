@@ -3,6 +3,12 @@
 require_once 'conn.php';
 session_start();
 
+if (!isset($_SESSION['id_klienta']))
+{
+	header("Location: index.php");
+	exit();
+}
+
 // Ustawiamy zmienne sesyjne, jeśli nie istnieją
 if (!isset($_SESSION['odpowiedzi']))
 {
