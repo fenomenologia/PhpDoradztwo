@@ -146,6 +146,8 @@ if (!isset($_SESSION['id_klienta']))
 								('$id_doradztwa', 2, ".$przetworzone['sluchowiec']."),
 								('$id_doradztwa', 3, ".$przetworzone['ruchowiec'].")";
 						mysqli_query($conn, $sql);
+						$sql = "UPDATE doradztwo SET id_status = 4 WHERE id = '$id_doradztwa'";
+						mysqli_query($conn, $sql);
 					}
 					unset($_SESSION['odpowiedzi_style'], $_SESSION['nr_pytania_style']);
 				}
@@ -173,6 +175,8 @@ if (!isset($_SESSION['id_klienta']))
 					{
 						//wstawienie wyników
 						$sql = "INSERT INTO wynik_osobowosc (id_doradztwa, mocne_strony, slabe_strony) VALUES ('$id_doradztwa', '$mocne', '$slabe')";
+						mysqli_query($conn, $sql);
+						$sql = "UPDATE doradztwo SET id_status = 5 WHERE id = '$id_doradztwa'";
 						mysqli_query($conn, $sql);
 					}
 					unset($_SESSION['odpowiedzi_osobowosc']);
