@@ -26,7 +26,7 @@ session_start();
 		switch($id_statusu)
 		{
 			case 1:
-				echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</h2><br>";
+				echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</p><br>";
 				echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
 
 				if (isset($_SESSION['odpowiedzi']))
@@ -82,16 +82,43 @@ session_start();
 			case 2:
 				if (isset($_SESSION['odpowiedzi']))
 				{
-					
+					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz motywacji!</p><br>";
+					echo "<a href='styleuczenia.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+
+					$odpowiedzi = $_SESSION['odpowiedzi'];
+					//wstawienie wyników
+					$sql = "SELECT COUNT(*) AS count FROM wynik_motywacje WHERE id_doradztwa = '$id_doradztwa'";
+					$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['count'];
+					if ($result == 0)
+					{
+						foreach ($odpowiedzi as $odp)
+						{
+							$sql = "INSERT INTO wynik_motywacje (id_doradztwa, punkty, id_pytania) VALUES ('$id_doradztwa'," . $odp[1] . ", " . $odp[0] . ")";
+							mysqli_query($conn, $sql);
+						}
+						$sql = "UPDATE doradztwo SET id_status = 3 WHERE id = '$id_doradztwa'";
+						mysqli_query($conn, $sql);
+					}
+					unset($_SESSION['odpowiedzi'], $_SESSION['nr_pytania']);
 				}
 				else
 				{
 					//jeżeli nie ma odpowiedzi z drugiego kwestionariusza to znaczy że nie został on zrobiony, tylko użytkownik skończył pierwszy i odświeżył stronę
-					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</h2><br>";
+					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</p><br>";
 					echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
 				}
 				break;
 			case 3:
+				if (isset($_SESSION['odpowiedzi_style']))
+				{
+					
+				}
+				else
+				{
+					//jeżeli nie ma odpowiedzi z trzeciego kwestionariusza to znaczy że nie został on zrobiony, tylko użytkownik skończył drugi i odświeżył stronę
+					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz motywacji!</p><br>";
+					echo "<a href='styleuczenia.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+				}
 				break;
 			case 4:
 				break;

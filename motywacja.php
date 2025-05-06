@@ -3,12 +3,6 @@
 require_once 'conn.php';
 session_start();
 
-// Zmieniamy status, jeśli potrzeba
-if (isset($_POST['rozpocznij_doradztwo']) && isset($_SESSION['id_statusu']) && $_SESSION['id_statusu'] == 1)
-{
-	mysqli_query($conn, "UPDATE doradztwo SET id_status = 2 WHERE id_klienta = " . intval($_SESSION['id_klienta']));
-}
-
 // Ustawiamy zmienne sesyjne, jeśli nie istnieją
 if (!isset($_SESSION['odpowiedzi']))
 {

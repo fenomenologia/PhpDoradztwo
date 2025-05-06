@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <?php
 require_once 'conn.php';
 session_start();
@@ -48,7 +48,7 @@ session_start();
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) == 0)
         {
-            header("Location: styleuczeniawynik.php");
+            header("Location: przejscie.php");
             exit();
         }
         $row = mysqli_fetch_assoc($result);
