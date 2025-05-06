@@ -59,6 +59,7 @@ session_start();
 			unset($_SESSION['nr_pyt_os']);
 
 			$_SESSION['odpowiedzi_osobowosc'] = [$mocne_str, $slabe_str];
+			header("Location: przejscie.php");
             exit();
         }
 
@@ -93,7 +94,7 @@ session_start();
         ; //zapisuje do tablicy nr pytania i odp na tak/nie
         $_SESSION['nr_pyt_os'] = $nr_pytania + 1; //zapisuje do sesji nr pytania
         unset($nr_pytania, $odp);
-        header('Location: kwestionariusz_os.php');
+        header('Location: osobowosc.php');
         exit();
     }
     if (isset($_POST['cofnij'])) {
@@ -105,7 +106,7 @@ session_start();
         array_pop($_SESSION['odpowiedzi']); //Usuwa ostatnią odpowiedź
     
         unset($nr_pytania, $odp);
-        header('Location: kwestionariusz_os.php');
+        header('Location: osobowosc.php');
         exit();
     }
     ?>
