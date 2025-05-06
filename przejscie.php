@@ -29,52 +29,67 @@ session_start();
 				echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</h2><br>";
 				echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
 
-				$cechy = ["Kierownicze" => 0, "Społeczne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
-				//przetworzenie wyników
-				$odpowiedzi = $_SESSION['odpowiedzi'];
-				foreach ($odpowiedzi as $odp)
+				if (isset($_SESSION['odpowiedzi']))
 				{
-					if ($odp[1] == 1)
+					$cechy = ["Kierownicze" => 0, "Społeczne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
+					//przetworzenie wyników
+					$odpowiedzi = $_SESSION['odpowiedzi'];
+					foreach ($odpowiedzi as $odp)
 					{
-						switch ($odp[0] % 5)
+						if ($odp[1] == 1)
 						{
-							case 1:
-								$cechy['Kierownicze']++;
-								break;
-							case 2:
-								$cechy['Społeczne']++;
-								break;
-							case 3:
-								$cechy['Metodyczne']++;
-								break;
-							case 4:
-								$cechy['Innowacyjne']++;
-								break;
-							case 0:
-								$cechy['Przedmiotowe']++;
-								break;
+							switch ($odp[0] % 5)
+							{
+								case 1:
+									$cechy['Kierownicze']++;
+									break;
+								case 2:
+									$cechy['Społeczne']++;
+									break;
+								case 3:
+									$cechy['Metodyczne']++;
+									break;
+								case 4:
+									$cechy['Innowacyjne']++;
+									break;
+								case 0:
+									$cechy['Przedmiotowe']++;
+									break;
+							}
 						}
 					}
-				}
-				$sql = "SELECT COUNT(*) AS count FROM wynik WHERE id_doradztwa = '$id_doradztwa'";
-				$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['count'];
-				if ($result == 0)
-				{
-					//wstawienie do bazy
-					$id_klienta = $_SESSION['id_klienta'];
-					$sql = "INSERT INTO wynik (id_doradztwa, id_cechy, punkty) VALUES 
-				(" . $id_doradztwa . ", 1, " . $cechy['Kierownicze'] . "),
-				(" . $id_doradztwa . ", 2, " . $cechy['Społeczne'] . "),
-				(" . $id_doradztwa . ", 3, " . $cechy['Metodyczne'] . "),
-				(" . $id_doradztwa . ", 4, " . $cechy['Innowacyjne'] . "),
-				(" . $id_doradztwa . ", 5, " . $cechy['Przedmiotowe'] . ")";
-					mysqli_query($conn, $sql);
-					$current_date = date("Y-m-d");
-					$sql = "UPDATE doradztwo SET id_status = 2, data = '$current_date' WHERE id =" . $id_doradztwa['id'];
-					mysqli_query($conn, $sql);
+					$sql = "SELECT COUNT(*) AS count FROM wynik WHERE id_doradztwa = '$id_doradztwa'";
+					$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['count'];
+					if ($result == 0)
+					{
+						//wstawienie do bazy
+						$id_klienta = $_SESSION['id_klienta'];
+						$sql = "INSERT INTO wynik (id_doradztwa, id_cechy, punkty) VALUES 
+						(" . $id_doradztwa . ", 1, " . $cechy['Kierownicze'] . "),
+						(" . $id_doradztwa . ", 2, " . $cechy['Społeczne'] . "),
+						(" . $id_doradztwa . ", 3, " . $cechy['Metodyczne'] . "),
+						(" . $id_doradztwa . ", 4, " . $cechy['Innowacyjne'] . "),
+						(" . $id_doradztwa . ", 5, " . $cechy['Przedmiotowe'] . ")";
+						mysqli_query($conn, $sql);
+						$current_date = date("Y-m-d");
+						$sql = "UPDATE doradztwo SET id_status = 2, data = '$current_date' WHERE id =" . $id_doradztwa;
+						mysqli_query($conn, $sql);
+					}
+
+					unset($_SESSION['odpowiedzi'], $_SESSION['nr_pytania']);
 				}
 				break;
 			case 2:
+				if (isset($_SESSION['odpowiedzi']))
+				{
+					
+				}
+				else
+				{
+					//jeżeli nie ma odpowiedzi z drugiego kwestionariusza to znaczy że nie został on zrobiony, tylko użytkownik skończył pierwszy i odświeżył stronę
+					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</h2><br>";
+					echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+				}
 				break;
 			case 3:
 				break;
