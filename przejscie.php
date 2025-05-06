@@ -2,6 +2,13 @@
 <?php
 require_once 'conn.php';
 session_start();
+
+//jezeli nie zalogowano to przenosi na index.php
+if (!isset($_SESSION['id_klienta']))
+{
+	header("Location: index.php");
+	exit();
+}
 ?>
 <html lang="pl">
 <head>
@@ -25,6 +32,7 @@ session_start();
 
 		switch($id_statusu)
 		{
+			//ZAINTERESOWAŃ zAWODOWYCH
 			case 1:
 				echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</p><br>";
 				echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
@@ -63,7 +71,6 @@ session_start();
 					if ($result == 0)
 					{
 						//wstawienie do bazy
-						$id_klienta = $_SESSION['id_klienta'];
 						$sql = "INSERT INTO wynik (id_doradztwa, id_cechy, punkty) VALUES 
 						(" . $id_doradztwa . ", 1, " . $cechy['Kierownicze'] . "),
 						(" . $id_doradztwa . ", 2, " . $cechy['Społeczne'] . "),
@@ -79,6 +86,8 @@ session_start();
 					unset($_SESSION['odpowiedzi'], $_SESSION['nr_pytania']);
 				}
 				break;
+
+			//MOTYWACJI
 			case 2:
 				if (isset($_SESSION['odpowiedzi']))
 				{
@@ -108,10 +117,37 @@ session_start();
 					echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
 				}
 				break;
+
+			//STYLÓW UCZENIA SIĘ
 			case 3:
 				if (isset($_SESSION['odpowiedzi_style']))
 				{
-					
+					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz styli uczenia się!</p><br>";
+					echo "<a href='osobowosc.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+					$odpowiedzi = $_SESSION['odpowiedzi_style'];
+
+					//wstawienie wyników do bazy
+					$sql = "SELECT COUNT(*) AS count FROM wynik_style_uczenia WHERE id_doradztwa = '$id_doradztwa'";
+					$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['count'];
+
+					if ($result == 0) //jeżeli nie wstawiono wyników
+					{
+						$przetworzone = ['wzrokowiec' => 0, 'sluchowiec' => 0, 'ruchowiec' => 0];
+						//przetworzenie wyników
+						foreach($odpowiedzi as $odp)
+						{
+							//odp = [pyt, wzrokowiec, sluchowiec, ruchowiec];
+							$przetworzone['wzrokowiec'] += $odp[1];
+							$przetworzone['sluchowiec'] += $odp[2];
+							$przetworzone['ruchowiec'] += $odp[3];
+						}
+						$sql = "INSERT INTO wynik_style_uczenia (id_doradztwa, id_stylu, punkty) VALUES
+								('$id_doradztwa', 1, ".$przetworzone['wzrokowiec']."),
+								('$id_doradztwa', 2, ".$przetworzone['sluchowiec']."),
+								('$id_doradztwa', 3, ".$przetworzone['ruchowiec'].")";
+						mysqli_query($conn, $sql);
+					}
+					unset($_SESSION['odpowiedzi_style'], $_SESSION['nr_pytania_style']);
 				}
 				else
 				{
@@ -120,8 +156,40 @@ session_start();
 					echo "<a href='styleuczenia.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
 				}
 				break;
+
+			//OSOBOWOŚCI
 			case 4:
+				if (isset($_SESSION['odpowiedzi_osobowosc']))
+				{
+					echo "<p class='h2'>Ukończyłeś wszystkie kwestionariusze!</p>";
+
+					$mocne = $_SESSION['odpowiedzi_osobowosc'][0];
+					$slabe = $_SESSION['odpowiedzi_osobowosc'][1];
+
+					$sql = "SELECT COUNT(*) AS count FROM wynik_osobowosc WHERE id_doradztwa = '$id_doradztwa'";
+					$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['count'];
+
+					if ($result == 0)
+					{
+						//wstawienie wyników
+						$sql = "INSERT INTO wynik_osobowosc (id_doradztwa, mocne_strony, slabe_strony) VALUES ('$id_doradztwa', '$mocne', '$slabe')";
+						mysqli_query($conn, $sql);
+					}
+					unset($_SESSION['odpowiedzi_osobowosc']);
+				}
+				else
+				{
+					//ta sama sytuacja co poprzednio - użytkownik odświeżył stronę po kwestionariuszu stylów uczenia się
+					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz styli uczenia się!</p><br>";
+					echo "<a href='osobowosc.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+				}
 				break;
+
+			//WSZYSTKO ZAKOŃCZONE
+			case 5:
+				echo "<p class='h2'>Ukończyłeś wszystkie kwestionariusze!</p>";
+				break;
+
 			default:
 				echo "Wystąpił błąd ze statusami!<br>";
 				break;

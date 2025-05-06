@@ -13,10 +13,6 @@ session_start();
 </head>
 <body>
     <?php
-    if (isset($_POST['rozpocznij_doradztwo']) && $_SESSION['id_statusu'] == 1) 
-    {
-        mysqli_query($conn, "UPDATE doradztwo SET id_status = 2 WHERE id_klienta = " . $_SESSION['id_klienta']);
-    }
     if (!isset($_SESSION['odp_os'])) {
         $_SESSION['odp_os'] = [];
     }
@@ -56,22 +52,13 @@ session_start();
                 }
             }
 
-
             $mocne_str = implode(", ", $mocne);
             $slabe_str = implode(", ", $slabe);
-            $id_doradztwa_query = mysqli_query($conn, "SELECT id FROM doradztwo WHERE id_klienta = " . $_SESSION['id_klienta'] . " ORDER BY id DESC LIMIT 1");
-            $id_doradztwa = 0;
-            if ($id_doradztwa_row = mysqli_fetch_assoc($id_doradztwa_query)) {
-                $id_doradztwa = $id_doradztwa_row['id'];
-            }
 
-            $sql_wynik = "INSERT INTO wynik_osobowosc (id_doradztwa, mocne_strony, slabe_strony) 
-              VALUES ('$id_doradztwa', '$mocne_str', '$slabe_str')";
+			unset($_SESSION['odp_os']);
+			unset($_SESSION['nr_pyt_os']);
 
-            mysqli_query($conn, $sql_wynik);
-            unset($_SESSION['odp_os']);
-            unset($_SESSION['nr_pyt_os']);
-
+			$_SESSION['odpowiedzi_osobowosc'] = [$mocne_str, $slabe_str];
             exit();
         }
 
