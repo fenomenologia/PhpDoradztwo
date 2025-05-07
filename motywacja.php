@@ -8,6 +8,13 @@ if (!isset($_SESSION['id_klienta']))
 	header("Location: index.php");
 	exit();
 }
+$sql = "SELECT id_status FROM doradztwo WHERE id_klienta = " . $_SESSION['id_klienta'];
+$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['id_status'];
+if ($result != 2)
+{
+	header("Location: main_site.php");
+	exit();
+}
 
 // Ustawiamy zmienne sesyjne, jeśli nie istnieją
 if (!isset($_SESSION['odpowiedzi']))

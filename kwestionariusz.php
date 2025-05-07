@@ -7,6 +7,13 @@
 		header("Location: index.php");
 		exit();
 	}
+	$sql = "SELECT id_status FROM doradztwo WHERE id_klienta = " . $_SESSION['id_klienta'];
+	$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['id_status'];
+	if ($result != 1)
+	{
+		header("Location: main_site.php");
+		exit();
+	}
 ?>
 <html lang="pl">
 <head>
