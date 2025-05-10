@@ -15,28 +15,13 @@ session_start();
     <div class="container-fluid text-center">
         <form method="POST">
             <br><br><br><br><br>
-                <input type="submit" value="Wyœwietl liste doradców" name="wys_doradce" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Powrót do strony g³ównej" name="str_gw" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyœwietl pytania" name="wys_pytania" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyœwietl cechy" name="wys_cechy" class="btn btn-primary">
+                <input type="submit" value="PowrÃ³t do strony gÅ‚Ã³wnej" name="str_gw" class="btn btn-primary">
             <br><br>
         </form>
     </div>
     <?php
-    if (isset($_POST['wys_doradce'])) {
-        header("location: admin_doradcy.php");
-    }
     if (isset($_POST['str_gw'])) {
         header("location: admin.php");
-    }
-    if (isset($_POST['wys_pytania'])) {
-        header("location: admin_pytania.php");
-    }
-    if (isset($_POST['wys_cechy'])) {
-        header("location: admin_cechy.php");
     }
     $sql = "SELECT * FROM doradztwo WHERE id_status = '5'; ";
     $result = mysqli_query($conn, $sql);
