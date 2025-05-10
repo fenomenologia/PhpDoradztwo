@@ -15,26 +15,11 @@ session_start();
     <div class="container-fluid text-center">
         <form method="POST">
             <br><br><br><br><br>
-                <input type="submit" value="Wy�wietl liste doradc�w" name="wys_doradce" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wy�wietl liste przeprowadzonych doradztw" name="wys_doradztwo" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wy�wietl pytania" name="wys_pytania" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Powr�t do strony g��wnej" name="str_gw" class="btn btn-primary">
+                <input type="submit" value="Powrót do strony głównej" name="str_gw" class="btn btn-primary">
             <br><br>
         </form>
     </div>
     <?php
-    if (isset($_POST['wys_doradce'])) {
-        header("location: admin_doradcy.php");
-    }
-    if (isset($_POST['wys_doradztwo'])) {
-        header("location: admin_doradztwa.php");
-    }
-    if (isset($_POST['wys_pytania'])) {
-        header("location: admin_pytania.php");
-    }
     if (isset($_POST['str_gw'])) {
         header("location: admin.php");
     }
