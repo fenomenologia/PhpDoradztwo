@@ -57,10 +57,18 @@
                     $row = mysqli_fetch_array($resultDoradca);
                     if (password_verify($pass, $row['haslo'])) //jeżeli hasło jest poprawne
                     {
-                        //przejdź do strony doradcy i zapisz id doradcy
-                        session_start();
-                        $_SESSION['id_doradcy'] = $row['id'];
-                        header("Location: doradca.php");
+                        if ($row['czy_admin'] == 0) {
+                            //przejdź do strony doradcy i zapisz id doradcy
+                            session_start();
+                            $_SESSION['id_doradcy'] = $row['id'];
+                            header("Location: doradca.php");
+                        }
+                        else
+                        {
+                            session_start();
+                            $_SESSION['id_doradcy'] = $row['id'];
+                            header("Location: admin.php");
+                        }
                     } else //jeżeli hasło jest złe
                     {
                         //złe hasło
