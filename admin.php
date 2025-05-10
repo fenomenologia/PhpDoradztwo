@@ -23,6 +23,8 @@ session_start();
             <br><br>
                 <input type="submit" value="Wyœwietl cechy" name="wys_cechy" class="btn btn-primary">
             <br><br>
+                <input type="submit" value="Wyloguj się" name="logout" class="btn btn-primary">
+            <br><br>
         </form>
     </div>
     <?php
@@ -37,6 +39,9 @@ session_start();
     }
     if (isset($_POST['wys_cechy'])) {
         header("location: admin_cechy.php");
+    }
+    if (isset($_POST['logout'])) {
+        header("location: logout.php");
     }
     ?>
 </body>
