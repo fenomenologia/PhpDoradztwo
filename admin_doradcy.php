@@ -15,13 +15,7 @@ session_start();
     <div class="container-fluid text-center">
         <form method="POST">
             <br><br><br><br><br>
-                <input type="submit" value="Powrót do strony g³ównej" name="wys_doradce" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyœwietl liste przeprowadzonych doradztw" name="wys_doradztwo" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyœwietl pytania" name="wys_pytania" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyœwietl cechy" name="wys_cechy" class="btn btn-primary">
+                <input type="submit" value="Powrót do strony głównej" name="wys_doradce" class="btn btn-primary">
             <br><br>
         </form>
         <h2>Dodawanie Doradcy</h2>
@@ -48,15 +42,6 @@ session_start();
     <?php
     if (isset($_POST['wys_doradce'])) {
         header("location: admin.php");
-    }
-    if (isset($_POST['wys_doradztwo'])) {
-        header("location: admin_doradztwa.php");
-    }
-    if (isset($_POST['wys_pytania'])) {
-        header("location: admin_pytania.php");
-    }
-    if (isset($_POST['wys_cechy'])) {
-        header("location: admin_cechy.php");
     }
     ?>
     <div class="container-fluid text-center">
