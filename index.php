@@ -33,7 +33,7 @@
                 $login = $_POST['login'];
                 $pass = $_POST['pass'];
                 $sql1 = "SELECT id, email, haslo FROM klient WHERE email = '$login' AND status = 1";
-                $sql2 = "SELECT id, email, haslo FROM doradca WHERE email = '$login' AND czy_aktywny = 1";
+                $sql2 = "SELECT id, email, haslo, czy_admin FROM doradca WHERE email = '$login' AND czy_aktywny = 1";
                 $resultKlient = mysqli_query($conn, $sql1);
                 $resultDoradca = mysqli_query($conn, $sql2);
 
