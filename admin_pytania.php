@@ -15,48 +15,33 @@ session_start();
     <div class="container-fluid text-center">
         <form method="POST">
             <br><br><br><br><br>
-                <input type="submit" value="Wy�wietl liste doradc�w" name="wys_doradce" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wy�wietl liste przeprowadzonych doradztw" name="wys_doradztwo" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Powr�t do strony g��wnej" name="str_gw" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wy�wietl cechy" name="wys_cechy" class="btn btn-primary">
+                <input type="submit" value="Powrót do strony głównej" name="str_gw" class="btn btn-primary">
             <br><br>
         </form>
     </div>
     <?php
-    if (isset($_POST['wys_doradce'])) {
-        header("location: admin_doradcy.php");
-    }
-    if (isset($_POST['wys_doradztwo'])) {
-        header("location: admin_doradztwa.php");
-    }
     if (isset($_POST['str_gw'])) {
         header("location: admin.php");
-    }
-    if (isset($_POST['wys_cechy'])) {
-        header("location: admin_cechy.php");
     }
     ?>
     <div class="container-fluid text-center">
         <h1>PYTANIA:</h1>
-        <h3>Kwestionariusz zainteresowa� zawodowych:</h3>
+        <h3>Kwestionariusz zainteresowań zawodowych:</h3>
         <?php
         $sql = "SELECT * FROM pytania; ";
         $result = mysqli_query($conn, $sql);
-        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Tre��:</td></tr>";
+        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Treść:</td></tr>";
         while($row = mysqli_fetch_assoc($result))
         {
             echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nr_pytania'] . "</td><td>" . $row['pytania'] . "</td></tr>";
         }
         echo "</table>";
         ?>
-        <h3>Dodawanie/Zmiana pyta�:</h3>
+        <h3>Dodawanie/Zmiana pytań:</h3>
         <form method="POST">
-            <input type="text" name="pytanie" placeholder="Wpisz tre�� pytania" required>
+            <input type="text" name="pytanie" placeholder="Wpisz treść pytania" required>
             <input type="number" name="nr_pyt" value="Wpisz numer pytania" required>
-            <input type="submit" name="dodaj_a" value="Dodaj/zamie� pytanie">
+            <input type="submit" name="dodaj_a" value="Dodaj/zamień pytanie">
         </form>
         <?php
             if(isset($_POST['dodaj_a']))
@@ -87,18 +72,18 @@ session_start();
         <?php
         $sqql = "SELECT * FROM pytania_motywacje; ";
         $result = mysqli_query($conn, $sqql);
-        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Tre��:</td></tr>";
+        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Treść:</td></tr>";
         while($row = mysqli_fetch_assoc($result))
         {
             echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nr_pytania'] . "</td><td>" . $row['tresc'] . "</td></tr>";
         }
         echo "</table>";
         ?>
-        <h3>Dodawanie/Zmiana pyta�:</h3>
+        <h3>Dodawanie/Zmiana pytań:</h3>
         <form method="POST">
-            <input type="text" name="pytanie_b" placeholder="Wpisz tre�� pytania" required>
+            <input type="text" name="pytanie_b" placeholder="Wpisz treść pytania" required>
             <input type="number" name="nr_pyt_b" value="Wpisz numer pytania" required>
-            <input type="submit" name="dodaj_b" value="Dodaj/zamie� pytanie">
+            <input type="submit" name="dodaj_b" value="Dodaj/zamień pytanie">
         </form>
         <?php
         if (isset($_POST['dodaj_b'])) {
@@ -132,7 +117,7 @@ session_start();
         }
         echo "</table>";
         ?>
-        <h3>Dodawanie pyta�:</h3>
+        <h3>Dodawanie pytań:</h3>
         <form method="POST">
             <input type="text" name="pytanie_c" placeholder="Wpisz nazwe cechy" required>
             <select name="select" required>
@@ -150,7 +135,7 @@ session_start();
             header("Location: admin_pytania.php");
         }
         ?>
-        <h3>Zmiana pyta�:</h3>
+        <h3>Zmiana pytań:</h3>
         <form method="POST">
             <input type="number" name="id" required>
             <input type="text" name="pytanie_ca" placeholder="Wpisz nazwe cechy" required>
@@ -175,20 +160,20 @@ session_start();
         <?php
         $sqql = "SELECT * FROM pytania_style; ";
         $result = mysqli_query($conn, $sqql);
-        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Tre��:</td></tr>";
+        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Treść:</td></tr>";
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nr_pytania'] . "</td><td>" . $row['tresc'] . "</td></tr>";
         }
         echo "</table>";
         ?>
-        <h3>Dodawanie/Zmiana pyta�:</h3>
+        <h3>Dodawanie/Zmiana pytań:</h3>
         <form method="POST">
-            <input type="text" name="pytanie_da" placeholder="Wpisz tre�� pytania" required><br />
+            <input type="text" name="pytanie_da" placeholder="Wpisz treść pytania" required><br />
                         <input type="text" name="pytanie_db" placeholder="opcja dla wzrokowca" required><br />
                         <input type="text" name="pytanie_dc" placeholder="opcja dla słuchowca" required><br />
                         <input type="text" name="pytanie_dd" placeholder="opcja dla ruchowca" required><br /><br /><br />
             <input type="number" name="nr_pyt_d" value="Wpisz numer pytania" required>
-            <input type="submit" name="dodaj_d" value="Dodaj/zamie� pytanie">
+            <input type="submit" name="dodaj_d" value="Dodaj/zamień pytanie">
         </form>
         <?php
         if (isset($_POST['dodaj_d'])) {
