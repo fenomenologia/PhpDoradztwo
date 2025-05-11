@@ -111,7 +111,7 @@ session_start();
         <?php
         $sqqll = "SELECT * FROM pytania_osobowosc; ";
         $result = mysqli_query($conn, $sqqll);
-        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Rodzaj:</td><td>Tre��:</td></tr>";
+        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Rodzaj:</td><td>Treść:</td></tr>";
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr><td>" . $row['id'] . "</td><td>" . $row['rodzaj'] . "</td><td>" . $row['tresc'] . "</td></tr>";
         }
