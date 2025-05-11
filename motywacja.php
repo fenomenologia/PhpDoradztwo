@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <?php
 require_once 'conn.php';
 session_start();
@@ -25,6 +25,23 @@ if (!isset($_SESSION['odpowiedzi']))
 if (!isset($_SESSION['nr_pytania']))
 {
 	$_SESSION['nr_pytania'] = 1;
+
+// Zmieniamy status, jeśli potrzeba
+if (isset($_POST['rozpocznij_doradztwo']) && isset($_SESSION['id_statusu']) && $_SESSION['id_statusu'] == 1) 
+{
+    mysqli_query($conn, "UPDATE doradztwo SET id_status = 2 WHERE id_klienta = " . intval($_SESSION['id_klienta']));
+}
+
+// Ustawiamy zmienne sesyjne, jeśli nie istnieją
+if (!isset($_SESSION['odpowiedzi'])) 
+{
+    $_SESSION['odpowiedzi'] = [];
+}
+
+if (!isset($_SESSION['nr_pytania'])) 
+{
+    $_SESSION['nr_pytania'] = 1;
+
 }
 
 $nr_pytania = $_SESSION['nr_pytania'];
@@ -50,6 +67,28 @@ if (isset($_POST['nastepne_pytanie']) && isset($_POST['odpowiedz']))
 	// Odświeżenie strony, by pokazać kolejne pytanie
 	header("Location: motywacja.php");
 	exit();
+
+if (isset($_POST['nastepne_pytanie']) && isset($_POST['odpowiedz'])) 
+{
+    $odpowiedz = intval($_POST['odpowiedz']);
+    $_SESSION['odpowiedzi'][] = [$nr_pytania, $odpowiedz];
+    $_SESSION['nr_pytania']++;
+
+    // Jeśli przekroczyliśmy pytanie 5, przejdź do wyników
+    if ($_SESSION['nr_pytania'] > 5) 
+    {
+        header("Location: wynik_motywacje.php");
+        exit();
+    }
+    else 
+    {
+        
+    }
+
+    // Odświeżenie strony, by pokazać kolejne pytanie
+    header("Location: motywacja.php");
+    exit();
+
 }
 
 // Pobranie pytania z bazy
@@ -65,12 +104,22 @@ if ($wynik && mysqli_num_rows($wynik) > 0)
 else
 {
 	$pytanie_tekst = "Nie znaleziono pytania.";
+
+if ($wynik && mysqli_num_rows($wynik) > 0) 
+{
+    $wiersz = mysqli_fetch_assoc($wynik);
+    $pytanie_tekst = $wiersz['tresc']; 
+} else 
+{
+    $pytanie_tekst = "Nie znaleziono pytania.";
+
 }
 ?>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <title>Kwestionariusz motywacji</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
