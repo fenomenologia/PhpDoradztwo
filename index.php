@@ -11,13 +11,35 @@
 	<link href="style.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body class="d-flex flex-column bg-primary p-5">
-	<header>
-		<div class="row">
-			<div class="col-sm-3"><img src="zdjecia/logo ibcu.png" alt="Logo" style="height: 100px; width: auto" /></div>
-			<div class="col-sm-9 text-center text-white d-flex align-items-center"><p class="h1 fw-bold">KWESTIONARIUSZ ZAINTERESOWAŃ ZAWODOWYCH</p></div>
-		</div>
+<body class="text-white text-center bg-primary">
+	<header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
 	</header>
+	<nav class="navbar navbar-expand-sm">
+	  <div class="container-fluid d-flex justify-content-between align-items-center">
+		
+		<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+    
+		
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+    
+		<div class="collapse navbar-collapse justify-content-center text-white" id="navbarNav">
+		  <ul class="navbar-nav text-white">
+			<li class="nav-item">
+			  <a class="nav-link active btn btn-primary text-white me-3 fw-bold" href="index.php">STRONA GŁÓWNA</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="o_projekcie.php">O PROJEKCIE</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="kontakt.php">KONTAKT</a>
+			</li>
+		  </ul>
+		</div>
+	  </div>
+	</nav>
 	<main class="container-fluid p5 text-white bg-image bg-primary mt-5 flex-fill">
 		<div class="container-fluid text-center w-25">
 			<p class="h2 fw-bold">ZALOGUJ SIĘ</p>
