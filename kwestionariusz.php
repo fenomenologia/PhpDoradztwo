@@ -1,28 +1,35 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <?php
     require_once 'conn.php';
     session_start();
+	if (!isset($_SESSION['id_klienta']))
+	{
+		header("Location: index.php");
+		exit();
+	}
+	$sql = "SELECT id_status FROM doradztwo WHERE id_klienta = " . $_SESSION['id_klienta'];
+	$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['id_status'];
+	if ($result != 1)
+	{
+		header("Location: main_site.php");
+		exit();
+	}
 ?>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kwestionariusz</title>
+    <title>Kwestionariusz zainteresowań zawodowych</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <?php
-        if (isset($_POST['rozpocznij_doradztwo']) && $_SESSION['id_statusu'] == 1) //zmienienie statusu na 'w trakcie'
-        {
-            mysqli_query($conn, "UPDATE doradztwo SET id_status = 2 WHERE id_klienta = ".$_SESSION['id_klienta']);
-        }
         //jeżeli zmienne nie są ustawione to je ustawia
         if (!isset($_SESSION['odpowiedzi'])) 
         {
             $_SESSION['odpowiedzi'] = [];
         }
-
         if (!isset($_SESSION['nr_pytania']))
         {
             $_SESSION['nr_pytania'] = 1;
@@ -43,7 +50,7 @@
             }
             else
             {
-                header("Location: wynik.php"); //jeśli nie ma już pytań przekierowuje do strony z wynikiem
+                header("Location: przejscie.php"); //jeśli nie ma już pytań przekierowuje do strony przejściowej
                 exit();
             }
 
