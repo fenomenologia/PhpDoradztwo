@@ -1,7 +1,20 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <?php
 require_once 'conn.php';
 session_start();
+
+if (!isset($_SESSION['id_klienta']))
+{
+	header("Location: index.php");
+	exit();
+}
+$sql = "SELECT id_status FROM doradztwo WHERE id_klienta = " . $_SESSION['id_klienta'];
+$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['id_status'];
+if ($result != 3)
+{
+	header("Location: main_site.php");
+	exit();
+}
 ?>
 <html lang="pl">
 <head>
@@ -48,7 +61,7 @@ session_start();
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) == 0)
         {
-            header("Location: styleuczeniawynik.php");
+            header("Location: przejscie.php");
             exit();
         }
         $row = mysqli_fetch_assoc($result);

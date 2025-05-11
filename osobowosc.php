@@ -1,7 +1,21 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <?php
 require_once 'conn.php';
 session_start();
+
+if (!isset($_SESSION['id_klienta']))
+{
+	header("Location: index.php");
+	exit();
+}
+$sql = "SELECT id_status FROM doradztwo WHERE id_klienta = " . $_SESSION['id_klienta'];
+$result = mysqli_fetch_assoc(mysqli_query($conn, $sql))['id_status'];
+if ($result != 4)
+{
+	header("Location: main_site.php");
+	exit();
+}
+
 ?>
 <html lang="pl">
 <head>
@@ -13,10 +27,6 @@ session_start();
 </head>
 <body>
     <?php
-    if (isset($_POST['rozpocznij_doradztwo']) && $_SESSION['id_statusu'] == 1) 
-    {
-        mysqli_query($conn, "UPDATE doradztwo SET id_status = 2 WHERE id_klienta = " . $_SESSION['id_klienta']);
-    }
     if (!isset($_SESSION['odp_os'])) {
         $_SESSION['odp_os'] = [];
     }
@@ -56,21 +66,14 @@ session_start();
                 }
             }
 
-
             $mocne_str = implode(", ", $mocne);
             $slabe_str = implode(", ", $slabe);
-            $id_doradztwa_query = mysqli_query($conn, "SELECT id FROM doradztwo WHERE id_klienta = " . $_SESSION['id_klienta'] . " ORDER BY id DESC LIMIT 1");
-            $id_doradztwa = 0;
-            if ($id_doradztwa_row = mysqli_fetch_assoc($id_doradztwa_query)) {
-                $id_doradztwa = $id_doradztwa_row['id'];
-            }
 
-            $sql_wynik = "INSERT INTO wynik_osobowosc (id_doradztwa, mocne_strony, slabe_strony) 
-              VALUES ('$id_doradztwa', '$mocne_str', '$slabe_str')";
+			unset($_SESSION['odp_os']);
+			unset($_SESSION['nr_pyt_os']);
 
-            mysqli_query($conn, $sql_wynik);
-            unset($_SESSION['odp_os']);
-            unset($_SESSION['nr_pyt_os']);
+			$_SESSION['odpowiedzi_osobowosc'] = [$mocne_str, $slabe_str];
+			header("Location: przejscie.php");
 
             exit();
         }
@@ -90,7 +93,8 @@ session_start();
                 </div>
                 <div class="col-sm-4"></div>
             </div>
-            <button type="submit" name="nastepne_pytanie" class="btn btn-primary mt-3">Nast�pne pytanie</button>
+
+            <button type="submit" name="nastepne_pytanie" class="btn btn-primary mt-3">Następne pytanie</button>
         </form>
         <?php if ($_SESSION['nr_pyt_os'] > 1): ?>
             <form method="post">
@@ -99,26 +103,28 @@ session_start();
         <?php endif; ?>
     </div>
     <?php
-    if (isset($_POST['nastepne_pytanie']) && isset($_POST['odp_os'])) //je�eli udzielono odpowiedzi
+    if (isset($_POST['nastepne_pytanie']) && isset($_POST['odp_os'])) //jeżeli udzielono odpowiedzi
     {
-        $odp = $_POST['odp_os'] == "1" ? 1 : 0; //je�eli odpowiedz to tak to ustawia 1, je�eli nie to ustawia 0
+        $odp = $_POST['odp_os'] == "1" ? 1 : 0; //jeżeli odpowiedz to tak to ustawia 1, jeżeli nie to ustawia 0
+
         $_SESSION['odp_os'][] = [$nr_pytania, $odp];
         ; //zapisuje do tablicy nr pytania i odp na tak/nie
         $_SESSION['nr_pyt_os'] = $nr_pytania + 1; //zapisuje do sesji nr pytania
         unset($nr_pytania, $odp);
-        header('Location: kwestionariusz_os.php');
+        header('Location: osobowosc.php');
+
         exit();
     }
     if (isset($_POST['cofnij'])) {
 
         if ($_SESSION['nr_pytania'] > 1) {
             $_SESSION['nr_pytania'] = $nr_pytania - 1;
-        }//Zmniejsza numer pytania tylko jak jest wi�kszy ni� 1
+        }//Zmniejsza numer pytania tylko jak jest większy niż 1
     
-        array_pop($_SESSION['odpowiedzi']); //Usuwa ostatni� odpowied�
+        array_pop($_SESSION['odpowiedzi']); //Usuwa ostatnią odpowiedź
     
         unset($nr_pytania, $odp);
-        header('Location: kwestionariusz_os.php');
+        header('Location: osobowosc.php');
         exit();
     }
     ?>
