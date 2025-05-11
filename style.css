@@ -1,0 +1,40 @@
+﻿:root 
+{
+	--background-color: #081A42;
+	--primary: #0F5CB4;
+	--primary-hover: #4C9FF5;
+	--secondary: #B0B7D0;
+	--secondary-hover: #54595F;
+}
+html, body {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+.bg-primary
+{
+	background-color: var(--background-color) !important;
+}
+.bg-image
+{
+	background-image: url(zdjecia/background.png);
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: center;
+}
+main
+{
+	flex: 1;
+}
+footer
+{
+	margin: 0;
+}
+hr
+{
+	border: none;
+	border-top: solid 2px black;
+	margin: 0;
+}
