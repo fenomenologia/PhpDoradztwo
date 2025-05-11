@@ -39,7 +39,15 @@
 	  </div>
 	</nav>
 	<main class="container-fluid p5 text-white bg-image bg-primary mt-5 flex-fill">
-	
+		<div class="p-5 d-flex flex-row justify-content-evenly align-items-center">
+			<span class="text-start display-6">
+				<b>PHP Kwestionariusz Zainteresowań Zawodowych</b> to aplikacja internetowa wspierająca pracę doradców zawodowych.
+				Umożliwia ona przeprowadzanie testów, zapisywanie wyników i wspiera doradcę podczas tworzenia Indywidualnych Planów Działania.
+				System ma trzy panele: dla uczestnika, doradcy i administratora. Jest prosty w obsłudze i dostępny z różnych urządzeń. 
+				Dzięki cyfrowej formie ułatwia i przyspiesza cały proces doradztwa zawodowego.
+			</span>
+			<img src="zdjecia/globe.png" class="text-end" style="width:250px; height: auto"/>
+		</div>
 	</main>
 	<?php
 	require "footer.php";

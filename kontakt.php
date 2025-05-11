@@ -39,7 +39,16 @@
 	  </div>
 	</nav>
 	<main class="container-fluid p5 text-white bg-image bg-primary mt-5 flex-fill">
-	
+		<div class="container-fluid w-25">
+			<p class="display-5 fw-bold">Twórcy aplikacji:</p>
+			<ul class="mt-4 display-6">
+				<li>Bartłomiej Ząbek</li>
+				<li>Mikołaj Juryk</li>
+				<li>Maciej Maślanka</li>
+			</ul>
+			<p class="display-5 fw-bold">Kontakt:</p>
+			<u>Wpisać kontakt</u>
+		</div>
 	</main>
 	<?php
 	require "footer.php";
