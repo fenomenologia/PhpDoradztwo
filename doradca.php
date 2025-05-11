@@ -42,7 +42,7 @@ session_start();
                         echo "<td>" . $row['nazwisko'] . "</td>";
                         echo "<td>" . $row['email'] . "</td>";
                         echo "<td>" . $row['nazwa'] . "</td>";
-                        if ($row['nazwa'] == "Zakończony")
+                        if ($row['nazwa'] == "zakonczony_kwestionariusz_osobowosci")
                         {
                             echo "<td><button type='submit' name='id' value='".$row["id"]."' class='btn btn-primary'>Wynik</button></td>";
                         }
@@ -54,7 +54,7 @@ session_start();
                         echo "</tr>";
                     }
                 }
-                ?>
+                ?>  
             </tbody>
         </table>
         <a href="dodaj_klienta.php" class="btn btn-primary">Dodaj nowego klienta</a>
