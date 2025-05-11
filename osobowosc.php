@@ -66,8 +66,8 @@ if ($result != 4)
                 }
             }
 
-            $mocne_str = implode(", ", $mocne);
-            $slabe_str = implode(", ", $slabe);
+            $mocne_str = implode(",", $mocne);
+            $slabe_str = implode(",", $slabe);
 
 			unset($_SESSION['odp_os']);
 			unset($_SESSION['nr_pyt_os']);
@@ -115,18 +115,18 @@ if ($result != 4)
 
         exit();
     }
-    if (isset($_POST['cofnij'])) {
+	if (isset($_POST['cofnij']))
+	{
+		if ($_SESSION['nr_pyt_os'] > 1)
+		{
+			$_SESSION['nr_pyt_os'] -= 1;
+		}
 
-        if ($_SESSION['nr_pytania'] > 1) {
-            $_SESSION['nr_pytania'] = $nr_pytania - 1;
-        }//Zmniejsza numer pytania tylko jak jest większy niż 1
-    
-        array_pop($_SESSION['odpowiedzi']); //Usuwa ostatnią odpowiedź
-    
-        unset($nr_pytania, $odp);
-        header('Location: osobowosc.php');
-        exit();
-    }
+		array_pop($_SESSION['odp_os']);
+		unset($nr_pytania, $odp);
+		header('Location: osobowosc.php');
+		exit();
+	}
     ?>
 </body>
 </html>
