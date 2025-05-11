@@ -24,6 +24,19 @@ html, body {
 	background-attachment: fixed;
 	background-position: center;
 }
+.btn-primary
+{
+	background-color: var(--primary);
+	border: none;
+}
+.btn-primary:hover
+{
+	background-color: var(--primary-hover);
+}
+.btn
+{
+	padding: 15px
+}
 main
 {
 	flex: 1;

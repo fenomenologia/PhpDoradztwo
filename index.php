@@ -15,7 +15,7 @@
 	<header>
 		<div class="row">
 			<div class="col-sm-3"><img src="zdjecia/logo ibcu.png" alt="Logo" style="height: 100px; width: auto" /></div>
-			<div class="col-sm-9 text-center text-white d-flex justify-content-center align-items-center"><p class="h1 fw-bold">KWESTIONARIUSZ ZAINTERESOWAŃ ZAWODOWYCH</p></div>
+			<div class="col-sm-9 text-center text-white d-flex align-items-center"><p class="h1 fw-bold">KWESTIONARIUSZ ZAINTERESOWAŃ ZAWODOWYCH</p></div>
 		</div>
 	</header>
 	<main class="container-fluid p5 text-white bg-image bg-primary mt-5 flex-fill">
