@@ -17,6 +17,7 @@ if (!isset($_SESSION['id_klienta']))
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<title>Przejście</title>
+	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
 </head>
 <body>
 	<div class="container-fluid text-center text-white bg-primary p-5">

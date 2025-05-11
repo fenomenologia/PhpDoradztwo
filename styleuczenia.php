@@ -23,6 +23,7 @@ if ($result != 3)
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>Styl uczenia się</title>
+	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
     <style>
     input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button 
     {
