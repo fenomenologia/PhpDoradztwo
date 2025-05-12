@@ -10,35 +10,34 @@ require 'SMTP.php';
 $mail = new PHPMailer(true);
 
 try {
-    //Server settings
-    $mail->SMTPDebug = 0;                      //Enable verbose debug output
+    // Konfiguracja serwera SMTP
     $mail->isSMTP();
-    $mail->Host = 'sandbox.smtp.mailtrap.io';
-    $mail->SMTPAuth = true;
-    $mail->Username = 'b4e5f1e0ff6c61';
-    $mail->Password = 'fbd4c3c75e3d30';
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = 2525;
-    //Recipients
-    $mail->setFrom('doradztwozawodowe@example.com', 'Doradztwo Zawodowe');
-    $mail->addAddress('klient@example.com', 'Maciej');     //Add a recipient
-    //$mail->addAddress('ellen@example.com');               //Name is optional
-    //$mail->addReplyTo('info@example.com', 'Information');
-    //$mail->addCC('cc@example.com');
-    //$mail->addBCC('bcc@example.com');
+    $mail->Host       = 'szkolaprogramowania.cybertree.pl';             // np. smtp.gmail.com, smtp.home.pl
+    $mail->SMTPAuth   = true;
+    $mail->Username = 'doradztwo@szkolaprogramowania.cybertree.pl';
+    $mail->Password = ']7*EPA6?e-oU';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // TLS (bezpieczne szyfrowanie)
+    $mail->Port       = 587;
 
-    //Attachments
-    //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-    //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+    // Debug (opcjonalnie, tylko do testów)
+    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
 
-    //Content
-    $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Zapraszam na doradztwo zawodowe';
-    $mail->Body = 'Witaj w doradztwie <b>zawodowym</b>';
-    $mail->AltBody = 'Witaj w doradztwie zawodowym';
+    // Nadawca i odbiorca
+    $mail->setFrom('doradztwo@szkolaprogramowania.cybertree.pl', 'Doradztwo Zawodowe');
+    $mail->addAddress('wiadomosc@mailinator.com', 'Maciej');
 
+    // Treœæ wiadomoœci
+    $mail->isHTML(true);
+    $mail->Subject = 'Testowa wiadomoœæ';
+    $mail->Body    = '<b>To jest testowa wiadomoœæ</b> wys³ana przez PHPMailer.';
+    $mail->AltBody = 'To jest testowa wiadomoœæ wys³ana przez PHPMailer (tekst prosty).';
+
+    // Wyœlij
     $mail->send();
-    echo 'Message has been sent';
+    echo 'Wiadomoœæ zosta³a wys³ana.';
 } catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    echo "B³¹d przy wysy³aniu: {$mail->ErrorInfo}";
 }
+?>
+
+
