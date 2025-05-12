@@ -23,8 +23,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
+	<link href="style.css" rel="stylesheet" />
 </head>
-<body>
+<body class="bg-primary text-center text-white">
     <?php
         //jeżeli zmienne nie są ustawione to je ustawia
         if (!isset($_SESSION['odpowiedzi'])) 
@@ -38,10 +39,19 @@
         $nr_pytania = $_SESSION['nr_pytania'];
         
     ?>
-    <div class="container-fluid p-5 bg-primary text-white text-center">
-        <p class="h2">Pytanie nr. <?php echo $nr_pytania?></p>
-    </div>
-    <div class="container-fluid mt-5 text-center p-5">
+	<header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
+	</header>
+
+	<nav class="navbar navbar-expand-sm">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+			<div class="collapse navbar-collapse justify-content-center text-white">
+				<span class="navbar-text text-white fw-bold h2">Pytanie nr.<?php echo $_SESSION['nr_pytania']?></span>
+			</div>
+		</div>
+	</nav>
+	<main class="container-fluid mt-5 text-center bg-image bg-primary p-5">
         <?php
             $sql = "SELECT pytania FROM pytania WHERE nr_pytania = '$nr_pytania'";
             $result = mysqli_query($conn, $sql);
@@ -54,30 +64,30 @@
                 header("Location: przejscie.php"); //jeśli nie ma już pytań przekierowuje do strony przejściowej
                 exit();
             }
-
-            echo "<p class='h3 mt-3 mb-3'>".$pytanie['pytania']."</p>";
+			$pytanie = mb_strtoupper($pytanie['pytania']);
+            echo "<p class='h3 mt-3 mb-3 fw-bold'>".$pytanie."</p>";
         ?>
         <form method="post">
             <div class="row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-2">
-                    <label for="odpowiedz_tak">Tak</label>
+                    <label for="odpowiedz_tak" class="fw-bold">TAK</label>
                     <input type="radio" name="odpowiedz" id="odpowiedz_tak" required value="1">
                 </div>
                 <div class="col-sm-2">
-                    <label for="odpowiedz_nie">Nie</label>
+                    <label for="odpowiedz_nie" class="fw-bold">NIE</label>
                     <input type="radio" name="odpowiedz" id="odpowiedz_nie" required value="0">
                 </div>
                 <div class="col-sm-4"></div>
             </div>
-            <button type="submit" name="nastepne_pytanie" class="btn btn-primary mt-3">Następne pytanie</button>
+            <button type="submit" name="nastepne_pytanie" class="btn btn-primary mt-3 fw-bold">NASTĘPE PYTANIE</button>
         </form>
         <?php if ($_SESSION['nr_pytania'] > 1): ?>
             <form method="post">
-                <button type="submit" name="cofnij" class="btn btn-secondary mt-3">Cofnij</button>
+                <button type="submit" name="cofnij" class="btn btn-secondary mt-3 fw-bold">COFNIJ</button>
             </form>
         <?php endif; ?>
-    </div>
+    </main>
     <?php
         if (isset($_POST['nastepne_pytanie']) && isset($_POST['odpowiedz'])) //jeżeli udzielono odpowiedzi
         {
@@ -101,6 +111,7 @@
             header('Location: kwestionariusz.php');
             exit();
         }
+	require "footer.php";
     ?>
 </body>
 </html>

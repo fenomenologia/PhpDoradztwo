@@ -61,52 +61,97 @@
 			switch ($id_statusu)
 			{
 				case 1:
-					echo "<p class='h2'>Nie rozpoczęto doradztwa</p>";
-					echo "<a href='kwestionariusz.php' class='btn btn-primary w-50 mt-3'>ROZPOCZNIJ KWESTIONARIUSZ ZAINTERESOWAŃ ZAWODOWYCH</a>";
+					echo "<p class='h2 fw-bold'>NIE ROZPOCZĘTO DORADZTWA</p>";
+					echo "<a href='kwestionariusz.php' class='btn btn-primary w-50 mt-3 fw-bold'>ROZPOCZNIJ KWESTIONARIUSZ ZAINTERESOWAŃ ZAWODOWYCH</a>";
 					break;
 				case 2:
-					echo "<p class='h2'>Ukończono 1/4 kwestionariusze</p>";
-					echo "<a href='motywacja.php' class='btn btn-primary w-50 mt-3'>ROZPOCZNIJ KWESTIONARIUSZ MOTYWACJI</a>";
+					echo "<p class='h2 fw-bold'>UKOŃCZONO 1/4 KWESTIONARIUSZE</p>";
+					echo "<a href='motywacja.php' class='btn btn-primary w-50 mt-3 fw-bold'>ROZPOCZNIJ KWESTIONARIUSZ MOTYWACJI</a>";
 					break;
 				case 3:
-					echo "<p class='h2'>Ukończono 2/4 kwestionariusze</p>";
-					echo "<a href='styleuczenia.php' class='btn btn-primary w-50 mt-3'>ROZPOCZNIJ KWESTIONARIUSZ STYLI UCZENIA SIĘ</a>";
+					echo "<p class='h2 fw-bold'>UKOŃCZONO 2/4 KWESTIONARIUSZE</p>";
+					echo "<a href='styleuczenia.php' class='btn btn-primary w-50 mt-3 fw-bold'>ROZPOCZNIJ KWESTIONARIUSZ STYLI UCZENIA SIĘ</a>";
 					break;
 				case 4:
-					echo "<p class='h2'>Ukończono 3/4 kwestionariusze</p>";
-					echo "<a href='osobowosc.php' class='btn btn-primary w-50 mt-3'>ROZPOCZNIJ KWESTIONARIUSZ OSOBOWOŚCI</a>";
+					echo "<p class='h2 fw-bold'>UKOŃCZONO 3/4 KWESTIONARIUSZE</p>";
+					echo "<a href='osobowosc.php' class='btn btn-primary w-50 mt-3 fw-bold'>ROZPOCZNIJ KWESTIONARIUSZ OSOBOWOŚCI</a>";
 					break;
 				case 5:
-					echo "<p class='h2'>UKOŃCZONO DORADZTWO ZAWODOWE</p>";
+					echo "<p class='h2 fw-bold'>UKOŃCZONO DORADZTWO ZAWODOWE</p>";
 					break;
 			}
 		?>
-		<div class="mt-3 mb-3">
+		<div class="mt-3 mb-3 container-fluid text-center">
 			<br>
 			<form method="POST"> 
-				<button type='submit' name='zmiana' class='btn btn-primary'>Zmień Hasło</button>
+				<button type='submit' name='zmiana' class='btn btn-primary fw-bold'>ZMIEŃ HASŁO</button>
 			</form>
 			<br>
 			<?php
-				if (isset($_POST['zmien'])) {
+				if (isset($_POST['nowe_haslo'])) {
 					$nowehaslo = $_POST['nowe_haslo'];
 					$hasz = password_hash($nowehaslo, PASSWORD_BCRYPT);
 					$ssql = "UPDATE klient SET haslo = '$hasz' WHERE id='$id_klienta'";
 					mysqli_query($conn, $ssql);
 				}
-				if(isset($_POST['zmiana']))
-				{
-					echo "<form method='POST'>
-							<input type='text' name='nowe_haslo' placeholder='wpisz nowe hasło' required>
-							<input type='submit' name='zmien' value='Potwierdź'>
-						</form>";
-				}
-			?>
-			<a href="logout.php" class="btn btn-secondary mt-3">Wyloguj się</a>
+				if(isset($_POST['zmiana'])): ?>
+				<form method='POST' id="changePassForm" class="w-25 container-fluid text-black">
+					<div class="form-floating mt-3">
+						<input type='password' name='nowe_haslo' class="form-control" id="nowe_haslo" placeholder='wpisz nowe hasło'>
+						<label for="nowe_haslo" class="">Nowe hasło</label>
+					</div>
+					<div class="form-floating mt-3">
+						<input type="password" name="nowe_haslo_repeat" class="form-control" id="nowe_haslo_repeat" placeholder="powtórz hasło" />
+						<label for="nowe_haslo_repeat">Powtórz hasło</label>
+					</div>
+					<p id="error" style="display: none"></p>
+					<input type='button' name='zmien' onclick="passwordCheck()" class="mt-3 btn btn-primary fw-bold" value='POTWIERDŹ'>
+				</form>
+			<?php endif ?>
+			<a href="logout.php" class="btn btn-secondary mt-3 fw-bold">WYLOGUJ SIĘ</a>
 		</div>
 	</main>
 	<?php
 	require "footer.php";
 	?>
+	<script>
+		function passwordCheck()
+		{
+			const form = document.getElementById('changePassForm');
+			const error = document.getElementById('error');
+			let pass = document.getElementById('nowe_haslo').value;
+			let passRepeat = document.getElementById('nowe_haslo_repeat').value;
+
+			function displayError(message)
+			{
+				error.textContent = message;
+				error.style.display = "block";
+				error.style.color = "red";
+				error.style.fontWeight = 'bold';
+			}
+			if (pass != '') //jeżeli hasło nie jest puste
+			{
+				if (pass.length >= 7 & pass.length <= 20) //jeżeli hasło ma od 7 do 20 znaków
+				{
+					if (pass == passRepeat) //jeżeli hasła się się zgadzają
+					{
+						form.submit()
+					}
+					else
+					{
+						displayError("Hasła muszą się powtarzać!");
+					}
+				}
+				else
+				{
+					displayError("Hasło musi posiadać od 7 do 20 znaków!");
+				}
+			}
+			else
+			{
+				displayError("Należy wypełnić powyższe pola!");
+			}
+		}
+	</script>
 </body>
 </html>
