@@ -26,7 +26,14 @@
 		<div class="collapse navbar-collapse justify-content-center text-white" id="navbarNav">
 		  <ul class="navbar-nav text-white">
 			<li class="nav-item">
-			  <a class="nav-link  btn btn-secondary text-white me-3 fw-bold" href="index.php">STRONA GŁÓWNA</a>
+				<?php
+				session_start();
+				if (isset($_SESSION['id_klienta'])):
+				?>
+				<a class="nav-link  btn btn-secondary text-white me-3 fw-bold" href="main_site.php">STRONA GŁÓWNA</a>
+				<?php else: ?>
+				<a class="nav-link  btn btn-secondary text-white me-3 fw-bold" href="index.php">STRONA GŁÓWNA</a>
+				<?php endif ?>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link active btn btn-primary text-white me-3 fw-bold" href="o_projekcie.php">O PROJEKCIE</a>
