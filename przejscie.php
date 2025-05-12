@@ -18,12 +18,38 @@ if (!isset($_SESSION['id_klienta']))
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<title>Przejście</title>
 	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
+	<link href="style.css" rel="stylesheet" />
 </head>
-<body>
-	<div class="container-fluid text-center text-white bg-primary p-5">
-		<h1>Ukończono kwestionariusz!</h1>
-	</div>
-	<div class="container-fluid text-center mt-5">
+<body class="text-white text-center bg-primary">
+	<header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
+	</header>
+	<nav class="navbar navbar-expand-sm">
+	  <div class="container-fluid d-flex justify-content-between align-items-center">
+		
+		<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+    
+		
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+    
+		<div class="collapse navbar-collapse justify-content-center text-white" id="navbarNav">
+		  <ul class="navbar-nav text-white">
+			<li class="nav-item">
+			  <a class="nav-link active btn btn-primary text-white me-3 fw-bold" href="index.php">STRONA GŁÓWNA</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="o_projekcie.php">O PROJEKCIE</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="kontakt.php">KONTAKT</a>
+			</li>
+		  </ul>
+		</div>
+	  </div>
+	</nav>
+	<main class="container-fluid text-center bg-image bg-primary mt-5">
 		<?php
 		$id_klienta = $_SESSION['id_klienta'];
 		$sql = "SELECT id_status, id FROM doradztwo WHERE id_klienta = '$id_klienta' LIMIT 1";
@@ -35,8 +61,8 @@ if (!isset($_SESSION['id_klienta']))
 		{
 			//ZAINTERESOWAŃ zAWODOWYCH
 			case 1:
-				echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</p><br>";
-				echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+				echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</p><br>";
+				echo "<a href='motywacja.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
 
 				if (isset($_SESSION['odpowiedzi']))
 				{
@@ -92,8 +118,8 @@ if (!isset($_SESSION['id_klienta']))
 			case 2:
 				if (isset($_SESSION['odpowiedzi']))
 				{
-					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz motywacji!</p><br>";
-					echo "<a href='styleuczenia.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+					echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz motywacji!</p><br>";
+					echo "<a href='styleuczenia.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
 
 					$odpowiedzi = $_SESSION['odpowiedzi'];
 					//wstawienie wyników
@@ -114,8 +140,8 @@ if (!isset($_SESSION['id_klienta']))
 				else
 				{
 					//jeżeli nie ma odpowiedzi z drugiego kwestionariusza to znaczy że nie został on zrobiony, tylko użytkownik skończył pierwszy i odświeżył stronę
-					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</p><br>";
-					echo "<a href='motywacja.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+					echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</p><br>";
+					echo "<a href='motywacja.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
 				}
 				break;
 
@@ -123,8 +149,8 @@ if (!isset($_SESSION['id_klienta']))
 			case 3:
 				if (isset($_SESSION['odpowiedzi_style']))
 				{
-					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz styli uczenia się!</p><br>";
-					echo "<a href='osobowosc.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+					echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz styli uczenia się!</p><br>";
+					echo "<a href='osobowosc.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
 					$odpowiedzi = $_SESSION['odpowiedzi_style'];
 
 					//wstawienie wyników do bazy
@@ -155,8 +181,8 @@ if (!isset($_SESSION['id_klienta']))
 				else
 				{
 					//jeżeli nie ma odpowiedzi z trzeciego kwestionariusza to znaczy że nie został on zrobiony, tylko użytkownik skończył drugi i odświeżył stronę
-					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz motywacji!</p><br>";
-					echo "<a href='styleuczenia.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+					echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz motywacji!</p><br>";
+					echo "<a href='styleuczenia.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
 				}
 				break;
 
@@ -164,7 +190,7 @@ if (!isset($_SESSION['id_klienta']))
 			case 4:
 				if (isset($_SESSION['odpowiedzi_osobowosc']))
 				{
-					echo "<p class='h2'>Ukończyłeś wszystkie kwestionariusze!</p>";
+					echo "<p class='h2 fw-bold capital'>Ukończyłeś wszystkie kwestionariusze!</p>";
 
 					$mocne = $_SESSION['odpowiedzi_osobowosc'][0];
 					$slabe = $_SESSION['odpowiedzi_osobowosc'][1];
@@ -185,22 +211,25 @@ if (!isset($_SESSION['id_klienta']))
 				else
 				{
 					//ta sama sytuacja co poprzednio - użytkownik odświeżył stronę po kwestionariuszu stylów uczenia się
-					echo "<p class='h2'>Ukończyłeś/łaś kwestionariusz styli uczenia się!</p><br>";
-					echo "<a href='osobowosc.php' class='btn btn-primary mt-3'>Rozpocznij następny kwestionariusz</a><br>";
+					echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz styli uczenia się!</p><br>";
+					echo "<a href='osobowosc.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
 				}
 				break;
 
 			//WSZYSTKO ZAKOŃCZONE
 			case 5:
-				echo "<p class='h2'>Ukończyłeś wszystkie kwestionariusze!</p>";
+				echo "<p class='h2 capital'>Ukończyłeś wszystkie kwestionariusze!</p>";
 				break;
 
 			default:
-				echo "Wystąpił błąd ze statusami!<br>";
+				echo "WYSTĄPIŁ BŁĄD ZE STATUSAMI!<br>";
 				break;
 		}
 		?>
-		<a href="main_site.php" class="btn btn-secondary mt-5">Wróć do strony głównej</a>
-	</div>
+		<a href="main_site.php" class="btn btn-secondary mt-5 fw-bold">WRÓĆ DO STRONY GŁÓWNEJ</a>
+	</main>
+	<?php
+	require "footer.php";
+	?>
 </body>
 </html>

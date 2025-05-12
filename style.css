@@ -56,3 +56,7 @@ hr
 	border-top: solid 2px black;
 	margin: 0;
 }
+.capital
+{
+	text-transform: uppercase;
+}
