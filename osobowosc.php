@@ -74,6 +74,7 @@ if ($result != 4)
 			unset($_SESSION['nr_pyt_os']);
 
 			$_SESSION['odpowiedzi_osobowosc'] = [$mocne_str, $slabe_str];
+			$_SESSION['wstaw'] = true;
 			header("Location: przejscie.php");
 
             exit();

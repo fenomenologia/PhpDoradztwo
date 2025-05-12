@@ -61,6 +61,7 @@
             }
             else
             {
+				$_SESSION['wstaw'] = true;
                 header("Location: przejscie.php"); //jeśli nie ma już pytań przekierowuje do strony przejściowej
                 exit();
             }

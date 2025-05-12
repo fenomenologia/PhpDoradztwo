@@ -64,7 +64,7 @@ if (!isset($_SESSION['id_klienta']))
 				echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz zainteresowań zawodowych!</p><br>";
 				echo "<a href='motywacja.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
 
-				if (isset($_SESSION['odpowiedzi']))
+				if (isset($_SESSION['odpowiedzi']) && isset($_SESSION['wstaw']))
 				{
 					$cechy = ["Kierownicze" => 0, "Społeczne" => 0, "Metodyczne" => 0, "Innowacyjne" => 0, "Przedmiotowe" => 0];
 					//przetworzenie wyników
@@ -110,13 +110,13 @@ if (!isset($_SESSION['id_klienta']))
 						mysqli_query($conn, $sql);
 					}
 
-					unset($_SESSION['odpowiedzi'], $_SESSION['nr_pytania']);
+					unset($_SESSION['odpowiedzi'], $_SESSION['nr_pytania'], $_SESSION['wstaw']);
 				}
 				break;
 
 			//MOTYWACJI
 			case 2:
-				if (isset($_SESSION['odpowiedzi']))
+				if (isset($_SESSION['odpowiedzi']) && isset($_SESSION['wstaw']))
 				{
 					echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz motywacji!</p><br>";
 					echo "<a href='styleuczenia.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
@@ -135,7 +135,7 @@ if (!isset($_SESSION['id_klienta']))
 						$sql = "UPDATE doradztwo SET id_status = 3 WHERE id = '$id_doradztwa'";
 						mysqli_query($conn, $sql);
 					}
-					unset($_SESSION['odpowiedzi'], $_SESSION['nr_pytania']);
+					unset($_SESSION['odpowiedzi'], $_SESSION['nr_pytania'], $_SESSION['wstaw']);
 				}
 				else
 				{
@@ -147,7 +147,7 @@ if (!isset($_SESSION['id_klienta']))
 
 			//STYLÓW UCZENIA SIĘ
 			case 3:
-				if (isset($_SESSION['odpowiedzi_style']))
+				if (isset($_SESSION['odpowiedzi_style']) && isset($_SESSION['wstaw']))
 				{
 					echo "<p class='h2 fw-bold capital'>Ukończyłeś/łaś kwestionariusz styli uczenia się!</p><br>";
 					echo "<a href='osobowosc.php' class='btn btn-primary mt-3 fw-bold'>ROZPOCZNIJ NASTĘPNY KWESTIONARIUSZ</a><br>";
@@ -176,7 +176,7 @@ if (!isset($_SESSION['id_klienta']))
 						$sql = "UPDATE doradztwo SET id_status = 4 WHERE id = '$id_doradztwa'";
 						mysqli_query($conn, $sql);
 					}
-					unset($_SESSION['odpowiedzi_style'], $_SESSION['nr_pytania_style']);
+					unset($_SESSION['odpowiedzi_style'], $_SESSION['nr_pytania_style'], $_SESSION['wstaw']);
 				}
 				else
 				{
@@ -188,7 +188,7 @@ if (!isset($_SESSION['id_klienta']))
 
 			//OSOBOWOŚCI
 			case 4:
-				if (isset($_SESSION['odpowiedzi_osobowosc']))
+				if (isset($_SESSION['odpowiedzi_osobowosc']) && isset($_SESSION['wstaw']))
 				{
 					echo "<p class='h2 fw-bold capital'>Ukończyłeś wszystkie kwestionariusze!</p>";
 
@@ -206,7 +206,7 @@ if (!isset($_SESSION['id_klienta']))
 						$sql = "UPDATE doradztwo SET id_status = 5 WHERE id = '$id_doradztwa'";
 						mysqli_query($conn, $sql);
 					}
-					unset($_SESSION['odpowiedzi_osobowosc']);
+					unset($_SESSION['odpowiedzi_osobowosc'], $_SESSION['wstaw']);
 				}
 				else
 				{

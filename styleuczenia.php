@@ -62,6 +62,7 @@ if ($result != 3)
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) == 0)
         {
+			$_SESSION['wstaw'] = true;
             header("Location: przejscie.php");
             exit();
         }

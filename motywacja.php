@@ -40,6 +40,7 @@ if (isset($_POST['nastepne_pytanie']) && isset($_POST['odpowiedz']))
 	// Jeśli przekroczyliśmy pytanie 5, przejdź do wyników
 	if ($_SESSION['nr_pytania'] > 5)
 	{
+		$_SESSION['wstaw'] = true;
 		header("Location: przejscie.php");
 		exit();
 	}
@@ -74,11 +75,12 @@ else
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
+	<link href="style.css" rel="stylesheet" />
 </head>
-<body>
-    <div class="container-fluid p-5 bg-primary text-white text-center">
-        <p class="h2">Pytanie nr. <?php echo $nr_pytania; ?></p>
-    </div>
+<body class="text-white text-center bg-primary">
+	<header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
+	</header>
 
     <div class="container mt-5 text-center p-5">
         <p class="h3 mb-4"><?php echo htmlspecialchars($pytanie_tekst); ?></p>
