@@ -11,38 +11,77 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
+	<link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <div class="container-fluid text-center">
-        <form method="POST">
-            <br><br><br><br><br>
-                <input type="submit" value="Powrót do strony głównej" name="str_gw" class="btn btn-primary">
-            <br><br>
-        </form>
-    </div>
-    <?php
-    if (isset($_POST['str_gw'])) {
-        header("location: admin.php");
-    }
-    ?>
-    <div class="container-fluid text-center">
-        <h1>PYTANIA:</h1>
-        <h3>Kwestionariusz zainteresowań zawodowych:</h3>
+<body class="bg-primary d-flex text-center text-white">
+	<header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
+	</header>
+	<nav class="navbar navbar-expand-sm">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+		
+			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+    
+		
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+    
+			<div class="collapse navbar-collapse justify-content-center text-white" id="navbarNav">
+				<ul class="navbar-nav text-white">
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="admin_doradcy.php">DORADCY</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="admin_doradztwa.php">DORADZTWA</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-primary text-white active me-3 fw-bold" href="admin_pytania.php">PYTANIA</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="admin_cechy.php">CECHY</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-danger text-white me-3 fw-bold" href="logout.php">WYLOGUJ SIĘ</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <main class="container-fluid text-center text-white bg-image bg-primary">
+        <h3 class="capital fw-bold">Kwestionariusz zainteresowań zawodowych:</h3>
         <?php
         $sql = "SELECT * FROM pytania; ";
         $result = mysqli_query($conn, $sql);
-        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Treść:</td></tr>";
-        while($row = mysqli_fetch_assoc($result))
-        {
-            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nr_pytania'] . "</td><td>" . $row['pytania'] . "</td></tr>";
-        }
-        echo "</table>";
-        ?>
-        <h3>Dodawanie/Zmiana pytań:</h3>
-        <form method="POST">
-            <input type="text" name="pytanie" placeholder="Wpisz treść pytania" required>
-            <input type="number" name="nr_pyt" value="Wpisz numer pytania" required>
-            <input type="submit" name="dodaj_a" value="Dodaj/zamień pytanie">
+		?>
+		<table class='table table-dark table-stripped table-hover table-bordered mt-5 w-auto container-fluid'>
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">NR. PYTANIA</th>
+					<th scope="col">TREŚĆ</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+			while($row = mysqli_fetch_assoc($result))
+			{
+				echo "<tr><th scope='row'>" . $row['id'] . "</th><td>" . $row['nr_pytania'] . "</td><td>" . $row['pytania'] . "</td></tr>";
+			}
+			?>
+			</tbody>
+		</table>
+        <h3 class="capital fw-bold mt-3">Dodawanie/Zmiana pytań:</h3>
+        <form method="POST" class="form-floating container-fluid w-50 text-black">
+			<div class="mt-3 form-floating">
+				<textarea class="form-control" id="pytanie" name="pytanie" placeholder="Wpisz treść pytania" required></textarea>
+				<label for="pytanie">Wpisz treść pytania</label>
+			</div>
+			<div class="mt-3 form-floating">
+				<input type="number" name="nr_pyt" id="nr_pyt" class="form-control" placeholder="Wpisz numer pytania" required>
+				<label for="nr_pyt">Wpisz numer pytania</label>
+			</div>
+            <input type="submit" name="dodaj_a" class="btn btn-primary mt-3 capital fw-bold" value="Dodaj/zamień pytanie">
         </form>
         <?php
             if(isset($_POST['dodaj_a']))
@@ -66,25 +105,43 @@ session_start();
                 }
             mysqli_query($conn, $ssql);
             header("Location: admin_pytania.php");
+			exit();
             }
         ?>
-        <br><br><br>
-        <h3>Kwestionariusz motywacji:</h3>
+        <h3 class="capital fw-bold mt-5">Kwestionariusz motywacji:</h3>
         <?php
         $sqql = "SELECT * FROM pytania_motywacje; ";
         $result = mysqli_query($conn, $sqql);
-        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Treść:</td></tr>";
-        while($row = mysqli_fetch_assoc($result))
-        {
-            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nr_pytania'] . "</td><td>" . $row['tresc'] . "</td></tr>";
-        }
-        echo "</table>";
-        ?>
-        <h3>Dodawanie/Zmiana pytań:</h3>
-        <form method="POST">
-            <input type="text" name="pytanie_b" placeholder="Wpisz treść pytania" required>
-            <input type="number" name="nr_pyt_b" value="Wpisz numer pytania" required>
-            <input type="submit" name="dodaj_b" value="Dodaj/zamień pytanie">
+		?>
+		<table class='table table-dark table-stripped table-hover table-bordered mt-5 container-fluid w-auto'>
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">NR. PYTANIA</th>
+					<th scope="col">TREŚĆ</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+			while($row = mysqli_fetch_assoc($result))
+			{
+				echo "<tr><th scope='row'>" . $row['id'] . "</th><td>" . $row['nr_pytania'] . "</td><td>" . $row['tresc'] . "</td></tr>";
+			}
+			?>
+			</tbody>
+		</table>
+
+        <h3 class="capital fw-bold">Dodawanie/Zmiana pytań:</h3>
+        <form method="POST" class="form-floating container-fluid w-50 text-black">
+			<div class="form-floating mt-3">
+				<textarea name="pytanie_b" id="pytanie_b" class="form-control" placeholder="Wpisz treść pytania" required></textarea>
+				<label for="pytanie_b">Wpisz treść pytania</label>
+			</div>
+			<div class="form-floating mt-3">
+				<input type="number" name="nr_pyt_b" id="nr_pyt_b" class="form-control" placeholder="Wpisz numer pytania" required>
+				<label for="nr_pyt_b">Wpisz numer pytania</label>
+			</div>
+            <input type="submit" name="dodaj_b" class="btn btn-primary mt-3 capital fw-bold" value="Dodaj/zamień pytanie">
         </form>
         <?php
         if (isset($_POST['dodaj_b'])) {
@@ -105,27 +162,44 @@ session_start();
             }
             mysqli_query($conn, $ssqll);
             header("Location: admin_pytania.php");
+			exit();
         }
         ?>
-         <br><br><br>
-        <h3>Kwestionariusz osobowości:</h3>
+        <h3 class="capital fw-bold mt-5">Kwestionariusz osobowości:</h3>
         <?php
         $sqqll = "SELECT * FROM pytania_osobowosc; ";
         $result = mysqli_query($conn, $sqqll);
-        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Rodzaj:</td><td>Treść:</td></tr>";
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['rodzaj'] . "</td><td>" . $row['tresc'] . "</td></tr>";
-        }
-        echo "</table>";
-        ?>
-        <h3>Dodawanie pytań:</h3>
-        <form method="POST">
-            <input type="text" name="pytanie_c" placeholder="Wpisz nazwe cechy" required>
-            <select name="select" required>
-                <option value="mocne">mocne</option>
-                <option value="slabe">słabe</option>
+		?>
+		<table class='table table-dark table-stripped table-hover table-bordered mt-5 container-fluid w-auto'>
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">RODZAJ</th>
+					<th scope="col">TREŚĆ</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			<?php
+			while ($row = mysqli_fetch_assoc($result)) {
+				echo "<tr><th scope='row'>" . $row['id'] . "</th><td>" . $row['rodzaj'] . "</td><td>" . $row['tresc'] . "</td></tr>";
+			}
+			?>
+			</tbody>
+		</table>
+
+        <h3 class="mt-3 capital fw-bold">Dodawanie pytań:</h3>
+        <form method="POST" class="form-floating container-fluid w-50 text-black">
+			<div class="form-floating mt-3">
+				<input type="text" name="pytanie_c" id="pytanie_c" class="form-control" placeholder="Wpisz nazwe cechy" required>
+				<label for="pytanie_c">Wpisz nazwę cechy</label>
+			</div>
+            <select name="select" class="form-select mt-3" required>
+				<option value="none" selected disabled hidden>Wybierz typ cechy</option>
+                <option value="mocne">Mocne</option>
+                <option value="slabe">Słabe</option>
             </select>
-            <input type="submit" name="dodaj_c" value="Dodaj ceche">
+            <input type="submit" name="dodaj_c" class="btn btn-primary capital fw-bold mt-3" value="Dodaj ceche">
         </form>
         <?php
         if (isset($_POST['dodaj_c'])) {
@@ -134,17 +208,26 @@ session_start();
             $ssqll = "INSERT INTO pytania_osobowosc(tresc, rodzaj) VALUES ('$pytanie', '$rodz'); ";
             mysqli_query($conn, $ssqll);
             header("Location: admin_pytania.php");
+			exit();
         }
         ?>
-        <h3>Zmiana pytań:</h3>
-        <form method="POST">
-            <input type="number" name="id" required>
-            <input type="text" name="pytanie_ca" placeholder="Wpisz nazwe cechy" required>
-            <select name="select_a" required>
+        <h3 class="capital fw-bold mt-3">Zmiana pytań:</h3>
+        <form method="POST" class="form-floating container-fluid w-50 text-black">
+			<div class="form-floating mt-3">
+				<input type="number" name="id" id="id_a" class="form-control" placeholder="wpisz id pytania" required>
+				<label for="id_a">Wpisz ID pytania</label>
+			</div>
+			<div class="form-floating mt-3">
+				<input type="text" name="pytanie_ca" id="pytanie_ca" class="form-control" placeholder="Wpisz nazwe cechy" required>
+				<label for="pytanie_ca">Wpisz nazwę cechy</label>
+			</div>
+            
+            <select name="select_a" class="form-select mt-3">
+				<option value="none" selected disabled hidden>Wybierz typ cechy</option>
                 <option value="mocne">mocne</option>
                 <option value="slabe">słabe</option>
             </select>
-            <input type="submit" name="dodaj_ca" value="Zmień ceche">
+            <input type="submit" name="dodaj_ca" class="btn btn-primary mt-3 capital" value="Zmień ceche">
         </form>
         <?php
         if (isset($_POST['dodaj_ca'])) {
@@ -154,27 +237,54 @@ session_start();
             $ssqll = "UPDATE pytania_osobowosc SET tresc='$pytanie', rodzaj='$rodz' WHERE id='$id'";
             mysqli_query($conn, $ssqll);
             header("Location: admin_pytania.php");
+			exit();
         }
         ?>
                 <br><br><br>
-        <h3>Kwestionariusz styli uczenia:</h3>
+        <h3 class="capital fw-bold">Kwestionariusz styli uczenia:</h3>
         <?php
         $sqql = "SELECT * FROM pytania_style; ";
         $result = mysqli_query($conn, $sqql);
-        echo "<table class='container-fluid text-center'><tr><td>ID:</td><td>Nr. Pytania:</td><td>Treść:</td></tr>";
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nr_pytania'] . "</td><td>" . $row['tresc'] . "</td></tr>";
-        }
-        echo "</table>";
-        ?>
-        <h3>Dodawanie/Zmiana pytań:</h3>
-        <form method="POST">
-            <input type="text" name="pytanie_da" placeholder="Wpisz treść pytania" required><br />
-                        <input type="text" name="pytanie_db" placeholder="opcja dla wzrokowca" required><br />
-                        <input type="text" name="pytanie_dc" placeholder="opcja dla słuchowca" required><br />
-                        <input type="text" name="pytanie_dd" placeholder="opcja dla ruchowca" required><br /><br /><br />
-            <input type="number" name="nr_pyt_d" value="Wpisz numer pytania" required>
-            <input type="submit" name="dodaj_d" value="Dodaj/zamień pytanie">
+		?>
+		<table class='table table-dark table-stripped table-hover table-bordered mt-5 container-fluid w-auto'>
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">NR. PYTANIA</th>
+					<th scope="col">TREŚĆ</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+			while ($row = mysqli_fetch_assoc($result)) {
+				echo "<tr><th scope='row'>" . $row['id'] . "</th><td>" . $row['nr_pytania'] . "</td><td>" . $row['tresc'] . "</td></tr>";
+			}
+			?>
+			</tbody>
+		</table>
+        <h3 class="mt-3 capital fw-bold">Dodawanie/Zmiana pytań:</h3>
+        <form method="POST" class="form-floating container-fluid text-black w-50">
+			<div class="form-floating mt-3">
+				<textarea name="pytanie_da" id="pytanie_da" class="form-control" placeholder="Wpisz treść pytania" required></textarea>
+				<label for="pytanie_da">Wpisz treść pytania</label>
+			</div>
+            <div class="form-floating mt-3">
+				<textarea name="pytanie_db" id="pytanie_db" class="form-control" placeholder="opcja dla wzrokowca" required></textarea>
+				<label for="pytanie_db">Opcja dla wzrokowca</label>
+			</div>
+            <div class="form-floating mt-3">
+				<textarea name="pytanie_dc" id="pytanie_dc" class="form-control" placeholder="opcja dla słuchowca" required></textarea>
+				<label for="pytanie_dc">Opcja dla słuchowca</label>
+			</div>
+			<div class="form-floating mt-3">
+				<textarea name="pytanie_dd" id="pytanie_dd" class="form-control" placeholder="opcja dla ruchowca" required></textarea>
+				<label for="pytanie_dd">Opcja dla słuchowca</label>
+			</div>
+			<div class="form-floating mt-3">
+				<input type="number" name="nr_pyt_d" id="nr_pyt_d" class="form-control" placeholder="Wpisz numer pytania" required>
+				<label for="nr_pyt_d">Wpisz numer pytania</label>
+			</div>
+            <input type="submit" name="dodaj_d" class="capital fw-bold btn btn-primary mt-3" value="Dodaj/zamień pytanie">
         </form>
         <?php
         if (isset($_POST['dodaj_d'])) {
@@ -213,7 +323,12 @@ session_start();
             mysqli_query($conn, $ssqll3);
             mysqli_query($conn, $ssqll4);
             header("Location: admin_pytania.php");
+			exit();
         }
         ?>
-    </div>
+    </main>
+	<?php
+	require "footer.php";
+	?>
 </body>
+</html>
