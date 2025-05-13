@@ -15,6 +15,17 @@ if ($result != 3)
 	header("Location: main_site.php");
 	exit();
 }
+if (isset($_POST['rozpocznij']))
+{
+	$_SESSION['nr_pytania_style'] = 1;
+	session_write_close();
+	header("Location: styleuczenia.php");
+	exit();
+}
+if (!isset($_SESSION['nr_pytania_style']))
+{
+	$_SESSION['nr_pytania_style'] = 0;
+}
 ?>
 <html lang="pl">
 <head>
@@ -24,6 +35,7 @@ if ($result != 3)
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>Styl uczenia się</title>
 	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
+	<link href="style.css" rel="stylesheet" />
     <style>
     input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button 
     {
@@ -31,29 +43,31 @@ if ($result != 3)
     }
 </style>
 </head>
-<body>
-    <div class="container-fluid bg-primary text-white text-center p-5">
-        <p class="h2">Style uczenia się</p>
-    </div>
-    <div class="container-fluid text-center p-5">
+<body class="bg-primary text-center text-white">
+	<header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
+	</header>
+	<nav class="navbar navbar-expand-sm">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+			<div class="collapse navbar-collapse justify-content-center text-white">
+				<span class="navbar-text text-white fw-bold h2">
+					<?php
+					if ($_SESSION['nr_pytania_style'] != 0)
+						echo "Pytanie nr." . $_SESSION['nr_pytania_style'];
+					?>
+				</span>
+			</div>
+		</div>
+	</nav>
+    <main class="container-fluid text-center bg-image bg-primary">
     <?php
-    if (isset($_POST['rozpocznij']))
-    {
-        $_SESSION['nr_pytania_style'] = 1;
-        session_write_close();
-        header("Location: styleuczenia.php");
-        exit();
-    }
-    if (!isset($_SESSION['nr_pytania_style']))
-    {
-        $_SESSION['nr_pytania_style'] = 0;
-    }
 
     if (isset($_SESSION['nr_pytania_style']) && $_SESSION['nr_pytania_style'] == 0)
     {
-        echo '<p class="display-5">Oceń każdą z możliwości odpowiedzi, przydzielając 1, 2 lub 3 punkty. Następnie kliknij przycisk "Następne pytanie".</p><br />
+        echo '<p class="display-5 capital fw-bold ms-3 me-3">Oceń każdą z możliwości odpowiedzi, przydzielając 1, 2 lub 3 punkty. Następnie kliknij przycisk "Następne pytanie".</p><br />
                 <form method="post" action="styleuczenia.php">
-                 <button type="submit" class="btn btn-primary btn-lg display-5" name="rozpocznij" >Rozpocznij</button>
+                 <button type="submit" class="btn btn-primary btn-lg display-5 capital fw-bold" name="rozpocznij" >Rozpocznij</button>
                 </form>';
     }
     else
@@ -67,12 +81,12 @@ if ($result != 3)
             exit();
         }
         $row = mysqli_fetch_assoc($result);
-        echo "<p class='h3 mb-5'>" . $row['tresc'] . "</p>";
+        echo "<p class='h3 mb-5 capital fw-bold'>" . $row['tresc'] . "</p>";
         echo "<div class='row'>";
         echo "<div class='col'></div>";
         while ($row = mysqli_fetch_assoc($result))
         {
-            echo "<div class='col'><p class='lead'>".$row['tresc']."</p></div>";
+            echo "<div class='col'><p class='lead capital fw-bold'>".mb_strtoupper($row['tresc'])."</p></div>";
         }
         echo "<div class='col'></div>";
         echo "</div>";
@@ -83,11 +97,11 @@ if ($result != 3)
         echo "<div class='col'><input type='number' max=3 min=1 value='' id='liczba3' name='liczba3'></div>";
         echo "<div class='col'></div>";
         echo "</div>";
-        echo "<p id='errorMessage' class='mt-3'></p>";
-        echo "<button type='button' onclick='SprawdzLiczby()' class='btn btn-primary mt-3'>Następne pytanie</button>";
+        echo "<p id='errorMessage' class='mt-3 fw-bold capital'></p>";
+        echo "<button type='button' onclick='SprawdzLiczby()' class='btn btn-primary mt-3 capital fw-bold'>Następne pytanie</button>";
         if ($_SESSION['nr_pytania_style'] > 1)
         {
-            echo "<button type='button' onclick='PoprzedniePytanie()' class='btn btn-secondary mt-3 ms-2'>Poprzednie pytanie</button>";
+            echo "<button type='button' onclick='PoprzedniePytanie()' class='btn btn-secondary mt-3 ms-2 capital fw-bold'>Poprzednie pytanie</button>";
         }
         echo "</form>";
         if ($_SESSION['nr_pytania_style'] > 1)
@@ -119,7 +133,10 @@ if ($result != 3)
         exit();
     }
     ?>
-    </div>
+    </main>
+	<?php
+	require "footer.php";
+	?>
     <script>
         function SprawdzLiczby()
         {

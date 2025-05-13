@@ -82,8 +82,17 @@ else
 		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
 	</header>
 
-    <div class="container mt-5 text-center p-5">
-        <p class="h3 mb-4"><?php echo htmlspecialchars($pytanie_tekst); ?></p>
+	<nav class="navbar navbar-expand-sm">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+			<div class="collapse navbar-collapse justify-content-center text-white">
+				<span class="navbar-text text-white fw-bold h2">Pytanie nr.<?php echo $_SESSION['nr_pytania'] ?></span>
+			</div>
+		</div>
+	</nav>
+
+    <main class="container-fluid mt-5 text-center bg-image bg-primary">
+        <p class="h3 mb-4 fw-bold"><?php echo mb_strtoupper($pytanie_tekst); ?></p>
         <form method="post">
             <div class="d-flex justify-content-center flex-wrap mb-4">
                 <?php
@@ -96,8 +105,11 @@ else
 				}
 				?>
             </div>
-            <button type="submit" name="nastepne_pytanie" class="btn btn-primary">Następne pytanie</button>
+            <button type="submit" name="nastepne_pytanie" class="btn btn-primary capital fw-bold">Następne pytanie</button>
         </form>
-    </div>
+    </main>
+	<?php
+	require "footer.php";
+	?>
 </body>
 </html>

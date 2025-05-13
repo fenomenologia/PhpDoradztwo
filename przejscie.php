@@ -218,7 +218,7 @@ if (!isset($_SESSION['id_klienta']))
 
 			//WSZYSTKO ZAKOŃCZONE
 			case 5:
-				echo "<p class='h2 capital'>Ukończyłeś wszystkie kwestionariusze!</p>";
+				echo "<p class='h2 fw-bold capital'>Ukończyłeś wszystkie kwestionariusze!</p>";
 				break;
 
 			default:
