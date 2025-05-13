@@ -86,7 +86,7 @@ else
 		<div class="container-fluid d-flex justify-content-between align-items-center">
 			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
 			<div class="collapse navbar-collapse justify-content-center text-white">
-				<span class="navbar-text text-white fw-bold h2">Pytanie nr.<?php echo $_SESSION['nr_pytania'] ?></span>
+				<span class="navbar-text text-white fw-bold h2">Pytanie nr. <?php echo $_SESSION['nr_pytania'] ?></span>
 			</div>
 		</div>
 	</nav>

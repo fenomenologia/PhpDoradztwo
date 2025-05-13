@@ -54,7 +54,7 @@ if (!isset($_SESSION['nr_pytania_style']))
 				<span class="navbar-text text-white fw-bold h2">
 					<?php
 					if ($_SESSION['nr_pytania_style'] != 0)
-						echo "Pytanie nr." . $_SESSION['nr_pytania_style'];
+						echo "Pytanie nr. " . $_SESSION['nr_pytania_style'];
 					?>
 				</span>
 			</div>
