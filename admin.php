@@ -2,6 +2,11 @@
 <?php
 require_once "conn.php";
 session_start();
+if (!isset($_SESSION['id_admina']))
+{
+	header("Location: index.php");
+	exit();
+}
 ?>
 <html lang="pl">
 <head>
@@ -13,37 +18,46 @@ session_start();
 	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
 	<link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <div class="container-fluid text-center">
-        <form method="POST">
-            <br><br><br><br><br>
-                <input type="submit" value="Wyświetl liste doradców" name="wys_doradce" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyświetl liste przeprowadzonych doradztw" name="wys_doradztwo" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyświetl pytania" name="wys_pytania" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyświetl cechy" name="wys_cechy" class="btn btn-primary">
-            <br><br>
-                <input type="submit" value="Wyloguj się" name="logout" class="btn btn-primary">
-            <br><br>
-        </form>
-    </div>
-    <?php
-    if(isset($_POST['wys_doradce'])) {
-        header("location: admin_doradcy.php");
-    }
-    if (isset($_POST['wys_doradztwo'])) {
-        header("location: admin_doradztwa.php");
-    }
-    if (isset($_POST['wys_pytania'])) {
-        header("location: admin_pytania.php");
-    }
-    if (isset($_POST['wys_cechy'])) {
-        header("location: admin_cechy.php");
-    }
-    if (isset($_POST['logout'])) {
-        header("location: logout.php");
-    }
-    ?>
+<body class="text-center bg-primary d-flex">
+	<header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
+	</header>
+	<nav class="navbar navbar-expand-sm">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+		
+			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+    
+		
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+    
+			<div class="collapse navbar-collapse justify-content-center text-white" id="navbarNav">
+				<ul class="navbar-nav text-white">
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="admin_doradcy.php">DORADCY</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="admin_doradztwa.php">DORADZTWA</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="admin_pytania.php">PYTANIA</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="admin_cechy.php">CECHY</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-danger text-white me-3 fw-bold" href="logout.php">WYLOGUJ SIĘ</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <main class="container-fluid bg-image bg-primary flex-fill text-white text-center">
+		<p class="h2 fw-bold mt-3 mb-5">WITAJ W PANELU ADMINISTRATORA</p>
+    </main>
+	<?php
+	require "footer.php";
+	?>
 </body>
+</html>

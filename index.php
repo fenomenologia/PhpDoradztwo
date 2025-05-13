@@ -41,7 +41,7 @@
 		</div>
 	  </div>
 	</nav>
-	<main class="container-fluid p5 text-white bg-image bg-primary mt-5 flex-fill">
+	<main class="container-fluid text-white bg-image bg-primary mt-5 flex-fill">
 		<div class="container-fluid text-center w-25">
 			<p class="h2 fw-bold">ZALOGUJ SIĘ</p>
 			<form method="post" class="text-black">
@@ -94,8 +94,9 @@
 						}
 						else
 						{
+							//przejdź do strony admina i zapisz jego id
 							session_start();
-							$_SESSION['id_doradcy'] = $row['id'];
+							$_SESSION['id_admina'] = $row['id'];
 							header("Location: admin.php");
 						}
 					}
