@@ -2,6 +2,11 @@
 <?php
 require_once "conn.php";
 session_start();
+if (!isset($_SESSION['id_admina']))
+{
+	header("Location: index.php");
+	exit();
+}
 ?>
 <html lang="pl">
 <head>
