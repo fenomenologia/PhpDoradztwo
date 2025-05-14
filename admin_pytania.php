@@ -171,9 +171,17 @@ if (!isset($_SESSION['id_admina']))
             mysqli_query($conn, $ssqll);
         }
 
-        $sqqll = "SELECT * FROM pytania_osobowosc; ";
-        $result = mysqli_query($conn, $sqqll);
-		?>
+        if (isset($_POST['dodaj_ca'])) {
+			$pytanie = $_POST['pytanie_ca'];
+			$rodz = $_POST['select_a'];
+			$id = $_POST['id'];
+			$ssqll = "UPDATE pytania_osobowosc SET tresc='$pytanie', rodzaj='$rodz' WHERE id='$id'";
+			mysqli_query($conn, $ssqll);
+
+            $sqqll = "SELECT * FROM pytania_osobowosc; ";
+            $result = mysqli_query($conn, $sqqll);
+        }
+        ?>
 		<table class='table table-dark table-stripped table-hover table-bordered mt-5 container-fluid w-auto'>
 			<thead>
 				<tr>
@@ -207,7 +215,7 @@ if (!isset($_SESSION['id_admina']))
         </form>
 
         <h3 class="capital fw-bold mt-3">Zmiana pytań:</h3>
-        <form method="POST" class="form-floating container-fluid w-50 text-black">
+        <form method="POST" action="admin_pytania.php" class="form-floating container-fluid w-50 text-black">
 			<div class="form-floating mt-3">
 				<input type="number" name="id" id="id_a" class="form-control" placeholder="wpisz id pytania" required>
 				<label for="id_a">Wpisz ID pytania</label>
@@ -224,19 +232,47 @@ if (!isset($_SESSION['id_admina']))
             </select>
             <input type="submit" name="dodaj_ca" class="btn btn-primary mt-3 capital" value="Zmień ceche">
         </form>
-        <?php
-        if (isset($_POST['dodaj_ca'])) {
-            $pytanie = $_POST['pytanie_ca'];
-            $rodz = $_POST['select_a'];
-            $id = $_POST['id'];
-            $ssqll = "UPDATE pytania_osobowosc SET tresc='$pytanie', rodzaj='$rodz' WHERE id='$id'";
-            mysqli_query($conn, $ssqll);
-            header("Location: admin_pytania.php");
-			exit();
-        }
-        ?>
+
                 <br><br><br>
         <h3 class="capital fw-bold">Kwestionariusz styli uczenia:</h3>
+		        <?php
+                if (isset($_POST['dodaj_d'])) {
+                    $pytanie = $_POST['pytanie_da'];
+                    $wzrok = $_POST['pytanie_db'];
+                    $sluch = $_POST['pytanie_dc'];
+                    $ruch = $_POST['pytanie_dd'];
+                    $nr = $_POST['nr_pyt_d'];
+                    $iss = false;
+                    $sqlll = "SELECT * FROM pytania_style;";
+                    $resullt = mysqli_query($conn, $sqlll);
+                    while ($row = mysqli_fetch_assoc($resullt)) {
+                        if ($row['nr_pytania'] == $nr) {
+                            $iss = true;
+                            $ide = $row['id'];
+                        }
+                    }
+                    if ($iss == true) {
+                        $id1 = $ide - 3;
+                        $id2 = $ide - 2;
+                        $id3 = $ide - 1;
+                        $id4 = $ide;
+
+                        $ssqll = "UPDATE pytania_style SET tresc = '$pytanie' WHERE nr_pytania = '$nr' AND id = $id1;";
+                        $ssqll2 = "UPDATE pytania_style SET tresc = '$wzrok' WHERE nr_pytania = '$nr' AND id = $id2;";
+                        $ssqll3 = "UPDATE pytania_style SET tresc = '$sluch' WHERE nr_pytania = '$nr' AND id = $id3;";
+                        $ssqll4 = "UPDATE pytania_style SET tresc = '$ruch' WHERE nr_pytania = '$nr' AND id = $id4;";
+                    } else {
+                        $ssqll = "INSERT INTO pytania_style(tresc, nr_pytania) VALUES ('$pytanie', '$nr'); ";
+                        $ssqll2 = "INSERT INTO pytania_style(tresc, nr_pytania) VALUES ('$wzrok', '$nr'); ";
+                        $ssqll3 = "INSERT INTO pytania_style(tresc, nr_pytania) VALUES ('$sluch', '$nr'); ";
+                        $ssqll4 = "INSERT INTO pytania_style(tresc, nr_pytania) VALUES ('$ruch', '$nr'); ";
+                    }
+                    mysqli_query($conn, $ssqll);
+                    mysqli_query($conn, $ssqll2);
+                    mysqli_query($conn, $ssqll3);
+                    mysqli_query($conn, $ssqll4);
+                }
+                ?>
         <?php
         $sqql = "SELECT * FROM pytania_style; ";
         $result = mysqli_query($conn, $sqql);
@@ -258,7 +294,7 @@ if (!isset($_SESSION['id_admina']))
 			</tbody>
 		</table>
         <h3 class="mt-3 capital fw-bold">Dodawanie/Zmiana pytań:</h3>
-        <form method="POST" class="form-floating container-fluid text-black w-50">
+        <form method="POST" action="admin_pytania.php" class="form-floating container-fluid text-black w-50">
 			<div class="form-floating mt-3">
 				<textarea name="pytanie_da" id="pytanie_da" class="form-control" placeholder="Wpisz treść pytania" required></textarea>
 				<label for="pytanie_da">Wpisz treść pytania</label>
@@ -281,46 +317,6 @@ if (!isset($_SESSION['id_admina']))
 			</div>
             <input type="submit" name="dodaj_d" class="capital fw-bold btn btn-primary mt-3" value="Dodaj/zamień pytanie">
         </form>
-        <?php
-        if (isset($_POST['dodaj_d'])) {
-            $pytanie = $_POST['pytanie_da'];
-            $wzrok = $_POST['pytanie_db'];
-            $sluch = $_POST['pytanie_dc'];
-            $ruch = $_POST['pytanie_dd']; 
-            $nr = $_POST['nr_pyt_d'];
-            $iss = false;
-            $sqlll = "SELECT * FROM pytania_style;";
-            $resullt = mysqli_query($conn, $sqlll);
-            while ($row = mysqli_fetch_assoc($resullt)) {
-                if ($row['nr_pytania'] == $nr) {
-                    $iss = true;
-                    $ide = $row['id'];
-                }
-            }
-            if ($iss == true) {
-                $id1 = $ide - 3;
-                $id2 = $ide - 2;
-                $id3 = $ide - 1;
-                $id4 = $ide;
-
-                $ssqll = "UPDATE pytania_style SET tresc = '$pytanie' WHERE nr_pytania = '$nr' AND id = $id1;";
-                $ssqll2 = "UPDATE pytania_style SET tresc = '$wzrok' WHERE nr_pytania = '$nr' AND id = $id2;";
-                $ssqll3 = "UPDATE pytania_style SET tresc = '$sluch' WHERE nr_pytania = '$nr' AND id = $id3;";
-                $ssqll4 = "UPDATE pytania_style SET tresc = '$ruch' WHERE nr_pytania = '$nr' AND id = $id4;";
-            } else {
-                $ssqll = "INSERT INTO pytania_style(tresc, nr_pytania) VALUES ('$pytanie', '$nr'); ";
-                $ssqll2 = "INSERT INTO pytania_style(tresc, nr_pytania) VALUES ('$wzrok', '$nr'); ";
-                $ssqll3 = "INSERT INTO pytania_style(tresc, nr_pytania) VALUES ('$sluch', '$nr'); ";
-                $ssqll4 = "INSERT INTO pytania_style(tresc, nr_pytania) VALUES ('$ruch', '$nr'); ";
-            }
-            mysqli_query($conn, $ssqll);
-            mysqli_query($conn, $ssqll2);
-            mysqli_query($conn, $ssqll3);
-            mysqli_query($conn, $ssqll4);
-            header("Location: admin_pytania.php");
-			exit();
-        }
-        ?>
     </main>
 	<?php
 	require "footer.php";
