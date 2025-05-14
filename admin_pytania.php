@@ -55,7 +55,26 @@ if (!isset($_SESSION['id_admina']))
 	</nav>
     <main class="container-fluid text-center text-white bg-image bg-primary">
         <h3 class="capital fw-bold">Kwestionariusz zainteresowań zawodowych:</h3>
-        <?php
+		<?php
+        if (isset($_POST['dodaj_a'])) {
+            $pytanie = $_POST['pytanie'];
+            $nr = $_POST['nr_pyt'];
+            $is = false;
+            $sqll = "SELECT * FROM pytania; ";
+            $resullt = mysqli_query($conn, $sqll);
+            while ($row = mysqli_fetch_assoc($resullt)) {
+                if ($row['nr_pytania'] == $nr) {
+                    $is = true;
+                }
+            }
+            if ($is == true) {
+                $ssql = "UPDATE pytania SET pytania = '$pytanie' WHERE nr_pytania = '$nr'; ";
+            } else {
+                $ssql = "INSERT INTO pytania(pytania, nr_pytania) VALUES ('$pytanie', '$nr'); ";
+            }
+            mysqli_query($conn, $ssql);
+        }
+
         $sql = "SELECT * FROM pytania; ";
         $result = mysqli_query($conn, $sql);
 		?>
@@ -77,7 +96,7 @@ if (!isset($_SESSION['id_admina']))
 			</tbody>
 		</table>
         <h3 class="capital fw-bold mt-3">Dodawanie/Zmiana pytań:</h3>
-        <form method="POST" class="form-floating container-fluid w-50 text-black">
+        <form method="POST" action="admin_pytania.php" class="form-floating container-fluid w-50 text-black">
 			<div class="mt-3 form-floating">
 				<textarea class="form-control" id="pytanie" name="pytanie" placeholder="Wpisz treść pytania" required></textarea>
 				<label for="pytanie">Wpisz treść pytania</label>
@@ -88,33 +107,27 @@ if (!isset($_SESSION['id_admina']))
 			</div>
             <input type="submit" name="dodaj_a" class="btn btn-primary mt-3 capital fw-bold" value="Dodaj/zamień pytanie">
         </form>
-        <?php
-            if(isset($_POST['dodaj_a']))
-            {
-            $pytanie = $_POST['pytanie'];
-            $nr = $_POST['nr_pyt'];
-            $is = false;
-            $sqll = "SELECT * FROM pytania; ";
-            $resullt = mysqli_query($conn, $sqll);
-            while($row = mysqli_fetch_assoc($resullt))
-            {
-                if($row['nr_pytania'] == $nr)
-                {
-                    $is = true;
-                }
-            }
-                if ($is == true) {
-                    $ssql = "UPDATE pytania SET pytania = '$pytanie' WHERE nr_pytania = '$nr'; ";
-                } else {
-                    $ssql = "INSERT INTO pytania(pytania, nr_pytania) VALUES ('$pytanie', '$nr'); ";
-                }
-            mysqli_query($conn, $ssql);
-            header("Location: admin_pytania.php");
-			exit();
-            }
-        ?>
         <h3 class="capital fw-bold mt-5">Kwestionariusz motywacji:</h3>
-        <?php
+		<?php
+        if (isset($_POST['dodaj_b'])) {
+            $pytanie = $_POST['pytanie_b'];
+            $nr = $_POST['nr_pyt_b'];
+            $iss = false;
+            $sqlll = "SELECT * FROM pytania_motywacje;";
+            $resullt = mysqli_query($conn, $sqlll);
+            while ($row = mysqli_fetch_assoc($resullt)) {
+                if ($row['nr_pytania'] == $nr) {
+                    $iss = true;
+                }
+            }
+            if ($iss == true) {
+                $ssqll = "UPDATE pytania_motywacje SET tresc = '$pytanie' WHERE nr_pytania = '$nr'; ";
+            } else {
+                $ssqll = "INSERT INTO pytania_motywacje(tresc, nr_pytania) VALUES ('$pytanie', '$nr'); ";
+            }
+            mysqli_query($conn, $ssqll);
+        }
+
         $sqql = "SELECT * FROM pytania_motywacje; ";
         $result = mysqli_query($conn, $sqql);
 		?>
@@ -137,7 +150,7 @@ if (!isset($_SESSION['id_admina']))
 		</table>
 
         <h3 class="capital fw-bold">Dodawanie/Zmiana pytań:</h3>
-        <form method="POST" class="form-floating container-fluid w-50 text-black">
+        <form method="POST" action="admin_pytania.php" class="form-floating container-fluid w-50 text-black">
 			<div class="form-floating mt-3">
 				<textarea name="pytanie_b" id="pytanie_b" class="form-control" placeholder="Wpisz treść pytania" required></textarea>
 				<label for="pytanie_b">Wpisz treść pytania</label>
@@ -148,30 +161,16 @@ if (!isset($_SESSION['id_admina']))
 			</div>
             <input type="submit" name="dodaj_b" class="btn btn-primary mt-3 capital fw-bold" value="Dodaj/zamień pytanie">
         </form>
-        <?php
-        if (isset($_POST['dodaj_b'])) {
-            $pytanie = $_POST['pytanie_b'];
-            $nr = $_POST['nr_pyt_b'];
-            $iss = false;
-            $sqlll = "SELECT * FROM pytania_motywacje;";
-            $resullt = mysqli_query($conn, $sqlll);
-            while ($row = mysqli_fetch_assoc($resullt)) {
-                if ($row['nr_pytania'] == $nr) {
-                    $iss = true;
-                }
-            }
-            if ($iss == true) {
-                $ssqll = "UPDATE pytania_motywacje SET tresc = '$pytanie' WHERE nr_pytania = '$nr'; ";
-            } else {
-                $ssqll = "INSERT INTO pytania_motywacje(tresc, nr_pytania) VALUES ('$pytanie', '$nr'); ";
-            }
-            mysqli_query($conn, $ssqll);
-            header("Location: admin_pytania.php");
-			exit();
-        }
-        ?>
+
         <h3 class="capital fw-bold mt-5">Kwestionariusz osobowości:</h3>
-        <?php
+		<?php
+        if (isset($_POST['dodaj_c'])) {
+            $pytanie = $_POST['pytanie_c'];
+            $rodz = $_POST['select'];
+            $ssqll = "INSERT INTO pytania_osobowosc(tresc, rodzaj) VALUES ('$pytanie', '$rodz'); ";
+            mysqli_query($conn, $ssqll);
+        }
+
         $sqqll = "SELECT * FROM pytania_osobowosc; ";
         $result = mysqli_query($conn, $sqqll);
 		?>
@@ -194,7 +193,7 @@ if (!isset($_SESSION['id_admina']))
 		</table>
 
         <h3 class="mt-3 capital fw-bold">Dodawanie pytań:</h3>
-        <form method="POST" class="form-floating container-fluid w-50 text-black">
+        <form method="POST" action="admin_pytania.php" class="form-floating container-fluid w-50 text-black">
 			<div class="form-floating mt-3">
 				<input type="text" name="pytanie_c" id="pytanie_c" class="form-control" placeholder="Wpisz nazwe cechy" required>
 				<label for="pytanie_c">Wpisz nazwę cechy</label>
@@ -206,16 +205,7 @@ if (!isset($_SESSION['id_admina']))
             </select>
             <input type="submit" name="dodaj_c" class="btn btn-primary capital fw-bold mt-3" value="Dodaj ceche">
         </form>
-        <?php
-        if (isset($_POST['dodaj_c'])) {
-            $pytanie = $_POST['pytanie_c'];
-            $rodz = $_POST['select'];
-            $ssqll = "INSERT INTO pytania_osobowosc(tresc, rodzaj) VALUES ('$pytanie', '$rodz'); ";
-            mysqli_query($conn, $ssqll);
-            header("Location: admin_pytania.php");
-			exit();
-        }
-        ?>
+
         <h3 class="capital fw-bold mt-3">Zmiana pytań:</h3>
         <form method="POST" class="form-floating container-fluid w-50 text-black">
 			<div class="form-floating mt-3">

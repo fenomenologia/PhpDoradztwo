@@ -72,18 +72,34 @@ if (!isset($_SESSION['id_admina']))
             <input type="submit" value="Dodaj" name="dod_dor" class="btn btn-primary capital fw-bold mt-3">
         </form>
         <?php
-            $data = date("Y-m-d");
-            if(isset($_POST['dod_dor']))
+        if (isset($_POST['zablokuj'])) {
+            $idd = $_POST['id_dor'];
+            $ssql = "SELECT * FROM doradca WHERE id='$idd'; ";
+            $result = mysqli_query($conn, $ssql);
+            $row = mysqli_fetch_assoc($result);
+            if($row['czy_aktywny'] == 1)
             {
-                $imie = $_POST['imie'];
-                $nazwisko = $_POST['nazwisko'];
-                $email = $_POST['email'];
-                $haslo = '$2a$12$bK40cV4FIaBo.Y.pGTY2NuXg3FklAPTcgnV/BOArWHkQUsG3PmpfG';
-                $sql = "INSERT INTO doradca(email, haslo, czy_aktywny, data_utworzenia, czy_admin, imie, nazwisko) VALUES ('$email', '$haslo', '1', '$data', '0', '$imie', '$nazwisko')";
-                mysqli_query($conn, $sql);
-                header("Location: admin_doradcy.php");
-				exit();
+            $sssql = "UPDATE doradca SET czy_aktywny = 0 WHERE id = '$idd';";
             }
+            else
+            {
+            $sssql = "UPDATE doradca SET czy_aktywny = 1 WHERE id = '$idd';";
+            }
+            mysqli_query($conn, $sssql);
+        }
+		
+		$data = date("Y-m-d");
+        if(isset($_POST['dod_dor']))
+        {
+            $imie = $_POST['imie'];
+            $nazwisko = $_POST['nazwisko'];
+            $email = $_POST['email'];
+            $haslo = '$2a$12$bK40cV4FIaBo.Y.pGTY2NuXg3FklAPTcgnV/BOArWHkQUsG3PmpfG';
+            $sql = "INSERT INTO doradca(email, haslo, czy_aktywny, data_utworzenia, czy_admin, imie, nazwisko) VALUES ('$email', '$haslo', '1', '$data', '0', '$imie', '$nazwisko')";
+            mysqli_query($conn, $sql);
+            header("Location: admin_doradcy.php");
+			exit();
+        }
 
         $sql = "SELECT * FROM doradca; ";
         $result = mysqli_query($conn, $sql);
@@ -118,32 +134,13 @@ if (!isset($_SESSION['id_admina']))
 			</tbody>
 		</table>
         <h2 class="capital fw-bold mt-5">Blokowanie/Odblokowywanie Doradcy</h2>
-        <form method="POST" class="form-floating container-fluid text-black w-25">
+        <form method="POST" action="admin_doradcy.php" class="form-floating container-fluid text-black w-25">
 			<div class="form-floating mt-3">
 				<input type="number" placeholder="Wpisz ID" name="id_dor" id="id_dor" class="form-control" required>
 				<label for="id_dor">Wpisz ID doradcy</label>
 			</div>
             <input type="submit" value="Zablokuj/Odblokuj Doradcę" name="zablokuj" class="btn btn-primary mt-3 capital fw-bold">
         </form>
-        <?php
-        if (isset($_POST['zablokuj'])) {
-            $idd = $_POST['id_dor'];
-            $ssql = "SELECT * FROM doradca WHERE id='$idd'; ";
-            $result = mysqli_query($conn, $ssql);
-            $row = mysqli_fetch_assoc($result);
-            if($row['czy_aktywny'] == 1)
-            {
-            $sssql = "UPDATE doradca SET czy_aktywny = 0 WHERE id = '$idd';";
-            }
-            else
-            {
-            $sssql = "UPDATE doradca SET czy_aktywny = 1 WHERE id = '$idd';";
-            }
-            mysqli_query($conn, $sssql);
-            header("Location: admin_doradcy.php");
-			exit();
-        }
-        ?>
     </main>
 	<?php
 	require "footer.php";

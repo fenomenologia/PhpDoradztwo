@@ -17,9 +17,41 @@ if (!isset($_SESSION['id_doradcy']))
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
+    <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <div class="container-fluid text-center w-50">
+<body class="bg-primary d-flex text-center text-white">
+    <header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
+	</header>
+    <nav class="navbar navbar-expand-sm">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+		
+			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+    
+		
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+    
+			<div class="collapse navbar-collapse justify-content-center text-white" id="navbarNav">
+				<ul class="navbar-nav text-white">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="doradca.php">STRONA GŁÓWNA</a> 
+                    </li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="dodaj_klienta.php">DODAJ NOWEGO KLIENTA</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="zmien_haslo.php">ZMIEŃ HASŁO</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-danger text-white me-3 fw-bold" href="logout.php">WYLOGUJ SIĘ</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <main class="container-fluid text-center bg-image bg-primary flex-fill">
         <?php
         if (isset($_POST['id']))
         {
@@ -40,14 +72,14 @@ if (!isset($_SESSION['id_doradcy']))
         {
             if (mysqli_num_rows($result) > 0)
             {
-                echo "<p class='h2'>Doradztwa klienta</p>";
+                echo "<p class='h2 capital fw-bold mt-5'>Doradztwa klienta</p>";
                 $ilosc_doradztw = mysqli_num_rows($result) / 5;
-                echo "<table class='table table-bordered'>
-                    <thead class='table-primary'>
+                echo "<table class='table table-dark table-stripped table-bordered mt-5 w-auto container-fluid'>
+                    <thead>
                         <tr>
-                            <th>Data doradztwa</th>
-                            <th>Cecha</th>
-                            <th>Ilość zdobytych punktów</th>
+                            <th scope='col'>Data doradztwa</th>
+                            <th scope='col'>Cecha</th>
+                            <th scope='col'>Ilość zdobytych punktów</th>
                         </tr>
                     </thead>
                     <tbody>";
@@ -71,12 +103,12 @@ if (!isset($_SESSION['id_doradcy']))
             }
             else
             {
-                echo "<p class='h2'>Ten klient nie ma żadnych doradztw</p>";
+                echo "<p class='h2 fw-bold capital'>Ten klient nie ma żadnych doradztw</p>";
             }
         }
         else
         {
-            echo "<div class='alert alert-danger alert-dismissible'>
+            echo "<div class='fw-bold capital alert alert-danger alert-dismissible'>
                     <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
                     <strong>Błąd!</strong> Wystąpił błąd.
                 </div>";
@@ -92,9 +124,9 @@ if (!isset($_SESSION['id_doradcy']))
 
         if ($result_motyw && mysqli_num_rows($result_motyw) > 0) 
         {
-            echo "<p class='h2 mt-5'>Wyniki motywacji klienta</p>";
-            echo "<table class='table table-bordered'>
-            <thead class='table-primary'>
+            echo "<p class='h2 mt-5 capital fw-bold'>Wyniki motywacji klienta</p>";
+            echo "<table class='table table-dark table-stripped table-bordered mt-5 w-auto container-fluid'>
+            <thead>
                 <tr>
                     <th>Data doradztwa</th>
                     <th>ID pytania</th>
@@ -143,13 +175,13 @@ if (!isset($_SESSION['id_doradcy']))
 
         if ($result_osobowosc && mysqli_num_rows($result_osobowosc) > 0) 
         {
-            echo "<p class='h2 mt-5'>Wyniki osobowości klienta</p>";
-            echo "<table class='table table-bordered'>
-            <thead class='table-primary'>
+            echo "<p class='h2 mt-5 capital fw-bold'>Wyniki osobowości klienta</p>";
+            echo "<table class='table table-dark table-stripped table-bordered mt-5 mw-100 container-fluid'>
+            <thead>
                 <tr>
-                    <th>Data doradztwa</th>
-                    <th>Mocne strony</th>
-                    <th>Słabe strony</th>
+                    <th scope='col'>Data doradztwa</th>
+                    <th scope='col'>Mocne strony</th>
+                    <th scope='col'>Słabe strony</th>
                 </tr>
             </thead>
             <tbody>";
@@ -164,14 +196,14 @@ if (!isset($_SESSION['id_doradcy']))
                 {
                     echo "<tr>
                     <td class='align-middle'>{$row['data']}</td>
-                    <td>{$row['mocne_strony']}</td>
-                    <td>{$row['slabe_strony']}</td>
+                    <td class='text-break'>{$row['mocne_strony']}</td>
+                    <td class='text-break'>{$row['slabe_strony']}</td>
                   </tr>";
                 } else 
                 {
                     echo "<tr>
-                    <td>{$row['mocne_strony']}</td>
-                    <td>{$row['slabe_strony']}</td>
+                    <td class='text-break'>{$row['mocne_strony']}</td>
+                    <tdclass='text-break'>{$row['slabe_strony']}</td>
                   </tr>";
                 }
             }
@@ -195,9 +227,9 @@ if (!isset($_SESSION['id_doradcy']))
 
         if ($result_style && mysqli_num_rows($result_style) > 0) 
         {
-            echo "<p class='h2 mt-5'>Wyniki stylów uczenia klienta</p>";
-            echo "<table class='table table-bordered'>
-            <thead class='table-primary'>
+            echo "<p class='h2 mt-5 capital fw-bold'>Wyniki stylów uczenia klienta</p>";
+            echo "<table class='table table-dark table-stripped table-bordered mt-5 mw-100 container-fluid'>
+            <thead>
                 <tr>
                     <th>Data doradztwa</th>
                     <th>Nazwa stylu</th>
@@ -261,9 +293,11 @@ if (!isset($_SESSION['id_doradcy']))
             }
         }
         ?>
-        <button class="btn btn-danger" onclick="naPewno()">Usuń tego klienta</button>
-        <a class="btn btn-primary" href="doradca.php">Powrót do strony głównej</a>
-    </div>
+        <button class="btn btn-danger capital fw-bold" onclick="naPewno()">Usuń tego klienta</button>
+    </main>
+    <?php
+    require "footer.php";
+    ?>
     <form id="usunForm" method="post" style="display: none">
         <input type="hidden" name="usun" value="1" />
     </form>
