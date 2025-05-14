@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <?php
 require_once "conn.php";
 session_start();
@@ -57,6 +57,23 @@ if (!isset($_SESSION['id_admina']))
         <h2 class="fw-bold">CECHY</h2>
         <?php
         $sql = "SELECT * FROM cecha";
+        if (isset($_POST['dod_c'])) {
+            $nazwa = $_POST['nazwa'];
+            $opis = $_POST['opis'];
+            $is = false;
+            $ressult = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_assoc($ressult)) {
+                if ($row['nazwa'] == $nazwa) {
+                    $is = true;
+                }
+            }
+            if ($is == true) {
+                $ssql = "UPDATE cecha SET opis = '$opis' WHERE nazwa = '$nazwa'; ";
+            } else {
+                $ssql = "INSERT INTO cecha(nazwa, opis) VALUES ('$nazwa', '$opis'); ";
+            }
+            mysqli_query($conn, $ssql);
+        }
         $result = mysqli_query($conn, $sql);
 		?>
 
@@ -78,7 +95,7 @@ if (!isset($_SESSION['id_admina']))
 		</table>
 
         <h2 class="capital fw-bold mt-3 mb-3">Dodawanie/Modyfikacja Cech</h2>
-        <form method="POST" class="form-floating container-fluid w-50 text-black">
+        <form method="POST" action="admin_cechy.php" class="form-floating container-fluid w-50 text-black">
 			<div class="form-floating mt-3">
 				<input type="text" placeholder="nazwa" class="form-control" name="nazwa" id='nazwa' required>
 				<label for="nazwa">Nazwa cechy</label>
@@ -89,64 +106,9 @@ if (!isset($_SESSION['id_admina']))
 			</div>
             <input type="submit" value="DODAJ/ZMIEŃ" name="dod_c" class="capital fw-bold btn btn-primary mt-3">
         </form>
-        <?php
-        if (isset($_POST['dod_c'])) {
-            $nazwa = $_POST['nazwa'];
-            $opis = $_POST['opis'];
-            $is = false;
-            $ressult = mysqli_query($conn, $sql);
-            while($row = mysqli_fetch_assoc($ressult))
-            {
-                if($row['nazwa'] == $nazwa)
-                {
-                    $is = true;
-                }
-            }
-            if($is == true)
-            {
-                $ssql = "UPDATE cecha SET opis = '$opis' WHERE nazwa = '$nazwa'; ";
-            } else {
-                $ssql = "INSERT INTO cecha(nazwa, opis) VALUES ('$nazwa', '$opis'); ";
-            }
-            mysqli_query($conn, $ssql);
-            header("Location: admin_cechy.php");
-			exit();
-        }
-        ?>
         <h2 class="fw-bold capital mt-5">Style Uczenia</h2>
         <?php
         $sqll = "SELECT * FROM style_uczenia";
-        $result = mysqli_query($conn, $sqll);
-		?>
-		<table class='table table-dark table-stripped table-hover table-bordered mt-5'>
-			<thead>
-				<tr>
-					<th scope="col">ID</th>
-					<th scope="col">NAZWA</th>
-					<th scope="col">OPIS</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php
-			while ($row = mysqli_fetch_assoc($result)) {
-				echo "<tr><th scope='row'>" . $row['id'] . "</th><td>" . $row['nazwa'] . "</td><td>" . $row['tresc'] . "</td></tr>";
-			}
-			?>
-			</tbody>
-		</table>
-        <h2 class="capital fw-bold mt-3 mb-3">Dodawanie/Modyfikacja Stylów</h2>
-        <form method="POST" class="form-floating container-fluid w-50 text-black">
-			<div class="form-floating mt-3">
-				<input type="text" placeholder="nazwa" name="nazwaa" class="form-control" id="nazwa2" required>
-				<label for="nazwa2">Nazwa</label>
-			</div>
-			<div class="form-floating mt-3">
-				<textarea placeholder="opis" name="opisa" id="opis2" class="form-control" required></textarea>
-				<label for="opis2">Opis</label>
-			</div>
-            <input type="submit" value="Dodaj/Zmień" name="dod_ca" class="btn btn-primary capital fw-bold mt-3">
-        </form>
-        <?php
         if (isset($_POST['dod_ca'])) {
             $nazwa = $_POST['nazwaa'];
             $opis = $_POST['opisa'];
@@ -163,10 +125,37 @@ if (!isset($_SESSION['id_admina']))
                 $ssql = "INSERT INTO style_uczenia(nazwa, tresc) VALUES ('$nazwa', '$opis'); ";
             }
             mysqli_query($conn, $ssql);
-            header("Location: admin_cechy.php");
-			exit();
         }
-        ?>
+        $resultt = mysqli_query($conn, $sqll);
+		?>
+		<table class='table table-dark table-stripped table-hover table-bordered mt-5'>
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">NAZWA</th>
+					<th scope="col">OPIS</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+			while ($row = mysqli_fetch_assoc($resultt)) {
+				echo "<tr><th scope='row'>" . $row['id'] . "</th><td>" . $row['nazwa'] . "</td><td>" . $row['tresc'] . "</td></tr>";
+			}
+			?>
+			</tbody>
+		</table>
+        <h2 class="capital fw-bold mt-3 mb-3">Dodawanie/Modyfikacja Stylów</h2>
+        <form method="POST" action="admin_cechy.php" class="form-floating container-fluid w-50 text-black">
+			<div class="form-floating mt-3">
+				<input type="text" placeholder="nazwa" name="nazwaa" class="form-control" id="nazwa2" required>
+				<label for="nazwa2">Nazwa</label>
+			</div>
+			<div class="form-floating mt-3">
+				<textarea placeholder="opis" name="opisa" id="opis2" class="form-control" required></textarea>
+				<label for="opis2">Opis</label>
+			</div>
+            <input type="submit" value="Dodaj/Zmień" name="dod_ca" class="btn btn-primary capital fw-bold mt-3">
+        </form>
     </main>
 	<?php
 	require "footer.php";
