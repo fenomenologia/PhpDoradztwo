@@ -72,7 +72,7 @@ if (!isset($_SESSION['id_doradcy']))
         {
             if (mysqli_num_rows($result) > 0)
             {
-                echo "<p class='h2 capital fw-bold mt-5'>Doradztwa klienta</p>";
+                echo "<p class='h2 capital fw-bold mt-5'>motywacje zawodowe klienta</p>";
                 $ilosc_doradztw = mysqli_num_rows($result) / 5;
                 echo "<table class='table table-dark table-stripped table-bordered mt-5 w-auto container-fluid'>
                     <thead>
@@ -114,10 +114,11 @@ if (!isset($_SESSION['id_doradcy']))
                 </div>";
         }
         $sql_motyw = "
-        SELECT doradztwo.data,wynik_motywacje.id_pytania, wynik_motywacje.punkty
+        SELECT doradztwo.data,pytania_motywacje.tresc, wynik_motywacje.punkty
         FROM klient
         JOIN doradztwo ON doradztwo.id_klienta = klient.id
         JOIN wynik_motywacje ON wynik_motywacje.id_doradztwa = doradztwo.id
+		JOIN pytania_motywacje ON pytania_motywacje.id = wynik_motywacje.id_pytania
         WHERE klient.id = $id_klienta";
 
         $result_motyw = mysqli_query($conn, $sql_motyw);
@@ -129,7 +130,7 @@ if (!isset($_SESSION['id_doradcy']))
             <thead>
                 <tr>
                     <th>Data doradztwa</th>
-                    <th>ID pytania</th>
+                    <th>Pytanie</th>
                     <th>Punkty</th>
                 </tr>
             </thead>
@@ -145,13 +146,13 @@ if (!isset($_SESSION['id_doradcy']))
                 {
                     echo "<tr>
                     <td rowspan='5' class='align-middle'>{$row['data']}</td>
-                    <td>{$row['id_pytania']}</td>
+                    <td>{$row['tresc']}</td>
                     <td>{$row['punkty']}</td>
                   </tr>";
                 } else 
                 {
                     echo "<tr>
-                    <td>{$row['id_pytania']}</td>
+                    <td>{$row['tresc']}</td>
                     <td>{$row['punkty']}</td>
                   </tr>";
                 }
@@ -176,7 +177,7 @@ if (!isset($_SESSION['id_doradcy']))
         if ($result_osobowosc && mysqli_num_rows($result_osobowosc) > 0) 
         {
             echo "<p class='h2 mt-5 capital fw-bold'>Wyniki osobowości klienta</p>";
-            echo "<table class='table table-dark table-stripped table-bordered mt-5 mw-100 container-fluid'>
+            echo "<table class='table table-dark table-stripped table-bordered mt-5 w-auto container-fluid'>
             <thead>
                 <tr>
                     <th scope='col'>Data doradztwa</th>

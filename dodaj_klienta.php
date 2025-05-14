@@ -17,11 +17,43 @@ if (!isset($_SESSION['id_doradcy']))
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="icon" type="image/x-icon" href="zdjecia/favicon.png" />
+	<link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <div class="container-fluid text-center w-25 mt-5">
-        <form method="post">
-            <p class="h2">Dodaj nowego klienta</p>
+<body class="bg-primary d-flex text-center text-white">
+	<header class="bg-white">
+		<img src="zdjecia/header_image.jpg" alt="Header" style="height: 80px; width: auto" />
+	</header>
+    <nav class="navbar navbar-expand-sm">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+		
+			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
+    
+		
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+    
+			<div class="collapse navbar-collapse justify-content-center text-white" id="navbarNav">
+				<ul class="navbar-nav text-white">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="doradca.php">STRONA GŁÓWNA</a> 
+                    </li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-primary text-white me-3 fw-bold" href="dodaj_klienta.php">DODAJ NOWEGO KLIENTA</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-secondary text-white me-3 fw-bold" href="zmien_haslo.php">ZMIEŃ HASŁO</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn btn-danger text-white me-3 fw-bold" href="logout.php">WYLOGUJ SIĘ</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <main class="container-fluid text-center mt-5 bg-image bg-primary flex-fill">
+		<p class="h2 capital fw-bold">Dodaj nowego klienta</p>
+        <form method="post" id="form" class="container-fluid w-25 text-black">
             <div class="form-floating mt-3 mb-3">
                 <input type="text" name="imie_klienta" id="imie_klienta" class="form-control" required placeholder="Podaj imie">
                 <label for="imie_klienta" class="form-label">Imię</label>
@@ -34,7 +66,8 @@ if (!isset($_SESSION['id_doradcy']))
                 <input type="email" name="email_klienta" id="email_klienta" class="form-control" required placeholder="Podaj email">
                 <label for="email_klienta" class="form-label">E-mail</label>
             </div>
-            <button type="submit" name="dodaj_klienta" class="btn btn-primary w-50 mt-3">Dodaj klienta</button>
+			<p class="fw-bold capital mt-3" id="errorMessage" style="color: red"> </p>
+            <button type="submit" name="dodaj_klienta" class="btn btn-primary w-50 mt-3 fw-bold capital">Dodaj klienta</button>
         </form>
         <?php
         function randomPassword($length)
@@ -87,7 +120,10 @@ if (!isset($_SESSION['id_doradcy']))
 
         }
         ?>
-        <a href="doradca.php" class="btn btn-secondary mt-3">Wróć do panelu doradcy</a>
-    </div>
+        <a href="doradca.php" class="btn btn-secondary mt-3 fw-bold capital">Wróć do panelu doradcy</a>
+    </main>
+	<?php
+	require "footer.php";
+	?>
 </body>
 </html>
