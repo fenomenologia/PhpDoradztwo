@@ -128,7 +128,7 @@ if (!isset($_SESSION['id_admina']))
             mysqli_query($conn, $ssqll);
         }
 
-        $sqql = "SELECT * FROM pytania_motywacje; ";
+        $sqql = "SELECT * FROM pytania_motywacje;";
         $result = mysqli_query($conn, $sqql);
 		?>
 		<table class='table table-dark table-stripped table-hover table-bordered mt-5 container-fluid w-auto'>
@@ -177,10 +177,9 @@ if (!isset($_SESSION['id_admina']))
 			$id = $_POST['id'];
 			$ssqll = "UPDATE pytania_osobowosc SET tresc='$pytanie', rodzaj='$rodz' WHERE id='$id'";
 			mysqli_query($conn, $ssqll);
-
-            $sqqll = "SELECT * FROM pytania_osobowosc; ";
-            $result = mysqli_query($conn, $sqqll);
         }
+		$sqqll = "SELECT * FROM pytania_osobowosc; ";
+		$result = mysqli_query($conn, $sqqll);
         ?>
 		<table class='table table-dark table-stripped table-hover table-bordered mt-5 container-fluid w-auto'>
 			<thead>

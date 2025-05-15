@@ -72,12 +72,12 @@
             <div class="row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-2">
-                    <label for="odpowiedz_tak" class="fw-bold">TAK</label>
-                    <input type="radio" name="odpowiedz" id="odpowiedz_tak" required value="1">
+					<input type="radio" class="btn-check" name="odpowiedz" id="odpowiedz_tak" autocomplete="off" value="1" required>
+					<label class="btn btn-outline-primary fw-bold" for="odpowiedz_tak">TAK</label>
                 </div>
                 <div class="col-sm-2">
-                    <label for="odpowiedz_nie" class="fw-bold">NIE</label>
-                    <input type="radio" name="odpowiedz" id="odpowiedz_nie" required value="0">
+                    <input type="radio" class="btn-check" name="odpowiedz" id="odpowiedz_nie" autocomplete="off" value="0" required>
+					<label class="btn btn-outline-primary fw-bold" for="odpowiedz_nie">NIE</label>
                 </div>
                 <div class="col-sm-4"></div>
             </div>
