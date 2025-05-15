@@ -8,6 +8,24 @@ if (!isset($_SESSION['id_doradcy']))
 	header("Location: index.php");
 	exit();
 }
+
+if (isset($_SESSION['dodano']))
+{
+	if ($_SESSION['dodano'] == true)
+	{
+		$msg = "<div class='alert alert-success alert-dismissible mt-5 container-fluid w-50'>
+			<button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+			<strong>Pomyślnie dodano użytkownika!</strong></div>";
+	}
+	else
+	{
+		$msg = "<div class='alert alert-danger alert-dismissible mt-5 container-fluid w-50'>
+			<button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+			<strong>Wystąpił błąd podczas wysyłania e-maila: {$_SESSION['mailError']}</strong></div>";
+	}
+	unset($_SESSION['dodano']);
+	unset($_SESSION['mailError']);
+}
 ?>
 <html lang="pl">
 <head>
@@ -69,6 +87,10 @@ if (!isset($_SESSION['id_doradcy']))
 			<p class="fw-bold capital mt-3" id="errorMessage" style="color: red"> </p>
             <button type="submit" name="dodaj_klienta" class="btn btn-primary w-50 mt-3 fw-bold capital">Dodaj klienta</button>
         </form>
+		<span><?php 
+			  if (isset($msg))
+				echo $msg;?>
+		</span>
         <?php
         function randomPassword($length)
         {
@@ -95,18 +117,15 @@ if (!isset($_SESSION['id_doradcy']))
             {
                 if (mysqli_query($conn, $sql)) 
                 {
+					$_SESSION['new_email'] = $email;
+					$_SESSION['new_pass'] = $haslo;
+					$_SESSION['kogo_dodac'] = 'klient';
                     $id_doradcy = $_SESSION['id_doradcy'];
                     $id_klienta = mysqli_insert_id($conn);
                     $sql = "INSERT INTO doradztwo (id_klienta, id_doradcy, id_status) VALUES ('$id_klienta','$id_doradcy', 1)";
-                    if (mysqli_query($conn, $sql))
-                    {
-                        echo "<div class='alert alert-success alert-dismissible mt-5'><button type='button' class='btn-close' data-bs-dismiss='alert'></button><strong>Pomyślnie dodano użytkownika!</strong></div>";
-                        echo $haslo;
-                    }
-                    else
-                    {
-                        echo "<div class='alert alert-danger alert-dismissible mt-5'><button type='button' class='btn-close' data-bs-dismiss='alert'></button><strong>Wystąpił błąd!</strong></div>";
-                    }
+					mysqli_query($conn, $sql);
+					header("Location: mail.php");
+					exit();
                 }              
                 else
                 {
@@ -117,7 +136,6 @@ if (!isset($_SESSION['id_doradcy']))
             {
                 echo "<div class='alert alert-danger alert-dismissible mt-5'><button type='button' class='btn-close' data-bs-dismiss='alert'></button><strong>Ten użytkownik już istnieje!</strong></div>";
             }
-
         }
         ?>
         <a href="doradca.php" class="btn btn-secondary mt-3 fw-bold capital">Wróć do panelu doradcy</a>

@@ -7,6 +7,25 @@ if (!isset($_SESSION['id_admina']))
 	header("Location: index.php");
 	exit();
 }
+
+//wiadomość po dodaniu doradcy
+if (isset($_SESSION['dodano']))
+{
+	if ($_SESSION['dodano'] == true)
+	{
+		$msg = "<div class='alert alert-success alert-dismissible mt-5 container-fluid w-50'>
+			<button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+			<strong>Pomyślnie dodano użytkownika!</strong></div>";
+	}
+	else
+	{
+		$msg = "<div class='alert alert-danger alert-dismissible mt-5 container-fluid w-50'>
+			<button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+			<strong>Wystąpił błąd podczas wysyłania e-maila: {$_SESSION['mailError']}</strong></div>";
+	}
+	unset($_SESSION['dodano']);
+	unset($_SESSION['mailError']);
+}
 ?>
 <html lang="pl">
 <head>
@@ -71,7 +90,9 @@ if (!isset($_SESSION['id_admina']))
 			</div>
             <input type="submit" value="Dodaj" name="dod_dor" class="btn btn-primary capital fw-bold mt-3">
         </form>
-        <?php
+		<?php
+		if (isset($msg)) echo $msg;
+
         if (isset($_POST['zablokuj'])) {
             $idd = $_POST['id_dor'];
             $ssql = "SELECT * FROM doradca WHERE id='$idd'; ";
@@ -89,15 +110,34 @@ if (!isset($_SESSION['id_admina']))
         }
 		
 		$data = date("Y-m-d");
+
+
+		function randomPassword($length)
+		{
+			$characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			$generated_pass = '';
+			for ($i = 0; $i < $length; $i++)
+			{
+				$index = random_int(0, strlen($characters) - 1);
+				$generated_pass .= $characters[$index];
+			}
+			return $generated_pass;
+		}
+
         if(isset($_POST['dod_dor']))
         {
             $imie = $_POST['imie'];
             $nazwisko = $_POST['nazwisko'];
             $email = $_POST['email'];
-            $haslo = '$2a$12$bK40cV4FIaBo.Y.pGTY2NuXg3FklAPTcgnV/BOArWHkQUsG3PmpfG';
-            $sql = "INSERT INTO doradca(email, haslo, czy_aktywny, data_utworzenia, czy_admin, imie, nazwisko) VALUES ('$email', '$haslo', '1', '$data', '0', '$imie', '$nazwisko')";
+			$haslo = randomPassword(7);
+			$hasloHash = password_hash($haslo, PASSWORD_BCRYPT);
+            $sql = "INSERT INTO doradca(email, haslo, czy_aktywny, data_utworzenia, czy_admin, imie, nazwisko) VALUES ('$email', '$hasloHash', '1', '$data', '0', '$imie', '$nazwisko')";
             mysqli_query($conn, $sql);
-            header("Location: admin_doradcy.php");
+
+			$_SESSION['new_email'] = $email;
+			$_SESSION['new_pass'] = $haslo;
+			$_SESSION['kogo_dodac'] = 'doradca';
+            header("Location: mail.php");
 			exit();
         }
 
