@@ -97,12 +97,12 @@ if ($result != 4)
             <div class="row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-2">
-                    <label for="odpowiedz_tak" class="fw-bold">TAK</label>
-                    <input type="radio" name="odp_os" id="odpowiedz_tak" required value="1">
+                    <input type="radio" class="btn-check" name="odp_os" id="odpowiedz_tak" required value="1">
+					<label for="odpowiedz_tak" class="fw-bold btn btn-outline-primary capital">TAK</label>
                 </div>
                 <div class="col-sm-2">
-                    <label for="odpowiedz_nie" class="fw-bold">NIE</label>
-                    <input type="radio" name="odp_os" id="odpowiedz_nie" required value="0">
+                    <input type="radio" class="btn-check" name="odp_os" id="odpowiedz_nie" required value="0">
+					<label for="odpowiedz_nie" class="fw-bold btn btn-outline-primary capital">NIE</label>
                 </div>
                 <div class="col-sm-4"></div>
             </div>

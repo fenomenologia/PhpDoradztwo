@@ -63,52 +63,74 @@ if (!isset($_SESSION['nr_pytania_style']))
     <main class="container-fluid text-center bg-image bg-primary">
     <?php
 
-    if (isset($_SESSION['nr_pytania_style']) && $_SESSION['nr_pytania_style'] == 0)
-    {
-        echo '<p class="display-5 capital fw-bold ms-3 me-3">Oceń każdą z możliwości odpowiedzi, przydzielając 1, 2 lub 3 punkty. Następnie kliknij przycisk "Następne pytanie".</p><br />
-                <form method="post" action="styleuczenia.php">
-                 <button type="submit" class="btn btn-primary btn-lg display-5 capital fw-bold" name="rozpocznij" >Rozpocznij</button>
-                </form>';
-    }
-    else
-    {
-        $sql = 'SELECT tresc FROM pytania_style WHERE nr_pytania = ' . $_SESSION['nr_pytania_style'];
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) == 0)
-        {
-			$_SESSION['wstaw'] = true;
-            header("Location: przejscie.php");
-            exit();
-        }
-        $row = mysqli_fetch_assoc($result);
-        echo "<p class='h3 mb-5 capital fw-bold'>" . $row['tresc'] . "</p>";
-        echo "<div class='row'>";
-        echo "<div class='col'></div>";
-        while ($row = mysqli_fetch_assoc($result))
-        {
-            echo "<div class='col'><p class='lead capital fw-bold'>".mb_strtoupper($row['tresc'])."</p></div>";
-        }
-        echo "<div class='col'></div>";
-        echo "</div>";
-        echo "<form method='POST' name='formOdpowiedzi' id='formOdpowiedzi'><div class='row'>";
-        echo "<div class='col'></div>";
-        echo "<div class='col'><input type='number' max=3 min=1 value='' id='liczba1' name='liczba1'></div>";
-        echo "<div class='col'><input type='number' max=3 min=1 value='' id='liczba2' name='liczba2'></div>";
-        echo "<div class='col'><input type='number' max=3 min=1 value='' id='liczba3' name='liczba3'></div>";
-        echo "<div class='col'></div>";
-        echo "</div>";
-        echo "<p id='errorMessage' class='mt-3 fw-bold capital'></p>";
-        echo "<button type='button' onclick='SprawdzLiczby()' class='btn btn-primary mt-3 capital fw-bold'>Następne pytanie</button>";
-        if ($_SESSION['nr_pytania_style'] > 1)
-        {
-            echo "<button type='button' onclick='PoprzedniePytanie()' class='btn btn-secondary mt-3 ms-2 capital fw-bold'>Poprzednie pytanie</button>";
-        }
-        echo "</form>";
-        if ($_SESSION['nr_pytania_style'] > 1)
-        {
-            echo "<form method='post' id='cofnijPytanie' style='display: none'><input type='hidden' name='cofnijPytanieInput' value='1'></form>";
-        }
-    }
+	if (isset($_SESSION['nr_pytania_style']) && $_SESSION['nr_pytania_style'] == 0):
+
+		?>
+		<p class="display-5 capital fw-bold ms-3 me-3">
+			Przeczytaj uważnie każdą z trzech proponowanych odpowiedzi i przydziel każdej z nich unikalną wartość: 1, 2 lub 3 punkty.
+			<ul class="display-5 w-75 container-fluid">
+				<li>1 punkt – odpowiedź najmniej do Ciebie pasuje</li>
+				<li>2 punkty – odpowiedź pasuje umiarkowanie</li>
+				<li>3 punkty – odpowiedź najlepiej Cię opisuje</li>
+			</ul>
+		</p>
+		<p class="display-5 capital fw-bold">
+			Każdą z wartości (1, 2, 3) możesz wykorzystać tylko raz — każda odpowiedź musi mieć inną liczbę punktów.
+			Następnie kliknij przycisk "Następne pytanie", aby kontynuować.
+		</p>
+        <form method="post" action="styleuczenia.php">
+            <button type="submit" class="btn btn-primary btn-lg display-5 capital fw-bold" name="rozpocznij" >Rozpocznij</button>
+        </form>
+	<?php
+	else:
+		{
+			$sql = 'SELECT tresc FROM pytania_style WHERE nr_pytania = ' . $_SESSION['nr_pytania_style'];
+			$result = mysqli_query($conn, $sql);
+			if (mysqli_num_rows($result) == 0)
+			{
+				$_SESSION['wstaw'] = true;
+				header("Location: przejscie.php");
+			}
+			$row = mysqli_fetch_assoc($result);
+			echo "<p class='h3 mb-5 capital fw-bold'>" . $row['tresc'] . "</p>";
+			echo "<div class='row'>";
+			echo "<div class='col'></div>";
+			while ($row = mysqli_fetch_assoc($result))
+			{
+				echo "<div class='col'><p class='lead capital fw-bold'>" . mb_strtoupper($row['tresc']) . "</p></div>";
+			}
+			echo "<div class='col'></div>";
+			echo "</div>";
+			echo "<form method='POST' name='formOdpowiedzi' id='formOdpowiedzi'><div class='row'>";
+			echo "<div class='col'></div>";
+			//echo "<div class='col'><input type='number' max=3 min=1 value='' id='liczba1' name='liczba1'></div>";
+			//echo "<div class='col'><input type='number' max=3 min=1 value='' id='liczba2' name='liczba2'></div>";
+			//echo "<div class='col'><input type='number' max=3 min=1 value='' id='liczba3' name='liczba3'></div>";
+			for ($i =1; $i <= 3; $i++)
+			{
+				echo "<div class='col'>";
+				for ($j = 1; $j <= 3; $j++)
+				{
+					echo "<input type='radio' class='btn-check' value='$j' id='liczba$i$j' name='liczba$i' required autocomplete='off'>";
+					echo "<label for='liczba$i$j' class='btn btn-outline-primary fw-bold capital ms-2'>$j</label>";
+				}
+				echo "</div>";
+			}
+			echo "<div class='col'></div>";
+			echo "</div>";
+			echo "<p id='errorMessage' class='mt-3 fw-bold capital'></p>";
+			echo "<button type='button' onclick='SprawdzLiczby()' class='btn btn-primary mt-3 capital fw-bold'>Następne pytanie</button>";
+			if ($_SESSION['nr_pytania_style'] > 1)
+			{
+				echo "<button type='button' onclick='PoprzedniePytanie()' class='btn btn-secondary mt-3 ms-2 capital fw-bold'>Poprzednie pytanie</button>";
+			}
+			echo "</form>";
+			if ($_SESSION['nr_pytania_style'] > 1)
+			{
+				echo "<form method='post' id='cofnijPytanie' style='display: none'><input type='hidden' name='cofnijPytanieInput' value='1'></form>";
+			}
+		}
+	endif;
 
     if (isset($_POST['liczba1']))
     {
@@ -119,7 +141,6 @@ if (!isset($_SESSION['nr_pytania_style']))
         $_SESSION['odpowiedzi_style'][] = [$nr_pytania, $liczba1, $liczba2, $liczba3];
         $_SESSION['nr_pytania_style'] += 1;
         header("Location: styleuczenia.php");
-        exit();
     }
     if (!isset($_SESSION['odpowiedzi_style']))
     {
@@ -130,49 +151,67 @@ if (!isset($_SESSION['nr_pytania_style']))
         $_SESSION['nr_pytania_style'] -= 1;
         array_pop($_SESSION['odpowiedzi_style']);
         header("Location: styleuczenia.php");
-        exit();
     }
     ?>
     </main>
+	<script>
+    function SprawdzLiczby()
+    {
+        const formOdpowiedzi = document.getElementById('formOdpowiedzi');
+        const errorDisplay = document.getElementById('errorMessage');
+        const opcje = [1, 2, 3];
+		let errorMessage = '';
+        let liczba1 = document.querySelector('input[name="liczba1"]:checked');
+        let liczba2 = document.querySelector('input[name="liczba2"]:checked');
+        let liczba3 = document.querySelector('input[name="liczba3"]:checked');
+
+		//walidacja
+		//jezeli liczby sa puste
+		if (!liczba1 || !liczba2 || !liczba3)
+		{
+			errorMessage = "Zaznacz jedną odpowiedź w każdym wierszu!";
+		}
+		else
+		{
+			liczba1 = parseInt(liczba1.value);
+			liczba2 = parseInt(liczba2.value);
+			liczba3 = parseInt(liczba3.value);
+
+			//jezeli liczby nie sa w zakresie od 1 do 3 -- uzyte tylko jesli uzytkownik zmieni value za pomoca przegladarki
+			if (!opcje.includes(liczba1) || !opcje.includes(liczba2) || !opcje.includes(liczba3))
+			{
+				errorMessage = "Cyfry muszą być w zakresie od 1 do 3!";
+			}
+			//jezeli liczby nie roznia sie od siebie
+			if (liczba1 == liczba2 || liczba1 == liczba3 || liczba2 == liczba3)
+			{
+				errorMessage = "Cyfry muszą się od siebie róźnić!";
+			}
+		}
+			
+
+		//jezeli walidacja sie powiodla
+		if (errorMessage == '')
+		{
+			errorDisplay.textContent = '';
+			formOdpowiedzi.submit();
+		}
+		//jezeli walidacja sie nie powiodla
+		else
+		{
+			errorDisplay.textContent = errorMessage;
+			errorDisplay.style.color = 'red';
+			errorDisplay.style.fontWeight = 'bold';
+		}
+	}
+	function PoprzedniePytanie()
+	{
+		document.getElementById('cofnijPytanie').submit();
+	}
+	</script>
+
 	<?php
 	require "footer.php";
 	?>
-    <script>
-        function SprawdzLiczby()
-        {
-            const formOdpowiedzi = document.getElementById('formOdpowiedzi');
-            const errorMessage = document.getElementById('errorMessage');
-            const opcje = [1, 2, 3];
-            let liczba1 = parseInt(document.getElementById('liczba1').value);
-            let liczba2 = parseInt(document.getElementById('liczba2').value);
-            let liczba3 = parseInt(document.getElementById('liczba3').value);
-
-            if (opcje.includes(liczba1) && opcje.includes(liczba2) && opcje.includes(liczba3))
-            {
-                if (liczba1 != liczba2 && liczba1 != liczba3 && liczba2 != liczba3)
-                {
-                    errorMessage.textContent = '';
-                    formOdpowiedzi.submit();
-                }
-                else
-                {
-                    errorMessage.textContent = "Cyfry muszą się od siebie róźnić!";
-                    errorMessage.style.color = 'red';
-                    errorMessage.style.fontWeight = 'bold';
-                }
-            }
-            else
-            {
-                errorMessage.textContent = "Cyfry muszą być w zakresie od 1 do 3!";
-                errorMessage.style.color = 'red';
-                errorMessage.style.fontWeight = 'bold';
-            }
-
-        }
-        function PoprzedniePytanie()
-        {
-            document.getElementById('cofnijPytanie').submit();
-        }
-    </script>
 </body>
 </html>

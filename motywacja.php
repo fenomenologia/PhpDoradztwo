@@ -25,46 +25,59 @@ if (!isset($_SESSION['odpowiedzi']))
 
 if (!isset($_SESSION['nr_pytania']))
 {
-	$_SESSION['nr_pytania'] = 1;
+	$_SESSION['nr_pytania'] = 0;
 }
 
 $nr_pytania = $_SESSION['nr_pytania'];
 
-// Obsługa kliknięcia "Następne pytanie"
-if (isset($_POST['nastepne_pytanie']) && isset($_POST['odpowiedz']))
+if ($nr_pytania != 0)
 {
-	$odpowiedz = intval($_POST['odpowiedz']);
-	$_SESSION['odpowiedzi'][] = [$nr_pytania, $odpowiedz];
-	$_SESSION['nr_pytania']++;
-
-	// Jeśli przekroczyliśmy pytanie 5, przejdź do wyników
-	if ($_SESSION['nr_pytania'] > 5)
+	// Obsługa kliknięcia "Następne pytanie"
+	if (isset($_POST['nastepne_pytanie']) && isset($_POST['odpowiedz']))
 	{
-		$_SESSION['wstaw'] = true;
-		header("Location: przejscie.php");
+		$odpowiedz = intval($_POST['odpowiedz']);
+		$_SESSION['odpowiedzi'][] = [$nr_pytania, $odpowiedz];
+		$_SESSION['nr_pytania']++;
+
+		// Jeśli przekroczyliśmy pytanie 5, przejdź do wyników
+		if ($_SESSION['nr_pytania'] > 5)
+		{
+			$_SESSION['wstaw'] = true;
+			header("Location: przejscie.php");
+			exit();
+		}
+
+		// Odświeżenie strony, by pokazać kolejne pytanie
+		header("Location: motywacja.php");
 		exit();
 	}
 
-	// Odświeżenie strony, by pokazać kolejne pytanie
-	header("Location: motywacja.php");
-	exit();
-}
+	// Pobranie pytania z bazy
+	$pytanie_tekst = "";
+	$sql = "SELECT tresc FROM pytania_motywacje WHERE nr_pytania = " . intval($nr_pytania);
+	$wynik = mysqli_query($conn, $sql);
 
-// Pobranie pytania z bazy
-$pytanie_tekst = "";
-$sql = "SELECT tresc FROM pytania_motywacje WHERE nr_pytania = " . intval($nr_pytania);
-$wynik = mysqli_query($conn, $sql);
+	if ($wynik && mysqli_num_rows($wynik) > 0)
+	{
+		$wiersz = mysqli_fetch_assoc($wynik);
+		$pytanie_tekst = $wiersz['tresc']; // Poprawna nazwa kolumny!
+	}
+	else
+	{
+		$pytanie_tekst = "Nie znaleziono pytania.";
 
-if ($wynik && mysqli_num_rows($wynik) > 0)
-{
-	$wiersz = mysqli_fetch_assoc($wynik);
-	$pytanie_tekst = $wiersz['tresc']; // Poprawna nazwa kolumny!
+	}
 }
 else
 {
-	$pytanie_tekst = "Nie znaleziono pytania.";
-
+	if (isset($_POST['nastepne_pytanie']))
+	{
+		$_SESSION['nr_pytania']++;
+		header("Location: motywacja.php");
+		exit();
+	}
 }
+
 ?>
 <html lang="pl">
 <head>
@@ -86,27 +99,40 @@ else
 		<div class="container-fluid d-flex justify-content-between align-items-center">
 			<a href="#" class="navbar-brand"><img style="height: 100px" src="zdjecia/logo ibcu.png" alt="Logo"/></a>
 			<div class="collapse navbar-collapse justify-content-center text-white">
-				<span class="navbar-text text-white fw-bold h2">Pytanie nr. <?php echo $_SESSION['nr_pytania'] ?></span>
+				<span class="navbar-text text-white fw-bold h2">
+				<?php if ($nr_pytania > 0):?>
+				Pytanie nr. <?php echo $_SESSION['nr_pytania'] ?>
+				<?php endif ?>
+				</span>
 			</div>
 		</div>
 	</nav>
 
     <main class="container-fluid mt-5 text-center bg-image bg-primary">
+		<?php if ($nr_pytania != 0): ?>
         <p class="h3 mb-4 fw-bold"><?php echo mb_strtoupper($pytanie_tekst); ?></p>
         <form method="post">
             <div class="d-flex justify-content-center flex-wrap mb-4">
                 <?php
 				for ($i = 0; $i <= 10; $i++)
 				{
-					echo '<div class="form-check form-check-inline mx-2">';
-					echo '<input class="form-check-input" type="radio" name="odpowiedz" id="odp_' . $i . '" value="' . $i . '" required>';
-					echo '<label class="form-check-label" for="odp_' . $i . '">' . $i . '</label>';
+					echo '<div class="form-check form-check-inline mx-1">';
+					echo '<input class="form-check-input btn-check" type="radio" name="odpowiedz" id="odp_' . $i . '" value="' . $i . '" required>';
+					echo '<label class="form-check-label btn btn-outline-primary fw-bold" for="odp_' . $i . '">' . $i . '</label>';
 					echo '</div>';
 				}
 				?>
             </div>
             <button type="submit" name="nastepne_pytanie" class="btn btn-primary capital fw-bold">Następne pytanie</button>
         </form>
+		<?php else: ?>
+		<p class="display-5 capital fw-bold ms-3 me-3">
+		Przy każdym stwierdzeniu zaznacz liczbę od 0 do 10, gdzie 0 oznacza „zupełnie się nie zgadzam”, a 10 – „zgadzam się całkowicie”.
+		</p><br />
+		<form method="post">
+			<button type="submit" name="nastepne_pytanie" class="btn btn-primary capital fw-bold">Rozpocznij</button>
+		</form>
+		<?php endif ?>
     </main>
 	<?php
 	require "footer.php";
